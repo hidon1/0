@@ -5,125 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; --text: #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text); }
         
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate { animation: slideUp 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate { animation: fadeIn 0.4s ease-out forwards; }
 
-        header { background: var(--primary); color: white; padding: 1.5rem; text-align: center; border-bottom: 4px solid var(--accent); }
-        .container { max-width: 850px; margin: 20px auto; padding: 15px; }
+        header { background: var(--primary); color: white; padding: 2rem 1rem; text-align: center; border-bottom: 5px solid var(--accent); }
+        header h1 { margin: 0; font-size: 2.2rem; }
+        header p { margin: 10px 0 0; opacity: 0.9; font-size: 1.1rem; }
 
-        .thread-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-right: 6px solid var(--accent); transition: 0.3s; cursor: pointer; }
-        .thread-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        
+        .categories { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding: 10px 0; }
+        .cat-btn { background: white; border: 1px solid #ddd; padding: 8px 18px; border-radius: 25px; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .thread-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-right: 6px solid var(--accent); cursor: pointer; transition: 0.3s; }
+        .thread-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        
+        .thread-meta { font-size: 0.85rem; color: #777; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .tag { background: #e8f4fd; color: var(--accent); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+
+        .reply-box { margin-top: 15px; padding: 20px; background: #fafafa; border-radius: 8px; border-top: 2px solid #eee; display: none; }
+        .reply-item { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .reply-item:last-child { border-bottom: none; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 95%; max-width: 550px; position: relative; }
 
         input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: bold; }
         
-        .fab { position: fixed; bottom: 30px; left: 30px; background: var(--accent); color: white; width: 65px; height: 65px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 999; }
-        .reply-box { margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: none; }
-        .reply { padding: 10px; border-bottom: 1px solid #eee; }
+        .fab { position: fixed; bottom: 35px; left: 35px; background: var(--accent); color: white; width: 70px; height: 70px; border-radius: 50%; font-size: 35px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.3); z-index: 999; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>פורום הצליאק החרדי</h1>
-    <p>קהילה תומכת ושומרת מצוות</p>
+    <p>עזרה הדדית, כשרות ומתכונים ברוח התורה</p>
 </header>
 
-<div class="container" id="forum-body">
-    <div style="text-align: center;">טוען הודעות...</div>
+<div class="container">
+    <div class="categories">
+        <button class="cat-btn active">הכל</button>
+        <button class="cat-btn">מתכונים</button>
+        <button class="cat-btn">כשרות ומסעדות</button>
+        <button class="cat-btn">שאלות רפואיות</button>
+        <button class="cat-btn">יד שנייה/גמ"ח</button>
+    </div>
+
+    <div id="forum-content">
+        <div style="text-align: center; padding: 50px;">טוען הודעות מהשרת...</div>
+    </div>
 </div>
 
-<button class="fab" onclick="openModal()">+</button>
+<button class="fab" onclick="document.getElementById('postModal').style.display='flex'">+</button>
 
 <div id="postModal" class="modal">
     <div class="modal-content animate">
-        <h2 style="margin-top:0">נושא חדש</h2>
-        <input type="text" id="newName" placeholder="השם שלך">
-        <input type="email" id="newEmail" placeholder="אימייל (לקבלת עדכון)">
-        <select id="newCategory">
+        <h2 style="margin:0 0 20px">פתיחת שרשור חדש</h2>
+        <input type="text" id="name" placeholder="השם שלך">
+        <input type="email" id="email" placeholder="אימייל (לקבלת מייל אישור)">
+        <select id="category">
             <option value="כללי">בחר קטגוריה</option>
             <option value="מתכונים">מתכונים</option>
             <option value="כשרות">כשרות ומסעדות</option>
             <option value="רפואי">שאלות רפואיות</option>
+            <option value="גמ"ח">יד שנייה / גמ"ח</option>
         </select>
-        <input type="text" id="newSubject" placeholder="נושא ההודעה">
-        <textarea id="newContent" rows="4" placeholder="תוכן ההודעה..."></textarea>
-        <button class="btn" onclick="submitPost()">פרסם עכשיו</button>
-        <button class="btn" style="background:#ccc; margin-top:5px" onclick="closeModal()">ביטול</button>
+        <input type="text" id="subject" placeholder="נושא ההודעה">
+        <textarea id="content" rows="5" placeholder="כתוב כאן את הודעתך..."></textarea>
+        <button class="btn-main" id="submitBtn" onclick="sendPost()">פרסם בפורום</button>
+        <button class="btn-main" style="background:#999; margin-top:8px;" onclick="document.getElementById('postModal').style.display='none'">סגור</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-_lGrNrJEIfaXsnrAPOGbUvzOh9TfCO0itgHZ33MwPtXNKdtlEiaKrrp3MIjZ9xklmw/exec";
+    // חובה להדביק כאן את ה-URL החדש שקיבלת מהדיפלוי!
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzF7yFC-iv34va6srbSgI2ta_erxx1aE-ZtDJHpG9E7dsLFUzrx_BXjj3FOU9FWnKCNNg/exec";
 
-    async function loadThreads() {
+    async function fetchPosts() {
         try {
             const res = await fetch(SCRIPT_URL);
             const data = await res.json();
-            const container = document.getElementById('forum-body');
+            const container = document.getElementById('forum-content');
             container.innerHTML = '';
 
-            const mainThreads = data.filter(item => item.ID);
+            const threads = data.filter(i => i.ID);
             
-            mainThreads.forEach(t => {
+            threads.forEach(t => {
                 const replies = data.filter(r => r.ParentID === t.ID);
                 container.innerHTML += `
                     <div class="thread-card animate" onclick="toggleReplies('${t.ID}')">
-                        <small style="color:var(--accent)">${t.Category} | ${new Date(t.Timestamp).toLocaleDateString('he-IL')}</small>
-                        <h3 style="margin:5px 0">${t.Subject}</h3>
-                        <p>${t.Content}</p>
-                        <small>פורסם ע"י: <strong>${t.Name}</strong></small>
+                        <div class="thread-meta">
+                            <span class="tag">${t.Category}</span>
+                            <span>${new Date(t.Timestamp).toLocaleDateString('he-IL')}</span>
+                        </div>
+                        <h3 style="margin:10px 0">${t.Subject}</h3>
+                        <p style="color:#555; line-height:1.5;">${t.Content}</p>
+                        <div style="font-size:0.9rem; color:#888;">פורסם ע"י: <strong>${t.Name}</strong> | ${replies.length} תגובות</div>
                         
-                        <div id="reply-area-${t.ID}" class="reply-box">
-                            <hr>
-                            ${replies.map(r => `<div class="reply"><strong>${r.Name}:</strong> ${r.Content}</div>`).join('')}
-                            <button class="btn" style="width:auto; padding:5px 15px; margin-top:10px" onclick="event.stopPropagation(); addReply('${t.ID}')">הוסף תגובה</button>
+                        <div id="box-${t.ID}" class="reply-box">
+                            <h4 style="margin-top:0">תגובות:</h4>
+                            ${replies.map(r => `<div class="reply-item"><strong>${r.Name}:</strong> ${r.Content}</div>`).join('')}
+                            <div style="margin-top:15px; display:flex; gap:5px;">
+                                <input type="text" id="rep-in-${t.ID}" placeholder="כתוב תגובה..." onclick="event.stopPropagation()">
+                                <button class="cat-btn active" onclick="sendReply(event, '${t.ID}')">שלח</button>
+                            </div>
                         </div>
                     </div>`;
             });
-        } catch (e) { console.error(e); }
-    }
-
-    async function submitPost() {
-        const payload = {
-            name: document.getElementById('newName').value,
-            email: document.getElementById('newEmail').value,
-            category: document.getElementById('newCategory').value,
-            subject: document.getElementById('newSubject').value,
-            content: document.getElementById('newContent').value
-        };
-        if(!payload.name || !payload.content) return alert("נא למלא שם ותוכן");
-        
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        alert("הודעתך נשלחה! תקבל מייל אישור בקרוב.");
-        location.reload();
-    }
-
-    async function addReply(parentId) {
-        const name = prompt("השם שלך:");
-        const content = prompt("תוכן התגובה:");
-        const email = prompt("אימייל (אופציונלי):");
-        if(name && content) {
-            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId, email }) });
-            location.reload();
+        } catch(e) { 
+            document.getElementById('forum-content').innerHTML = "שגיאה בטעינה. וודא שהסקריפט מוגדר ל-'Anyone'.";
         }
     }
 
+    async function sendPost() {
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "שולח...";
+        btn.disabled = true;
+
+        const payload = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            category: document.getElementById('category').value,
+            subject: document.getElementById('subject').value,
+            content: document.getElementById('content').value
+        };
+
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = await res.json();
+        
+        if(result.status === "success") {
+            alert("הודעתך פורסמה! מייל אישור נשלח אליך.");
+            location.reload();
+        } else {
+            alert("שגיאה: " + result.message);
+            btn.disabled = false;
+        }
+    }
+
+    async function sendReply(e, parentId) {
+        e.stopPropagation();
+        const content = document.getElementById(`rep-in-${parentId}`).value;
+        const name = prompt("השם שלך לתגובה:");
+        if(!name || !content) return;
+
+        await fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ name, content, parentId }) 
+        });
+        location.reload();
+    }
+
     function toggleReplies(id) {
-        const el = document.getElementById(`reply-area-${id}`);
+        const el = document.getElementById(`box-${id}`);
         el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
 
-    function openModal() { document.getElementById('postModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('postModal').style.display = 'none'; }
-
-    loadThreads();
+    fetchPosts();
 </script>
 
 </body>
