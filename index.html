@@ -6,7 +6,7 @@
     <title>פורום הצליאק החרדי</title>
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
         
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate { animation: slideUp 0.5s ease-out forwards; }
@@ -20,12 +20,12 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.2s; }
-        .btn:hover { background: #1a252f; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
         
-        .fab { position: fixed; bottom: 30px; left: 30px; background: var(--accent); color: white; width: 65px; height: 65px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .reply-box { margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; border-top: 1px solid #eee; display: none; }
+        .fab { position: fixed; bottom: 30px; left: 30px; background: var(--accent); color: white; width: 65px; height: 65px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 999; }
+        .reply-box { margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: none; }
+        .reply { padding: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -36,16 +36,16 @@
 </header>
 
 <div class="container" id="forum-body">
-    <div id="loader" style="text-align: center;">טוען הודעות מהשרת...</div>
+    <div style="text-align: center;">טוען הודעות...</div>
 </div>
 
 <button class="fab" onclick="openModal()">+</button>
 
 <div id="postModal" class="modal">
     <div class="modal-content animate">
-        <h2 style="margin-top: 0;">פתיחת נושא חדש</h2>
+        <h2 style="margin-top:0">נושא חדש</h2>
         <input type="text" id="newName" placeholder="השם שלך">
-        <input type="email" id="newEmail" placeholder="כתובת אימייל (לקבלת אישור)">
+        <input type="email" id="newEmail" placeholder="אימייל (לקבלת עדכון)">
         <select id="newCategory">
             <option value="כללי">בחר קטגוריה</option>
             <option value="מתכונים">מתכונים</option>
@@ -55,7 +55,7 @@
         <input type="text" id="newSubject" placeholder="נושא ההודעה">
         <textarea id="newContent" rows="4" placeholder="תוכן ההודעה..."></textarea>
         <button class="btn" onclick="submitPost()">פרסם עכשיו</button>
-        <button class="btn" style="background: #ccc; margin-top: 5px;" onclick="closeModal()">ביטול</button>
+        <button class="btn" style="background:#ccc; margin-top:5px" onclick="closeModal()">ביטול</button>
     </div>
 </div>
 
@@ -69,33 +69,25 @@
             const container = document.getElementById('forum-body');
             container.innerHTML = '';
 
-            const mainThreads = data.filter(item => item.ID && item.ID !== "");
+            const mainThreads = data.filter(item => item.ID);
             
             mainThreads.forEach(t => {
                 const replies = data.filter(r => r.ParentID === t.ID);
-                const card = `
+                container.innerHTML += `
                     <div class="thread-card animate" onclick="toggleReplies('${t.ID}')">
                         <small style="color:var(--accent)">${t.Category} | ${new Date(t.Timestamp).toLocaleDateString('he-IL')}</small>
-                        <h3 style="margin: 10px 0;">${t.Subject}</h3>
-                        <p style="color:#555;">${t.Content}</p>
+                        <h3 style="margin:5px 0">${t.Subject}</h3>
+                        <p>${t.Content}</p>
                         <small>פורסם ע"י: <strong>${t.Name}</strong></small>
                         
                         <div id="reply-area-${t.ID}" class="reply-box">
                             <hr>
-                            ${replies.map(r => `
-                                <div style="margin-bottom:10px; font-size:0.9em;">
-                                    <strong>${r.Name}:</strong> ${r.Content}
-                                </div>
-                            `).join('')}
-                            <button class="btn" style="width:auto; padding:5px 15px;" onclick="event.stopPropagation(); addReply('${t.ID}')">הוסף תגובה</button>
+                            ${replies.map(r => `<div class="reply"><strong>${r.Name}:</strong> ${r.Content}</div>`).join('')}
+                            <button class="btn" style="width:auto; padding:5px 15px; margin-top:10px" onclick="event.stopPropagation(); addReply('${t.ID}')">הוסף תגובה</button>
                         </div>
-                    </div>
-                `;
-                container.innerHTML += card;
+                    </div>`;
             });
-        } catch (e) {
-            document.getElementById('loader').innerText = "שגיאה בטעינת נתונים. וודא שהסקריפט מוגדר ל-'Anyone'.";
-        }
+        } catch (e) { console.error(e); }
     }
 
     async function submitPost() {
@@ -106,10 +98,10 @@
             subject: document.getElementById('newSubject').value,
             content: document.getElementById('newContent').value
         };
-        if(!payload.name || !payload.content) return alert("חובה למלא שם ותוכן");
+        if(!payload.name || !payload.content) return alert("נא למלא שם ותוכן");
         
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        alert("הודעתך נשלחה! מייל אישור יישלח אליך בקרוב.");
+        alert("הודעתך נשלחה! תקבל מייל אישור בקרוב.");
         location.reload();
     }
 
@@ -118,10 +110,7 @@
         const content = prompt("תוכן התגובה:");
         const email = prompt("אימייל (אופציונלי):");
         if(name && content) {
-            await fetch(SCRIPT_URL, { 
-                method: 'POST', 
-                body: JSON.stringify({ name, content, parentId, email }) 
-            });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId, email }) });
             location.reload();
         }
     }
