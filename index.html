@@ -5,138 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 0; color: #333; }
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; color: #333; }
         
-        /* אנימציית כניסה */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate { animation: slideUp 0.5s ease-out forwards; }
 
-        header { background: var(--primary); color: white; padding: 2rem; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .container { max-width: 900px; margin: 20px auto; padding: 10px; }
-        
-        .category-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .tab { background: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; border: 1px solid #ddd; white-space: nowrap; transition: 0.3s; }
-        .tab.active { background: var(--primary); color: white; }
+        header { background: var(--primary); color: white; padding: 1.5rem; text-align: center; border-bottom: 4px solid var(--accent); }
+        .container { max-width: 850px; margin: 20px auto; padding: 15px; }
 
-        .thread-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; border-right: 5px solid var(--accent); }
-        .thread-card:hover { transform: scale(1.01); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        
-        .modal { display: none; position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; animation: fadeIn 0.3s; }
+        .thread-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-right: 6px solid var(--accent); transition: 0.3s; cursor: pointer; }
+        .thread-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
 
-        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
-        .fab { position: fixed; bottom: 30px; left: 30px; background: var(--accent); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; border: none; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.2s; }
+        .btn:hover { background: #1a252f; }
         
-        .reply-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; display: none; }
-        .reply { background: #f1f3f5; padding: 10px; margin-top: 8px; border-radius: 4px; font-size: 0.95em; }
+        .fab { position: fixed; bottom: 30px; left: 30px; background: var(--accent); color: white; width: 65px; height: 65px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .reply-box { margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; border-top: 1px solid #eee; display: none; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>פורום הצליאק החרדי</h1>
-    <p>בית חם לקהילת חולי הצליאק - ייעוץ, עזרה ומידע</p>
+    <p>קהילה תומכת ושומרת מצוות</p>
 </header>
 
-<div class="container fade-in">
-    <div class="category-tabs">
-        <div class="tab active">הכל</div>
-        <div class="tab">מתכונים</div>
-        <div class="tab">מסעדות וכשרות</div>
-        <div class="tab">שאלות רפואיות</div>
-    </div>
-
-    <div id="threads-container">
-        </div>
+<div class="container" id="forum-body">
+    <div id="loader" style="text-align: center;">טוען הודעות מהשרת...</div>
 </div>
 
 <button class="fab" onclick="openModal()">+</button>
 
 <div id="postModal" class="modal">
-    <div class="modal-content">
-        <span onclick="closeModal()" style="float:left; cursor:pointer;">&times;</span>
-        <h3>פתיחת שרשור חדש</h3>
-        <input type="email" id="userEmail" placeholder="כתובת אימייל">
-        <select id="postCategory">
+    <div class="modal-content animate">
+        <h2 style="margin-top: 0;">פתיחת נושא חדש</h2>
+        <input type="text" id="newName" placeholder="השם שלך">
+        <input type="email" id="newEmail" placeholder="כתובת אימייל (לקבלת אישור)">
+        <select id="newCategory">
             <option value="כללי">בחר קטגוריה</option>
             <option value="מתכונים">מתכונים</option>
-            <option value="כשרות">מסעדות וכשרות</option>
+            <option value="כשרות">כשרות ומסעדות</option>
             <option value="רפואי">שאלות רפואיות</option>
         </select>
-        <input type="text" id="postSubject" placeholder="נושא ההודעה">
-        <textarea id="postContent" rows="4" placeholder="תוכן ההודעה..."></textarea>
-        <button class="btn" onclick="submitNewThread()">פרסם עכשיו</button>
+        <input type="text" id="newSubject" placeholder="נושא ההודעה">
+        <textarea id="newContent" rows="4" placeholder="תוכן ההודעה..."></textarea>
+        <button class="btn" onclick="submitPost()">פרסם עכשיו</button>
+        <button class="btn" style="background: #ccc; margin-top: 5px;" onclick="closeModal()">ביטול</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1L8UoVgqTHjvJz62KTOAl04T2n5VOx9jzmEZsghoGQJkK8ftXRfkM9MNClQJhqfs11Q/exec";
+    const SCRIPT_URL = "הדבק_כאן_את_הכתובת_החדשה_שלך";
 
-    async function loadData() {
-        const res = await fetch(SCRIPT_URL);
-        const data = await res.json();
-        const container = document.getElementById('threads-container');
-        container.innerHTML = '';
+    async function loadThreads() {
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            const container = document.getElementById('forum-body');
+            container.innerHTML = '';
 
-        const mainThreads = data.filter(p => p.ID);
-        
-        mainThreads.forEach(thread => {
-            const replies = data.filter(r => r.ParentID === thread.ID);
-            const html = `
-                <div class="thread-card fade-in" onclick="toggleReplies('${thread.ID}')">
-                    <div style="font-size: 0.8em; color: var(--accent);">${thread.Category}</div>
-                    <div style="font-weight: bold; font-size: 1.2em; margin: 5px 0;">${thread.Subject}</div>
-                    <div style="color: #666; font-size: 0.9em;">מאת: ${thread.Email}</div>
-                    
-                    <div id="replies-${thread.ID}" class="reply-section">
-                        <p>${thread.Content}</p>
-                        <hr>
-                        ${replies.map(r => `<div class="reply"><strong>${r.Email}:</strong> ${r.Content}</div>`).join('')}
-                        <input type="text" placeholder="הוסף תגובה..." id="input-${thread.ID}" onclick="event.stopPropagation()">
-                        <button class="btn" style="padding:5px; margin-top:5px;" onclick="sendReply(event, '${thread.ID}')">שלח תגובה</button>
+            const mainThreads = data.filter(item => item.ID && item.ID !== "");
+            
+            mainThreads.forEach(t => {
+                const replies = data.filter(r => r.ParentID === t.ID);
+                const card = `
+                    <div class="thread-card animate" onclick="toggleReplies('${t.ID}')">
+                        <small style="color:var(--accent)">${t.Category} | ${new Date(t.Timestamp).toLocaleDateString('he-IL')}</small>
+                        <h3 style="margin: 10px 0;">${t.Subject}</h3>
+                        <p style="color:#555;">${t.Content}</p>
+                        <small>פורסם ע"י: <strong>${t.Name}</strong></small>
+                        
+                        <div id="reply-area-${t.ID}" class="reply-box">
+                            <hr>
+                            ${replies.map(r => `
+                                <div style="margin-bottom:10px; font-size:0.9em;">
+                                    <strong>${r.Name}:</strong> ${r.Content}
+                                </div>
+                            `).join('')}
+                            <button class="btn" style="width:auto; padding:5px 15px;" onclick="event.stopPropagation(); addReply('${t.ID}')">הוסף תגובה</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            container.innerHTML += html;
-        });
-    }
-
-    function toggleReplies(id) {
-        const el = document.getElementById(`replies-${id}`);
-        el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    }
-
-    async function submitNewThread() {
-        const payload = {
-            email: document.getElementById('userEmail').value,
-            category: document.getElementById('postCategory').value,
-            subject: document.getElementById('postSubject').value,
-            content: document.getElementById('postContent').value
-        };
-        await sendData(payload);
-    }
-
-    async function sendReply(event, parentId) {
-        event.stopPropagation();
-        const content = document.getElementById(`input-${parentId}`).value;
-        const email = prompt("אנא הכנס אימייל לתגובה:");
-        if (content && email) {
-            await sendData({ email, content, parentId });
+                `;
+                container.innerHTML += card;
+            });
+        } catch (e) {
+            document.getElementById('loader').innerText = "שגיאה בטעינת נתונים. וודא שהסקריפט מוגדר ל-'Anyone'.";
         }
     }
 
-    async function sendData(payload) {
+    async function submitPost() {
+        const payload = {
+            name: document.getElementById('newName').value,
+            email: document.getElementById('newEmail').value,
+            category: document.getElementById('newCategory').value,
+            subject: document.getElementById('newSubject').value,
+            content: document.getElementById('newContent').value
+        };
+        if(!payload.name || !payload.content) return alert("חובה למלא שם ותוכן");
+        
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        alert("נשלח בהצלחה!");
+        alert("הודעתך נשלחה! מייל אישור יישלח אליך בקרוב.");
         location.reload();
+    }
+
+    async function addReply(parentId) {
+        const name = prompt("השם שלך:");
+        const content = prompt("תוכן התגובה:");
+        const email = prompt("אימייל (אופציונלי):");
+        if(name && content) {
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                body: JSON.stringify({ name, content, parentId, email }) 
+            });
+            location.reload();
+        }
+    }
+
+    function toggleReplies(id) {
+        const el = document.getElementById(`reply-area-${id}`);
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
 
     function openModal() { document.getElementById('postModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('postModal').style.display = 'none'; }
 
-    loadData();
+    loadThreads();
 </script>
 
 </body>
