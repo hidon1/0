@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>פורום הצליאק החרדי - המהדורה המורחבת</title>
+    <title>פורום הצליאק החרדי - המהדורה המלאה</title>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -15,7 +15,7 @@
 
         body { 
             font-family: 'Assistant', sans-serif; background: var(--bg); color: var(--text); 
-            margin: 0; transition: all 0.3s ease; padding-bottom: 100px;
+            margin: 0; transition: all 0.3s ease; padding-bottom: 120px;
         }
 
         header { 
@@ -30,7 +30,6 @@
 
         .container { max-width: 1000px; margin: auto; padding: 20px; }
 
-        /* קטגוריות */
         .nav-tabs { 
             display: flex; gap: 12px; overflow-x: auto; padding: 20px 0; 
             position: sticky; top: 0; background: var(--bg); z-index: 10;
@@ -38,84 +37,69 @@
         .tab-btn { 
             background: var(--card); border: 2px solid var(--primary); padding: 10px 25px;
             border-radius: 30px; cursor: pointer; font-weight: bold; color: var(--primary);
-            transition: 0.3s; white-space: nowrap; font-size: 1rem;
+            transition: 0.3s; white-space: nowrap;
         }
         .tab-btn.active { background: var(--primary); color: white; }
 
-        /* מידע ומתכונים */
-        .info-section {
-            background: var(--info); padding: 25px; border-radius: 15px; margin-bottom: 30px;
-            border-right: 6px solid var(--accent); display: none; animation: fadeIn 0.5s;
-        }
-
-        /* כרטיסיות הודעות */
         .thread-card { 
             background: var(--card); border-radius: 15px; padding: 25px; margin-bottom: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-right: 8px solid var(--accent);
-            animation: slideUp 0.5s ease-out; transition: 0.3s;
+            animation: slideUp 0.5s ease-out; cursor: pointer;
         }
-        .thread-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
 
+        .reply-box { margin-top: 15px; padding: 20px; background: rgba(0,0,0,0.03); border-radius: 10px; display: none; }
+        .reply-item { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: var(--card); padding: 30px; border-radius: 15px; width: 95%; max-width: 550px; color: var(--text); }
+
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; background: var(--card); color: var(--text); }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
+
+        .fab { position: fixed; bottom: 35px; left: 35px; width: 70px; height: 70px; border-radius: 50%; background: var(--accent); color: white; font-size: 35px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 99; }
+        
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .like-btn { 
-            background: #fff0f0; border: none; color: #e74c3c; padding: 8px 20px; 
-            border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s;
-        }
-        .like-btn:hover { background: #ffe0e0; transform: scale(1.05); }
-
-        .fab { 
-            position: fixed; bottom: 35px; right: 35px; width: 75px; height: 75px;
-            border-radius: 50%; background: var(--accent); color: white;
-            font-size: 35px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 100;
-        }
-
-        .recipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .recipe-item { background: rgba(255,255,255,0.5); padding: 15px; border-radius: 10px; border: 1px solid #ddd; }
     </style>
 </head>
 <body data-theme="light">
 
 <header>
     <button class="theme-toggle" onclick="toggleTheme()">☀️/🌙 מצב תצוגה</button>
-    <h1 style="font-family: 'Heebo', sans-serif; font-size: 2.8rem; margin:0;">פורום הצליאק החרדי</h1>
-    <p>בית חם לקהילה - כשרות, מתכונים ועזרה הדדית</p>
+    <h1 style="font-family: 'Heebo', sans-serif; margin:0;">פורום הצליאק החרדי</h1>
+    <p>בית חם לעזרה הדדית ומתכונים</p>
 </header>
 
 <div class="container">
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="changeCategory('הכל', this)">🏠 הכל</button>
-        <button class="tab-btn" onclick="changeCategory('מידע', this)">📜 מידע כללי</button>
-        <button class="tab-btn" onclick="changeCategory('מתכונים', this)">🍰 מתכוני הבית</button>
+        <button class="tab-btn" onclick="changeCategory('מתכונים', this)">🍰 מתכונים</button>
         <button class="tab-btn" onclick="changeCategory('כשרות', this)">🎗️ כשרות</button>
-    </div>
-
-    <div id="section-מידע" class="info-section">
-        <h2>📜 מה זה צליאק? (מידע לקהילה)</h2>
-        <p>צליאק היא רגישות לחלבון הגלוטן. במישור ההלכתי, קיימות שאלות רבות בנושא הפרשת חלה מקמחים ללא גלוטן (כמו קמח שיבולת שועל ללא גלוטן) וברכות הנהנין. מומלץ להתייעץ עם רב בנושא ברכת "שהכל" או "מוציא".</p>
-    </div>
-
-    <div id="section-מתכונים" class="info-section">
-        <h2>🍰 מתכוני הבית המובחרים</h2>
-        <div class="recipe-grid">
-            <div class="recipe-item">
-                <strong>🍞 חלות שבת ללא גלוטן</strong>
-                <p>שילוב של קמח רב-תכליתי, עמילן תירס וסיבים תזונתיים ליצירת מרקם אוורירי.</p>
-            </div>
-            <div class="recipe-item">
-                <strong>🍩 סופגניות/עוגות בחושות</strong>
-                <p>שימוש ברסק תפוחים להענקת לחות במקום גלוטן.</p>
-            </div>
-        </div>
+        <button class="tab-btn" onclick="changeCategory('רפואי', this)">💊 רפואי</button>
     </div>
 
     <div id="posts-container">
-        <div style="text-align: center; padding: 50px;">טוען הודעות מהפורום...</div>
+        <div style="text-align: center; padding: 50px;">טוען הודעות...</div>
     </div>
 </div>
 
-<button class="fab" onclick="alert('פתיחת שרשור חדש זמינה דרך הטופס באתר')">+</button>
+<button class="fab" onclick="document.getElementById('postModal').style.display='flex'">+</button>
+
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <h2>פתיחת שרשור חדש</h2>
+        <input type="text" id="name" placeholder="השם שלך">
+        <select id="category">
+            <option value="כללי">בחר קטגוריה</option>
+            <option value="מתכונים">מתכונים</option>
+            <option value="כשרות">כשרות ומסעדות</option>
+            <option value="רפואי">שאלות רפואיות</option>
+        </select>
+        <input type="text" id="subject" placeholder="נושא ההודעה">
+        <textarea id="content" rows="5" placeholder="תוכן ההודעה..."></textarea>
+        <button class="btn-main" onclick="sendPost()">פרסם עכשיו</button>
+        <button class="btn-main" style="background:#999; margin-top:8px;" onclick="document.getElementById('postModal').style.display='none'">סגור</button>
+    </div>
+</div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcB4Ur9EiWQCKpdeA3Cdjd_seyapLuQIoHenUcbsqTIArh5yVUrBuKGJADcwT9YPFntg/exec";
@@ -126,41 +110,69 @@
             const res = await fetch(SCRIPT_URL);
             allPosts = await res.json();
             render('הכל');
-        } catch(e) { console.error("Error loading:", e); }
+        } catch(e) { document.getElementById('posts-container').innerHTML = "שגיאה בטעינה."; }
     }
 
     function render(category) {
-        // הצגת/הסתרת קטעי מידע סטטיים
-        document.querySelectorAll('.info-section').forEach(s => s.style.display = 'none');
-        const infoSection = document.getElementById('section-' + category);
-        if(infoSection) infoSection.style.display = 'block';
-
         const container = document.getElementById('posts-container');
         container.innerHTML = '';
         
         const filtered = category === 'הכל' ? allPosts : allPosts.filter(p => p.Category === category);
         
         filtered.filter(p => p.ID).forEach(t => {
+            const replies = allPosts.filter(r => r.ParentID === t.ID);
             container.innerHTML += `
-                <div class="thread-card">
-                    <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:#888;">
-                        <span>${t.Category}</span>
-                        <span>${new Date(t.Timestamp).toLocaleDateString('he-IL')}</span>
-                    </div>
-                    <h2 style="margin:10px 0; color:var(--primary);">${t.Subject}</h2>
-                    <p style="font-size:1.1rem; line-height:1.6;">${t.Content}</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+                <div class="thread-card" onclick="toggleReplies('${t.ID}')">
+                    <small>${t.Category} | ${new Date(t.Timestamp).toLocaleDateString('he-IL')}</small>
+                    <h3>${t.Subject}</h3>
+                    <p>${t.Content}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span>מאת: <strong>${t.Name}</strong></span>
-                        <button class="like-btn" onclick="addLike('${t.ID}')">❤️ ${t.Likes || 0}</button>
+                        <div>
+                            <button class="tab-btn" style="padding:5px 15px" onclick="event.stopPropagation(); addLike('${t.ID}')">❤️ ${t.Likes || 0}</button>
+                        </div>
+                    </div>
+                    
+                    <div id="box-${t.ID}" class="reply-box" onclick="event.stopPropagation()">
+                        <h4>תגובות (${replies.length}):</h4>
+                        ${replies.map(r => `<div class="reply-item"><strong>${r.Name}:</strong> ${r.Content}</div>`).join('')}
+                        <div style="margin-top:15px; display:flex; gap:5px;">
+                            <input type="text" id="rep-in-${t.ID}" placeholder="כתוב תגובה...">
+                            <button class="tab-btn active" onclick="sendReply('${t.ID}')">שלח</button>
+                        </div>
                     </div>
                 </div>
             `;
         });
     }
 
+    async function sendPost() {
+        const payload = {
+            name: document.getElementById('name').value,
+            category: document.getElementById('category').value,
+            subject: document.getElementById('subject').value,
+            content: document.getElementById('content').value
+        };
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        location.reload();
+    }
+
+    async function sendReply(parentId) {
+        const content = document.getElementById(`rep-in-${parentId}`).value;
+        const name = prompt("השם שלך לתגובה:");
+        if(!name || !content) return;
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId }) });
+        location.reload();
+    }
+
     async function addLike(id) {
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
-        loadData(); // ריענון נתונים
+        loadData();
+    }
+
+    function toggleReplies(id) {
+        const el = document.getElementById(`box-${id}`);
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
 
     function changeCategory(cat, btn) {
@@ -170,9 +182,7 @@
     }
 
     function toggleTheme() {
-        const body = document.body;
-        const current = body.getAttribute('data-theme');
-        body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     }
 
     loadData();
