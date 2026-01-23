@@ -242,33 +242,27 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 380px 1fr;
             gap: 40px;
             max-width: 1500px;
             margin: 0 auto;
             padding: 40px 30px;
             transition: all 0.3s ease;
         }
+        
+        .main-layout.sidebar-hidden {
+            grid-template-columns: 1fr;
+        }
 
         .sidebar {
-            position: fixed;
-            right: 0;
-            top: 0;
-            height: 100vh;
-            width: 380px;
-            background: var(--bg);
-            z-index: 100;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-            box-shadow: -10px 0 40px var(--shadow-lg);
             display: flex;
             flex-direction: column;
             gap: 20px;
+            transition: all 0.3s ease;
         }
         
-        .sidebar.open {
-            transform: translateX(0);
+        .sidebar.hidden {
+            display: none;
         }
 
         .sidebar-card {
@@ -1050,6 +1044,13 @@
                 width: 35px;
                 height: 35px;
             }
+            
+            .sidebar-toggle-btn {
+                top: 80px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -1254,7 +1255,7 @@
                                 <h5><i class="fas fa-list"></i> מרכיבים</h5>
                                 <ul>
                                     <li>2 כוסות קמח שקדים טחון דק</li>
-                                    <li>1/2 כוס סו��ר דק</li>
+                                    <li>1/2 כוס סוכר דק</li>
                                     <li>1/4 כפית מלח</li>
                                     <li>1/2 כפית תמצית שקדים (או וניל)</li>
                                     <li>1 ביצה גדולה</li>
@@ -1307,7 +1308,7 @@
                         <div class="info-content">
                             <div class="info-inner">
                                 <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
-                                <p>כאשר אנשים עם צליאק צור��ים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
+                                <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
                                 <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
                             </div>
                         </div>
@@ -1333,7 +1334,7 @@
                                     <li>בחילות והקאות</li>
                                     <li>גזים וצרבת</li>
                                 </ul>
-                                <p><strong>תסמינים מחוץ ל��ערכת העיכול:</strong></p>
+                                <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
                                 <ul>
                                     <li>עייפות ותשישות מתמשכת</li>
                                     <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
@@ -1415,7 +1416,7 @@
                                 <div class="info-icon">
                                     <i class="fas fa-lightbulb"></i>
                                 </div>
-                                <h4>טיפים לחיים ע�� צליאק</h4>
+                                <h4>טיפים לחיים עם צליאק</h4>
                             </div>
                             <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
@@ -1499,7 +1500,7 @@
                             <div class="info-inner">
                                 <ul>
                                     <li>מרפאת צליאק בילינסון - טל: 03-9377222</li>
-                                    <li>מכון ג��טרו שיבא - טל: 03-5302234</li>
+                                    <li>מכון גסטרו שיבא - טל: 03-5302234</li>
                                     <li>מרפאת צליאק הדסה - טל: 02-6776543</li>
                                     <li>רמב"ם מחלקת גסטרו - טל: 04-7772444</li>
                                 </ul>
@@ -1599,14 +1600,28 @@
     // Sidebar toggle functionality
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('open');
+        const mainLayout = document.getElementById('mainLayout');
+        const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
+        
+        sidebar.classList.toggle('hidden');
+        mainLayout.classList.toggle('sidebar-hidden');
+        
+        // Toggle icon between info and arrow
+        if (sidebar.classList.contains('hidden')) {
+            toggleBtn.className = 'fas fa-info-circle';
+        } else {
+            toggleBtn.className = 'fas fa-chevron-right';
+        }
+        
+        // Save preference
+        localStorage.setItem('sidebarHidden', sidebar.classList.contains('hidden'));
     }
-
+    
     // Search functionality
     function performSearch(searchTerm) {
         currentSearchTerm = searchTerm.toLowerCase().trim();
         const activeTab = document.querySelector('.tab-btn.active');
-        const hebrewMatch = activeTab ? activeTab.textContent.trim().match(/[\u0590-\u05FF]+/) : null;
+        const hebrewMatch = activeTab ? activeTab.textContent.trim().replace(/[\s\u200B-\u200D\uFEFF]/g, '').match(/[\u0590-\u05FF]+/) : null;
         const currentCategory = hebrewMatch ? hebrewMatch[0] : 'הכל';
         render(currentCategory);
     }
@@ -1823,6 +1838,17 @@
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             document.body.setAttribute('data-theme', savedTheme);
+        }
+        
+        // Load sidebar state
+        const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
+        if (sidebarHidden) {
+            const sidebar = document.getElementById('sidebar');
+            const mainLayout = document.getElementById('mainLayout');
+            const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
+            sidebar.classList.add('hidden');
+            mainLayout.classList.add('sidebar-hidden');
+            toggleBtn.className = 'fas fa-info-circle';
         }
     });
 
