@@ -824,7 +824,6 @@
             color: var(--text-light);
             line-height: 1.7;
             font-size: 0.95rem;
-            word-wrap: break-word;
             overflow-wrap: break-word;
             word-break: break-word;
         }
@@ -860,14 +859,8 @@
             display: block;
         }
 
-        .reply-item p {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-
+        .reply-item p,
         .nested-reply p {
-            word-wrap: break-word;
             overflow-wrap: break-word;
             word-break: break-word;
         }
@@ -955,6 +948,11 @@
             outline: none;
             box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.15);
             background: var(--card);
+        }
+
+        input:disabled, textarea:disabled, select:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
         
         .btn-main { 
@@ -1952,8 +1950,8 @@
             return;
         }
         
-        if (password.length < 4) {
-            showToast('הסיסמה חייבת להכיל לפחות 4 תווים');
+        if (password.length < 6) {
+            showToast('הסיסמה חייבת להכיל לפחות 6 תווים');
             return;
         }
         
@@ -2295,11 +2293,16 @@
             content: document.getElementById('content').value,
             userEmail: currentUser ? currentUser.email : null
         };
-        if (!payload.name || !payload.subject || !payload.content) {
-            if (!payload.name) {
-                showToast('נא להזין שם או להתחבר');
-                return;
-            }
+        if (!payload.name) {
+            showToast('נא להזין שם או להתחבר');
+            return;
+        }
+        if (!payload.subject) {
+            showToast('נא להזין נושא להודעה');
+            return;
+        }
+        if (!payload.content) {
+            showToast('נא להזין תוכן להודעה');
             return;
         }
         addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
@@ -2417,7 +2420,6 @@
             if (nameField) {
                 nameField.value = currentUser.name;
                 nameField.disabled = true;
-                nameField.style.opacity = '0.7';
             }
         }
     });
