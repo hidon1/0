@@ -215,17 +215,18 @@
         .login-btn {
             position: absolute; 
             top: 25px; 
-            left: 180px; 
+            left: 50%; 
+            transform: translateX(-50%);
             background: rgba(255,255,255,0.1); 
             backdrop-filter: blur(15px);
-            border: 2px solid rgba(255,255,255,0.2); 
+            border: 2px solid var(--accent); 
             color: white; 
             padding: 12px 22px; 
-            cursor: pointer; 
             border-radius: 30px;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
             font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             display: flex;
@@ -1866,27 +1867,32 @@
             return;
         }
         
-        // שליחה ל-Google Apps Script
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'register',
-                username: username,
-                email: email
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-            localStorage.setItem('currentUser', username);
-            showToast(result.message);
-            updateUserDisplay();
-            setTimeout(() => {
-                closeRegisterModal();
-            }, 2000);
-        } else {
-            alert(result.message);
+        try {
+            // שליחה ל-Google Apps Script
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'register',
+                    username: username,
+                    email: email
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success' || result.success) {
+                localStorage.setItem('currentUser', username);
+                showToast(result.message || 'נרשמת בהצלחה!');
+                updateUserDisplay();
+                setTimeout(() => {
+                    closeRegisterModal();
+                }, 2000);
+            } else {
+                alert(result.message || 'שגיאה בהרשמה');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            alert('שגיאה בהרשמה. נסה שנית.');
         }
     }
 
@@ -2218,12 +2224,13 @@
         const userName = currentUser || nameFromInput;
         
         const payload = {
-            username: userName,
+            name: userName,  // Keep for backward compatibility
+            username: userName,  // New field as per requirements
             category: document.getElementById('category').value,
             subject: document.getElementById('subject').value,
             content: document.getElementById('content').value
         };
-        if (!payload.username) {
+        if (!payload.name) {
             showToast('נא להזין שם או להתחבר');
             return;
         }
@@ -2235,7 +2242,7 @@
             showToast('נא להזין תוכן להודעה');
             return;
         }
-        addPendingAuthored({ name: payload.username, content: payload.content, timestamp: new Date().toISOString() });
+        addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         document.getElementById('postModal').style.display = 'none';
         showToast('ההודעה שלך נשלחה בהצלחה!');
@@ -2256,7 +2263,7 @@
         }
         
         addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: name, content, parentId }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
@@ -2298,7 +2305,7 @@
         
         const fullContent = `@${replyToName}: ${content}`;
         addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: name, content: fullContent, parentId }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content: fullContent, parentId }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
