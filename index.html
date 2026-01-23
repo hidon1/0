@@ -1561,7 +1561,8 @@
     function performSearch(searchTerm) {
         currentSearchTerm = searchTerm.toLowerCase().trim();
         const activeTab = document.querySelector('.tab-btn.active');
-        const currentCategory = activeTab ? activeTab.textContent.trim().replace(/[\s\u200B-\u200D\uFEFF]/g, '').match(/[\u0590-\u05FF]+/)[0] : 'הכל';
+        const hebrewMatch = activeTab ? activeTab.textContent.trim().replace(/[\s\u200B-\u200D\uFEFF]/g, '').match(/[\u0590-\u05FF]+/) : null;
+        const currentCategory = hebrewMatch ? hebrewMatch[0] : 'הכל';
         render(currentCategory);
     }
 
@@ -1616,7 +1617,7 @@
         // Apply search filter
         if (currentSearchTerm) {
             filtered = filtered.filter(p => {
-                const searchFields = [p.Subject, p.Content, p.Name, p.Category].join(' ').toLowerCase();
+                const searchFields = [p.Subject, p.Content, p.Name, p.Category].filter(field => field != null).join(' ').toLowerCase();
                 return searchFields.includes(currentSearchTerm);
             });
         }
