@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי - המהדורה המלאה</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231a365d'/%3E%3Cpath d='M50 20 L55 45 L80 50 L55 55 L50 80 L45 55 L20 50 L45 45 Z' fill='%23c9a227'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@400;500;700;800&family=Varela+Round&family=Alef:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -61,11 +62,66 @@
         header { 
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
             color: white; 
-            padding: 5rem 1rem 4rem; 
-            text-align: center;
+            padding: 1.5rem 2rem; 
             position: relative;
             box-shadow: 0 8px 40px var(--shadow-lg);
             overflow: hidden;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+        
+        .header-text {
+            text-align: right;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            margin-left: 120px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            background: rgba(255,255,255,0.25);
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.95rem;
+            width: 200px;
+            outline: none;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .search-box i {
+            color: var(--accent);
+            margin-left: 10px;
         }
 
         header::before {
@@ -96,18 +152,18 @@
 
         header h1 {
             font-family: 'Frank Ruhl Libre', 'Alef', serif; 
-            font-size: 3.8rem;
+            font-size: 1.8rem;
             font-weight: 700;
             margin: 0;
             letter-spacing: 1px;
-            text-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
             animation: titleFadeIn 1s ease-out;
         }
 
         header .subtitle {
             font-family: 'Heebo', sans-serif;
-            font-size: 1.3rem;
-            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
             opacity: 0.95;
             animation: subtitleFadeIn 1.2s ease-out;
             font-weight: 400;
@@ -115,8 +171,7 @@
         }
 
         .header-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
             color: var(--accent);
             animation: titleFadeIn 0.8s ease-out;
         }
@@ -152,6 +207,34 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
 
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow-lg);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px var(--shadow-lg);
+        }
+        
+        .sidebar-toggle-btn i {
+            font-size: 1.3rem;
+        }
+
         .main-layout {
             display: grid;
             grid-template-columns: 380px 1fr;
@@ -159,12 +242,22 @@
             max-width: 1500px;
             margin: 0 auto;
             padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .main-layout.sidebar-hidden {
+            grid-template-columns: 1fr;
         }
 
         .sidebar {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.hidden {
+            display: none;
         }
 
         .sidebar-card {
@@ -849,13 +942,49 @@
             }
             
             header h1 {
-                font-size: 2.8rem;
+                font-size: 1.5rem;
+            }
+            
+            .header-content {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .search-container {
+                margin-left: 60px;
+                margin-right: auto;
+            }
+            
+            .search-box input {
+                width: 150px;
             }
         }
 
         @media (max-width: 600px) {
             header h1 {
-                font-size: 2rem;
+                font-size: 1.2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .header-text {
+                text-align: center;
+            }
+            
+            .search-container {
+                margin: 0 auto;
+            }
+            
+            .search-box input {
+                width: 120px;
+            }
+            
+            .header-icon {
+                font-size: 1.8rem;
             }
 
             .nav-tabs {
@@ -871,6 +1000,13 @@
                 width: 35px;
                 height: 35px;
             }
+            
+            .sidebar-toggle-btn {
+                top: 80px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -884,13 +1020,25 @@
     </button>
     <div class="header-content">
         <i class="fas fa-wheat-awn header-icon"></i>
-        <h1>פורום הצליאק החרדי</h1>
-        <p class="subtitle">בית חם לעזרה הדדית, מתכונים מקצועיים ומידע רפואי מהימן</p>
+        <div class="header-text">
+            <h1>פורום הצליאק החרדי</h1>
+            <p class="subtitle">בית חם לעזרה הדדית, מתכונים מקצועיים ומידע רפואי מהימן</p>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="חיפוש..." oninput="performSearch(this.value)">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
     </div>
 </header>
 
-<div class="main-layout">
-    <aside class="sidebar">
+<button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="הצג/הסתר מידע">
+    <i class="fas fa-info-circle"></i>
+</button>
+
+<div class="main-layout" id="mainLayout">
+    <aside class="sidebar" id="sidebar">
         <!-- Recipes Accordion Card -->
         <div class="sidebar-card">
             <div class="accordion-header active" onclick="toggleAccordion(this)">
@@ -1387,6 +1535,36 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcB4Ur9EiWQCKpdeA3Cdjd_seyapLuQIoHenUcbsqTIArh5yVUrBuKGJADcwT9YPFntg/exec";
     let allPosts = [];
+    let currentSearchTerm = '';
+
+    // Sidebar toggle functionality
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainLayout = document.getElementById('mainLayout');
+        const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
+        
+        sidebar.classList.toggle('hidden');
+        mainLayout.classList.toggle('sidebar-hidden');
+        
+        // Toggle icon between info and arrow
+        if (sidebar.classList.contains('hidden')) {
+            toggleBtn.className = 'fas fa-chevron-right';
+        } else {
+            toggleBtn.className = 'fas fa-info-circle';
+        }
+        
+        // Save preference
+        localStorage.setItem('sidebarHidden', sidebar.classList.contains('hidden'));
+    }
+    
+    // Search functionality
+    function performSearch(searchTerm) {
+        currentSearchTerm = searchTerm.toLowerCase().trim();
+        const activeTab = document.querySelector('.tab-btn.active');
+        const hebrewMatch = activeTab ? activeTab.textContent.trim().replace(/[\s\u200B-\u200D\uFEFF]/g, '').match(/[\u0590-\u05FF]+/) : null;
+        const currentCategory = hebrewMatch ? hebrewMatch[0] : 'הכל';
+        render(currentCategory);
+    }
 
     // Accordion functionality for sidebar cards
     function toggleAccordion(header) {
@@ -1434,14 +1612,24 @@
         const container = document.getElementById('posts-container');
         container.innerHTML = '';
         
-        const filtered = category === 'הכל' ? allPosts : allPosts.filter(p => p.Category === category);
+        let filtered = category === 'הכל' ? allPosts : allPosts.filter(p => p.Category === category);
+        
+        // Apply search filter
+        if (currentSearchTerm) {
+            filtered = filtered.filter(p => {
+                const searchFields = [p.Subject, p.Content, p.Name, p.Category].filter(field => field != null).join(' ').toLowerCase();
+                return searchFields.includes(currentSearchTerm);
+            });
+        }
         
         if (filtered.filter(p => p.ID).length === 0) {
+            const message = currentSearchTerm ? 'לא נמצאו תוצאות לחיפוש' : 'אין הודעות עדיין';
+            const submessage = currentSearchTerm ? 'נסו לחפש מונח אחר' : 'היו הראשונים לפתוח שרשור חדש!';
             container.innerHTML = `
                 <div style="text-align: center; padding: 80px 20px;">
-                    <i class="fas fa-comments" style="font-size: 4rem; color: var(--text-muted); opacity: 0.5;"></i>
-                    <h3 style="margin-top: 25px; color: var(--text-light);">אין הודעות עדיין</h3>
-                    <p style="color: var(--text-muted);">היו הראשונים לפתוח שרשור חדש!</p>
+                    <i class="fas fa-${currentSearchTerm ? 'search' : 'comments'}" style="font-size: 4rem; color: var(--text-muted); opacity: 0.5;"></i>
+                    <h3 style="margin-top: 25px; color: var(--text-light);">${message}</h3>
+                    <p style="color: var(--text-muted);">${submessage}</p>
                 </div>
             `;
             return;
@@ -1552,11 +1740,22 @@
         localStorage.setItem('theme', newTheme);
     }
 
-    // Load saved theme
+    // Load saved theme and sidebar state
     document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             document.body.setAttribute('data-theme', savedTheme);
+        }
+        
+        // Load sidebar state
+        const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
+        if (sidebarHidden) {
+            const sidebar = document.getElementById('sidebar');
+            const mainLayout = document.getElementById('mainLayout');
+            const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
+            sidebar.classList.add('hidden');
+            mainLayout.classList.add('sidebar-hidden');
+            toggleBtn.className = 'fas fa-chevron-right';
         }
     });
 
