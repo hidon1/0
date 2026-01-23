@@ -4,81 +4,568 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי - המהדורה המלאה</title>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&family=Varela+Round&family=Alef:wght@400;700&family=Rubik:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary: #2c3e50; --accent: #d4af37; --bg: #fdfdfd; --card: #ffffff; --text: #333; --info: #e8f4fd;
+            --primary: #2c3e50; 
+            --primary-light: #34495e;
+            --accent: #d4af37; 
+            --accent-light: #f0d98d;
+            --bg: #f8f9fa; 
+            --card: #ffffff; 
+            --text: #333; 
+            --text-light: #666;
+            --info: #e3f2fd;
+            --info-border: #90caf9;
+            --shadow: rgba(0,0,0,0.08);
         }
         [data-theme="dark"] {
-            --primary: #1a1a1a; --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --info: #2c3e50;
+            --primary: #1a1a1a; 
+            --primary-light: #2d2d2d;
+            --bg: #121212; 
+            --card: #1e1e1e; 
+            --text: #e0e0e0; 
+            --text-light: #aaa;
+            --info: #1e3a5f;
+            --info-border: #4a6fa5;
+            --shadow: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body { 
-            font-family: 'Assistant', sans-serif; background: var(--bg); color: var(--text); 
-            margin: 0; transition: all 0.3s ease; padding-bottom: 120px;
+            font-family: 'Rubik', 'Assistant', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            transition: background 0.4s ease, color 0.4s ease; 
+            padding-bottom: 120px;
+            line-height: 1.6;
         }
 
         header { 
-            background: var(--primary); color: white; padding: 3rem 1rem; text-align: center;
-            border-bottom: 5px solid var(--accent); position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; 
+            padding: 4rem 1rem 3rem; 
+            text-align: center;
+            border-bottom: 6px solid var(--accent); 
+            position: relative;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Alef', 'Heebo', sans-serif; 
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: titleFadeIn 1s ease-out;
+        }
+
+        header p {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+            animation: subtitleFadeIn 1.2s ease-out;
         }
 
         .theme-toggle {
-            position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); 
-            border: 1px solid white; color: white; padding: 8px 15px; cursor: pointer; border-radius: 20px;
+            position: absolute; 
+            top: 25px; 
+            left: 25px; 
+            background: rgba(255,255,255,0.15); 
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3); 
+            color: white; 
+            padding: 10px 18px; 
+            cursor: pointer; 
+            border-radius: 25px;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .container { max-width: 1000px; margin: auto; padding: 20px; }
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px var(--shadow);
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .sidebar-card h3 {
+            font-family: 'Alef', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-card .icon {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            padding: 8px 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .info-section {
+            margin: 15px 0;
+        }
+
+        .info-section h4 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin: 15px 0 8px 0;
+            font-weight: 600;
+        }
+
+        .info-section p, .info-section ul {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .info-section ul {
+            margin-right: 20px;
+        }
+
+        .info-section li {
+            margin: 6px 0;
+            position: relative;
+        }
+
+        .info-section li::before {
+            content: "✓";
+            position: absolute;
+            right: -18px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .recipe-item {
+            background: var(--info);
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border-right: 4px solid var(--info-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recipe-item:hover {
+            background: var(--accent-light);
+            border-right-color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .recipe-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .container { 
+            flex: 1;
+        }
 
         .nav-tabs { 
-            display: flex; gap: 12px; overflow-x: auto; padding: 20px 0; 
-            position: sticky; top: 0; background: var(--bg); z-index: 10;
+            display: flex; 
+            gap: 15px; 
+            overflow-x: auto; 
+            padding: 25px 0; 
+            position: sticky; 
+            top: 0; 
+            background: var(--bg); 
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
+        
         .tab-btn { 
-            background: var(--card); border: 2px solid var(--primary); padding: 10px 25px;
-            border-radius: 30px; cursor: pointer; font-weight: bold; color: var(--primary);
-            transition: 0.3s; white-space: nowrap;
+            background: var(--card); 
+            border: 2px solid var(--primary); 
+            padding: 12px 28px;
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--primary);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            white-space: nowrap;
+            font-family: 'Rubik', sans-serif;
+            box-shadow: 0 4px 15px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .tab-btn.active { background: var(--primary); color: white; }
+
+        .tab-btn .emoji {
+            font-size: 1.3rem;
+            background: var(--info);
+            padding: 5px 8px;
+            border-radius: 10px;
+            border: 2px solid var(--info-border);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .tab-btn.active { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)); 
+            color: white; 
+            transform: scale(1.08);
+        }
+
+        .tab-btn.active .emoji {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+        }
 
         .thread-card { 
-            background: var(--card); border-radius: 15px; padding: 25px; margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-right: 8px solid var(--accent);
-            animation: slideUp 0.5s ease-out; cursor: pointer;
+            background: var(--card); 
+            border-radius: 18px; 
+            padding: 28px; 
+            margin-bottom: 25px;
+            box-shadow: 0 10px 35px var(--shadow); 
+            border-right: 6px solid var(--accent);
+            animation: slideUp 0.6s ease-out; 
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .reply-box { margin-top: 15px; padding: 20px; background: rgba(0,0,0,0.03); border-radius: 10px; display: none; }
-        .reply-item { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .thread-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px var(--shadow);
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 15px; width: 95%; max-width: 550px; color: var(--text); }
-
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; background: var(--card); color: var(--text); }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-
-        .fab { position: fixed; bottom: 35px; left: 35px; width: 70px; height: 70px; border-radius: 50%; background: var(--accent); color: white; font-size: 35px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 99; }
+        .reply-box { 
+            margin-top: 20px; 
+            padding: 22px; 
+            background: var(--info); 
+            border-radius: 15px; 
+            display: none;
+            border: 2px solid var(--info-border);
+        }
         
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .reply-item { 
+            padding: 12px 0; 
+            border-bottom: 1px solid var(--info-border);
+        }
+
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.75); 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content { 
+            background: var(--card); 
+            padding: 35px; 
+            border-radius: 20px; 
+            width: 95%; 
+            max-width: 550px; 
+            color: var(--text);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        input, textarea, select { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 12px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            background: var(--card); 
+            color: var(--text);
+            font-family: 'Rubik', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .btn-main { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)); 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: 600;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .fab { 
+            position: fixed; 
+            bottom: 40px; 
+            left: 40px; 
+            width: 75px; 
+            height: 75px; 
+            border-radius: 50%; 
+            background: linear-gradient(135deg, var(--accent), #b8941f); 
+            color: white; 
+            font-size: 40px; 
+            border: none; 
+            cursor: pointer; 
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); 
+            z-index: 99;
+            transition: all 0.3s ease;
+            animation: fabPulse 2s infinite;
+        }
+
+        .fab:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+        }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(40px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        @keyframes slideInRight { 
+            from { opacity: 0; transform: translateX(40px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+
+        @keyframes titleFadeIn { 
+            from { opacity: 0; transform: translateY(-30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        @keyframes subtitleFadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 0.9; } 
+        }
+
+        @keyframes modalPop { 
+            from { opacity: 0; transform: scale(0.8); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        @keyframes fabPulse { 
+            0%, 100% { box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); }
+            50% { box-shadow: 0 10px 40px rgba(212, 175, 55, 0.6); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body data-theme="light">
 
 <header>
     <button class="theme-toggle" onclick="toggleTheme()">☀️/🌙 מצב תצוגה</button>
-    <h1 style="font-family: 'Heebo', sans-serif; margin:0;">פורום הצליאק החרדי</h1>
+    <h1>פורום הצליאק החרדי</h1>
     <p>בית חם לעזרה הדדית ומתכונים</p>
 </header>
 
-<div class="container">
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="changeCategory('הכל', this)">🏠 הכל</button>
-        <button class="tab-btn" onclick="changeCategory('מתכונים', this)">🍰 מתכונים</button>
-        <button class="tab-btn" onclick="changeCategory('כשרות', this)">🎗️ כשרות</button>
-        <button class="tab-btn" onclick="changeCategory('רפואי', this)">💊 רפואי</button>
-    </div>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <h3><span class="icon">🍰</span> מתכוני הבית</h3>
+            <div class="recipe-item">
+                <strong>לחם צליאק ביתי</strong>
+                <p>מתכון פשוט ונהדר ללחם רך ואוורירי ללא גלוטן</p>
+            </div>
+            <div class="recipe-item">
+                <strong>עוגת שוקולד עשירה</strong>
+                <p>עוגה מפנקת ומושלמת לשבת ולאירועים</p>
+            </div>
+            <div class="recipe-item">
+                <strong>פיצה ביתית</strong>
+                <p>בצק מצוין לפיצה איטלקית אמיתית</p>
+            </div>
+            <div class="recipe-item">
+                <strong>עוגיות שקדים</strong>
+                <p>עוגיות פריכות ומתוקות מושלמות לתה</p>
+            </div>
+        </div>
 
-    <div id="posts-container">
-        <div style="text-align: center; padding: 50px;">טוען הודעות...</div>
+        <div class="sidebar-card">
+            <h3><span class="icon">💊</span> מידע על צליאק</h3>
+            
+            <div class="info-section">
+                <h4>מה זה צליאק?</h4>
+                <p>צליאק הוא מחלה אוטואימונית בה מערכת החיסון תוקפת את דופן המעי הדק בתגובה לחשיפה לגלוטן. המחלה גורמת לנזק לקוויליים (הבלטות הקטנות במעי) ופוגעת ביכולת ספיגת חומרי הזנה.</p>
+            </div>
+
+            <div class="info-section">
+                <h4>תסמינים עיקריים</h4>
+                <ul>
+                    <li>כאבי בטן וניפוח</li>
+                    <li>שלשולים כרוניים</li>
+                    <li>עייפות ותשישות</li>
+                    <li>אנמיה מחוסר ברזל</li>
+                    <li>ירידה במשקל</li>
+                    <li>פריחות בעור</li>
+                    <li>כאבי ראש מיגרנה</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4>אבחון המחלה</h4>
+                <p>האבחון מתבצע באמצעות בדיקת דם לנוגדנים ספציפיים (Anti-TTG, Anti-EMA) ובדיקת ביופסיה מהמעי הדק. חשוב להמשיך לצרוך גלוטן לפני הבדיקות לקבלת תוצאה מדויקת.</p>
+            </div>
+
+            <div class="info-section">
+                <h4>טיפול ודיאטה</h4>
+                <p>הטיפול היחיד והיעיל הוא דיאטה קפדנית ללא גלוטן לכל החיים. יש להימנע מחיטה, שעורה, שיפון וכל מוצר המכיל אותם.</p>
+            </div>
+
+            <div class="info-section">
+                <h4>מוצרים מותרים</h4>
+                <ul>
+                    <li>אורז וכל מוצריו</li>
+                    <li>תירס וקמח תירס</li>
+                    <li>קינואה ודוחן</li>
+                    <li>תפוחי אדמה</li>
+                    <li>כל הפירות והירקות</li>
+                    <li>בשר, דגים וביצים טבעיים</li>
+                    <li>קטניות - אפונה, עדשים, שעועית</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4>מוצרים אסורים</h4>
+                <ul>
+                    <li>חיטה וכל מוצריה</li>
+                    <li>שעורה ושיפון</li>
+                    <li>כוסמת (ספלט)</li>
+                    <li>סולת ובורגול</li>
+                    <li>דגני בוקר רגילים</li>
+                    <li>פיתה, לחם, חלה רגילים</li>
+                    <li>עוגות ועוגיות רגילות</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4>טיפים לחיים עם צליאק</h4>
+                <ul>
+                    <li>קראו תמיד תוויות מוצרים</li>
+                    <li>היזהרו מזיהום צולב במטבח</li>
+                    <li>השתמשו בכלים נפרדים</li>
+                    <li>בדקו הכשרים של מוצרים</li>
+                    <li>הקפידו על תוספי ויטמינים</li>
+                    <li>התייעצו עם תזונאית מומחית</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4>סיבוכים אפשריים</h4>
+                <p>אי טיפול במחלה עלול להוביל לאוסטיאופורוזיס, בעיות פוריות, מחלות אוטואימוניות נוספות, ובמקרים נדירים - לימפומה של המעי.</p>
+            </div>
+
+            <div class="info-section">
+                <h4>חיים תקינים</h4>
+                <p>עם דיאטה קפדנית ללא גלוטן, רוב החולים חווים שיפור משמעותי בתוך שבועות עד חודשים, והמעי מתאושש במלואו. ניתן לחיות חיים תקינים ומלאים עם צליאק!</p>
+            </div>
+        </div>
+    </aside>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="changeCategory('הכל', this)">
+                <span class="emoji">🏠</span> הכל
+            </button>
+            <button class="tab-btn" onclick="changeCategory('מתכונים', this)">
+                <span class="emoji">🍰</span> מתכונים
+            </button>
+            <button class="tab-btn" onclick="changeCategory('כשרות', this)">
+                <span class="emoji">🎗️</span> כשרות
+            </button>
+            <button class="tab-btn" onclick="changeCategory('רפואי', this)">
+                <span class="emoji">💊</span> רפואי
+            </button>
+        </div>
+
+        <div id="posts-container">
+            <div style="text-align: center; padding: 50px;">טוען הודעות...</div>
+        </div>
     </div>
 </div>
 
