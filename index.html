@@ -212,6 +212,75 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
 
+        .login-btn {
+            position: absolute; 
+            top: 25px; 
+            left: 180px; 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.2); 
+            color: white; 
+            padding: 12px 22px; 
+            cursor: pointer; 
+            border-radius: 30px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .login-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .user-display {
+            position: absolute; 
+            top: 25px; 
+            left: 180px; 
+            background: rgba(255,255,255,0.15); 
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--accent); 
+            color: white; 
+            padding: 12px 22px; 
+            border-radius: 30px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .user-display .user-name {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: rgba(231, 76, 60, 0.8);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 1);
+        }
+
         .sidebar-toggle-btn {
             position: fixed;
             top: 100px;
@@ -755,6 +824,9 @@
             color: var(--text-light);
             line-height: 1.7;
             font-size: 0.95rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .reply-box { 
@@ -786,6 +858,18 @@
 
         .reply-to-reply-box.open {
             display: block;
+        }
+
+        .reply-item p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .nested-reply p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .nested-reply {
@@ -1109,6 +1193,22 @@
                 width: 40px;
                 height: 40px;
             }
+            
+            .login-btn, .user-display {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 10px auto;
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+            
+            .theme-toggle {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 10px auto;
+            }
         }
     </style>
 </head>
@@ -1120,6 +1220,15 @@
         <i class="fas fa-moon"></i>
         מצב תצוגה
     </button>
+    <button class="login-btn" id="loginBtn" onclick="showLoginModal()">
+        <i class="fas fa-sign-in-alt"></i>
+        התחברות
+    </button>
+    <div class="user-display" id="userDisplay" style="display: none;">
+        <i class="fas fa-user-circle"></i>
+        <span>שלום, <span class="user-name" id="displayUserName"></span></span>
+        <button class="logout-btn" onclick="logout()">התנתק</button>
+    </div>
     <div class="header-content">
         <i class="fas fa-wheat-awn header-icon"></i>
         <div class="header-text">
@@ -1548,19 +1657,40 @@
                         <div class="info-header" onclick="toggleInfo(this)">
                             <div class="info-left">
                                 <div class="info-icon">
-                                    <i class="fas fa-hospital"></i>
+                                    <i class="fas fa-globe"></i>
                                 </div>
-                                <h4>מרפאות ובתי חולים</h4>
+                                <h4>אתרים מומלצים</h4>
                             </div>
                             <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
                         <div class="info-content">
                             <div class="info-inner">
                                 <ul>
-                                    <li>מרפאת צליאק בילינסון - טל: 03-9377222</li>
-                                    <li>מכון גסטרו שיבא - טל: 03-5302234</li>
-                                    <li>מרפאת צליאק הדסה - טל: 02-6776543</li>
-                                    <li>רמב"ם מחלקת גסטרו - טל: 04-7772444</li>
+                                    <li><a href="https://www.celiac.org.il" target="_blank" style="color: var(--primary); text-decoration: none;">עמותת צליאק ישראל</a> - האתר הרשמי של העמותה</li>
+                                    <li><a href="https://www.health.gov.il" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
+                                    <li><a href="https://www.clalit.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כללית שירותי בריאות</a> - מאמרים על צליאק ותזונה</li>
+                                    <li><a href="https://www.maccabi4u.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">מכבי שירותי בריאות</a> - מידע לחולי צליאק</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h4>חנויות ורשתות מזון</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li><a href="https://www.shufersal.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">שופרסל</a> - מוצרים ללא גלוטן במגוון סניפים</li>
+                                    <li><a href="https://www.rami-levy.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">רמי לוי</a> - מגוון מוצרים ללא גלוטן</li>
+                                    <li><a href="https://www.tivall.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">תיבל</a> - מוצרי מזון צמחוניים וללא גלוטן</li>
                                 </ul>
                             </div>
                         </div>
@@ -1572,16 +1702,38 @@
                                 <div class="info-icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <h4>עמותות ותמיכה</h4>
+                                <h4>קהילות ותמיכה</h4>
                             </div>
                             <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
                         <div class="info-content">
                             <div class="info-inner">
                                 <ul>
-                                    <li>עמותת צליאק ישראל - www.celiac.org.il</li>
-                                    <li>קבוצות תמיכה בפייסבוק לחולי צליאק</li>
-                                    <li>פורומים וקהילות תמיכה מקוונות</li>
+                                    <li><a href="https://www.facebook.com/groups/celiacisrael" target="_blank" style="color: var(--primary); text-decoration: none;">קבוצת צליאק ישראל בפייסבוק</a></li>
+                                    <li><a href="https://www.camoni.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כמוני</a> - קהילה לאנשים עם מגבלות תזונה</li>
+                                    <li>עמותת צליאק ישראל - קו חם: 03-5254253</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-hospital"></i>
+                                </div>
+                                <h4>מרפאות ובתי חולים</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li>בי"ח שיבא - מרכז גסטרו ילדים - טל: 03-5302234</li>
+                                    <li>בי"ח רמב"ם - מחלקת גסטרו - טל: 04-7772444</li>
+                                    <li>מרכז רפואי הדסה - טל: 02-6776543</li>
+                                    <li>בי"ח בילינסון - מכון גסטרו - טל: 03-9377222</li>
                                 </ul>
                             </div>
                         </div>
@@ -1659,6 +1811,33 @@
     </div>
 </div>
 
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2><i class="fas fa-sign-in-alt"></i> התחברות</h2>
+        <div id="loginTabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button class="tab-btn active" id="loginTabBtn" onclick="switchLoginTab('login')" style="flex: 1;">
+                <span class="tab-icon"><i class="fas fa-sign-in-alt"></i></span> התחברות
+            </button>
+            <button class="tab-btn" id="registerTabBtn" onclick="switchLoginTab('register')" style="flex: 1;">
+                <span class="tab-icon"><i class="fas fa-user-plus"></i></span> הרשמה
+            </button>
+        </div>
+        <div id="loginForm">
+            <input type="email" id="loginEmail" placeholder="כתובת מייל">
+            <input type="password" id="loginPassword" placeholder="סיסמה">
+            <button class="btn-main" onclick="performLogin()"><i class="fas fa-sign-in-alt"></i> התחבר</button>
+        </div>
+        <div id="registerForm" style="display: none;">
+            <input type="text" id="registerName" placeholder="שם מלא">
+            <input type="email" id="registerEmail" placeholder="כתובת מייל">
+            <input type="password" id="registerPassword" placeholder="סיסמה">
+            <input type="password" id="registerPasswordConfirm" placeholder="אימות סיסמה">
+            <button class="btn-main" onclick="performRegister()"><i class="fas fa-user-plus"></i> הירשם</button>
+        </div>
+        <button class="btn-main btn-secondary" onclick="document.getElementById('loginModal').style.display='none'"><i class="fas fa-times"></i> סגור</button>
+    </div>
+</div>
+
 <div id="toastContainer"></div>
 
 <script>
@@ -1666,6 +1845,153 @@
     let allPosts = [];
     let currentSearchTerm = '';
     let nameModalCallback = null;
+    let currentUser = null;
+
+    // User authentication functions
+    function getLoggedInUser() {
+        const userData = localStorage.getItem('loggedInUser');
+        if (userData) {
+            return JSON.parse(userData);
+        }
+        return null;
+    }
+
+    function setLoggedInUser(user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        currentUser = user;
+        updateUserDisplay();
+    }
+
+    function updateUserDisplay() {
+        const loginBtn = document.getElementById('loginBtn');
+        const userDisplay = document.getElementById('userDisplay');
+        const displayUserName = document.getElementById('displayUserName');
+        
+        if (currentUser) {
+            loginBtn.style.display = 'none';
+            userDisplay.style.display = 'flex';
+            displayUserName.textContent = currentUser.name;
+        } else {
+            loginBtn.style.display = 'flex';
+            userDisplay.style.display = 'none';
+        }
+    }
+
+    function showLoginModal() {
+        document.getElementById('loginModal').style.display = 'flex';
+        switchLoginTab('login');
+    }
+
+    function switchLoginTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        
+        if (tab === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            loginTabBtn.classList.remove('active');
+            registerTabBtn.classList.add('active');
+        }
+    }
+
+    async function performLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email || !password) {
+            showToast('נא למלא את כל השדות');
+            return;
+        }
+        
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'login',
+                    email: email,
+                    password: password
+                })
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                setLoggedInUser({ name: result.name, email: email });
+                document.getElementById('loginModal').style.display = 'none';
+                showToast('התחברת בהצלחה!');
+                // Clear form
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                showToast(result.message || 'מייל או סיסמה שגויים');
+            }
+        } catch (error) {
+            showToast('שגיאה בהתחברות, נסה שנית');
+        }
+    }
+
+    async function performRegister() {
+        const name = document.getElementById('registerName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+        
+        if (!name || !email || !password || !passwordConfirm) {
+            showToast('נא למלא את כל השדות');
+            return;
+        }
+        
+        if (password !== passwordConfirm) {
+            showToast('הסיסמאות לא תואמות');
+            return;
+        }
+        
+        if (password.length < 4) {
+            showToast('הסיסמה חייבת להכיל לפחות 4 תווים');
+            return;
+        }
+        
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'register',
+                    name: name,
+                    email: email,
+                    password: password
+                })
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                setLoggedInUser({ name: name, email: email });
+                document.getElementById('loginModal').style.display = 'none';
+                showToast('נרשמת בהצלחה!');
+                // Clear form
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerPasswordConfirm').value = '';
+            } else {
+                showToast(result.message || 'שגיאה בהרשמה');
+            }
+        } catch (error) {
+            showToast('שגיאה בהרשמה, נסה שנית');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('loggedInUser');
+        currentUser = null;
+        updateUserDisplay();
+        showToast('התנתקת בהצלחה');
+    }
 
     // Show success toast notification
     function showToast(message) {
@@ -1683,6 +2009,11 @@
 
     // Styled name modal instead of prompt
     function showNameModal() {
+        // If user is logged in, return their name directly
+        if (currentUser) {
+            return Promise.resolve(currentUser.name);
+        }
+        
         return new Promise((resolve) => {
             const modal = document.getElementById('nameModal');
             const input = document.getElementById('replyNameInput');
@@ -1953,13 +2284,24 @@
     }
 
     async function sendPost() {
+        // Use logged-in user's name if available, otherwise use the input field
+        const nameFromInput = document.getElementById('name').value;
+        const userName = currentUser ? currentUser.name : nameFromInput;
+        
         const payload = {
-            name: document.getElementById('name').value,
+            name: userName,
             category: document.getElementById('category').value,
             subject: document.getElementById('subject').value,
-            content: document.getElementById('content').value
+            content: document.getElementById('content').value,
+            userEmail: currentUser ? currentUser.email : null
         };
-        if (!payload.name || !payload.subject || !payload.content) return;
+        if (!payload.name || !payload.subject || !payload.content) {
+            if (!payload.name) {
+                showToast('נא להזין שם או להתחבר');
+                return;
+            }
+            return;
+        }
         addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         document.getElementById('postModal').style.display = 'none';
@@ -1973,7 +2315,7 @@
         const name = await showNameModal();
         if(!name) return;
         addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId, userEmail: currentUser ? currentUser.email : null }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
@@ -2007,7 +2349,7 @@
         if (!name) return;
         const fullContent = `@${replyToName}: ${content}`;
         addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content: fullContent, parentId }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content: fullContent, parentId, userEmail: currentUser ? currentUser.email : null }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
@@ -2063,6 +2405,20 @@
             sidebar.classList.add('hidden');
             mainLayout.classList.add('sidebar-hidden');
             toggleBtn.className = 'fas fa-info-circle';
+        }
+        
+        // Load logged in user
+        currentUser = getLoggedInUser();
+        updateUserDisplay();
+        
+        // Pre-fill name field if logged in
+        if (currentUser) {
+            const nameField = document.getElementById('name');
+            if (nameField) {
+                nameField.value = currentUser.name;
+                nameField.disabled = true;
+                nameField.style.opacity = '0.7';
+            }
         }
     });
 
