@@ -413,6 +413,14 @@
             50% { box-shadow: 0 10px 40px rgba(212, 175, 55, 0.6); }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
         @media (max-width: 968px) {
             .main-layout {
                 grid-template-columns: 1fr;
@@ -432,7 +440,7 @@
 
 <header>
     <button class="theme-toggle" onclick="toggleTheme()">☀️/🌙 מצב תצוגה</button>
-    <h1>פורום צליאק חרדי</h1>
+    <h1>פורום הצליאק החרדי</h1>
     <p>בית חם לעזרה הדדית ומתכונים</p>
 </header>
 
