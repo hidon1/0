@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי - המהדורה המלאה</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231a365d'/%3E%3Cpath d='M50 20 L55 45 L80 50 L55 55 L50 80 L45 55 L20 50 L45 45 Z' fill='%23c9a227'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234db8d9'/%3E%3Cpath d='M50 20 L55 45 L80 50 L55 55 L50 80 L45 55 L20 50 L45 45 Z' fill='%23c9a227'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@400;500;700;800&family=Varela+Round&family=Alef:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { 
-            --primary: #1a365d; 
-            --primary-light: #2d4a7c;
-            --primary-dark: #0f2744;
+            --primary: #4db8d9; 
+            --primary-light: #7dd3e8;
+            --primary-dark: #2d8aa8;
             --accent: #e6c453; 
             --accent-light: #f0de9a;
             --accent-dark: #d4b33a;
@@ -29,9 +29,9 @@
             --shadow-lg: rgba(0,0,0,0.15);
         }
         [data-theme="dark"] {
-            --primary: #1e3a5f; 
-            --primary-light: #2d5a8a;
-            --primary-dark: #0f2744;
+            --primary: #3a9cb8; 
+            --primary-light: #5dbdd6;
+            --primary-dark: #2a7a94;
             --bg: #0f1419; 
             --card: #1a202c; 
             --text: #e2e8f0; 
@@ -92,16 +92,16 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(26, 54, 93, 0.8);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 8px 18px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             transition: all 0.3s ease;
         }
         
         .search-box:focus-within {
-            background: rgba(26, 54, 93, 0.95);
+            background: rgba(255, 255, 255, 0.3);
             border-color: var(--accent);
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
@@ -115,6 +115,7 @@
             width: 200px;
             outline: none;
             caret-color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         .search-box input::placeholder {
@@ -198,6 +199,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            z-index: 10;
         }
 
         .theme-toggle i {
@@ -656,26 +658,26 @@
         .tab-btn { 
             background: var(--card); 
             border: 2px solid rgba(0,0,0,0.1); 
-            padding: 14px 32px;
-            border-radius: 16px; 
+            padding: 10px 20px;
+            border-radius: 12px; 
             cursor: pointer; 
             font-weight: 600; 
             color: var(--text);
             transition: all 0.3s ease; 
             white-space: nowrap;
             font-family: 'Heebo', sans-serif;
-            box-shadow: 0 6px 20px var(--shadow);
+            box-shadow: 0 4px 15px var(--shadow);
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1rem;
+            gap: 8px;
+            font-size: 0.9rem;
         }
 
         .tab-btn .tab-icon {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             background: linear-gradient(135deg, var(--info), var(--info-border));
-            border-radius: 12px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -683,7 +685,7 @@
         }
 
         .tab-btn .tab-icon i {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: var(--primary);
         }
         
@@ -710,11 +712,11 @@
 
         .thread-card { 
             background: var(--card); 
-            border-radius: 20px; 
-            padding: 30px; 
-            margin-bottom: 25px;
-            box-shadow: 0 12px 40px var(--shadow); 
-            border-right: 6px solid var(--accent);
+            border-radius: 16px; 
+            padding: 20px; 
+            margin-bottom: 18px;
+            box-shadow: 0 8px 30px var(--shadow); 
+            border-right: 4px solid var(--accent);
             animation: slideUp 0.6s ease-out; 
             cursor: pointer;
             transition: all 0.3s ease;
@@ -722,16 +724,16 @@
         }
 
         .thread-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px var(--shadow-lg);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--shadow-lg);
         }
 
         .thread-card small {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .thread-card small i {
@@ -740,15 +742,16 @@
 
         .thread-card h3 {
             font-family: 'Heebo', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            margin: 15px 0;
+            margin: 10px 0;
             color: var(--text);
         }
 
         .thread-card p {
             color: var(--text-light);
-            line-height: 1.8;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
 
         .reply-box { 
@@ -767,6 +770,44 @@
 
         .reply-item:last-of-type {
             border-bottom: none;
+        }
+
+        .reply-to-reply-box {
+            margin-top: 10px;
+            margin-right: 28px;
+            padding: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .reply-to-reply-box.open {
+            display: block;
+        }
+
+        .nested-reply {
+            margin-right: 30px;
+            padding: 12px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 10px;
+            margin-top: 10px;
+            border-right: 3px solid var(--accent);
+        }
+
+        .reply-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        .reply-btn:hover {
+            background: var(--info);
         }
 
         .modal { 
@@ -1506,6 +1547,18 @@
             <button class="tab-btn" onclick="changeCategory('רפואי', this)">
                 <span class="tab-icon"><i class="fas fa-heartbeat"></i></span> רפואי
             </button>
+            <button class="tab-btn" onclick="changeCategory('מסעדות', this)">
+                <span class="tab-icon"><i class="fas fa-store"></i></span> מסעדות
+            </button>
+            <button class="tab-btn" onclick="changeCategory('תזונה', this)">
+                <span class="tab-icon"><i class="fas fa-apple-whole"></i></span> תזונה
+            </button>
+            <button class="tab-btn" onclick="changeCategory('צרכנות', this)">
+                <span class="tab-icon"><i class="fas fa-shopping-cart"></i></span> צרכנות
+            </button>
+            <button class="tab-btn" onclick="changeCategory('כללי', this)">
+                <span class="tab-icon"><i class="fas fa-comments"></i></span> שאלות כלליות
+            </button>
         </div>
 
         <div id="posts-container">
@@ -1527,6 +1580,10 @@
             <option value="מתכונים">מתכונים</option>
             <option value="כשרות">כשרות ומסעדות</option>
             <option value="רפואי">שאלות רפואיות</option>
+            <option value="מסעדות">מסעדות</option>
+            <option value="תזונה">תזונה</option>
+            <option value="צרכנות">צרכנות</option>
+            <option value="כללי">שאלות כלליות</option>
         </select>
         <input type="text" id="subject" placeholder="נושא ההודעה">
         <textarea id="content" rows="5" placeholder="תוכן ההודעה..."></textarea>
@@ -1670,13 +1727,26 @@
                             <i class="fas fa-comments" style="color: var(--accent);"></i>
                             תגובות (${replies.length}):
                         </h4>
-                        ${replies.length > 0 ? replies.map(r => `
-                            <div class="reply-item">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                    <i class="fas fa-user" style="color: var(--accent);"></i>
-                                    <strong>${r.Name}</strong>
+                        ${replies.length > 0 ? replies.map((r, idx) => `
+                            <div class="reply-item" id="reply-${r.ID || idx}">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-user" style="color: var(--accent);"></i>
+                                        <strong>${r.Name}</strong>
+                                    </div>
+                                    <button class="reply-btn" onclick="event.stopPropagation(); toggleReplyToReply('${t.ID}-${idx}')">
+                                        <i class="fas fa-reply"></i> הגב
+                                    </button>
                                 </div>
                                 <p style="margin-right: 28px;">${r.Content}</p>
+                                <div id="reply-box-${t.ID}-${idx}" class="reply-to-reply-box">
+                                    <div style="display: flex; gap: 8px;">
+                                        <input type="text" id="nested-rep-in-${t.ID}-${idx}" placeholder="הגב לתגובה..." style="flex: 1; padding: 10px 14px; font-size: 0.9rem;">
+                                        <button class="tab-btn active" style="padding: 10px 18px; font-size: 0.85rem;" onclick="event.stopPropagation(); sendNestedReply('${t.ID}', '${r.Name}', ${idx})">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         `).join('') : '<p style="color: var(--text-muted); text-align: center;">אין תגובות עדיין. היו הראשונים להגיב!</p>'}
                         <div style="margin-top: 20px; display: flex; gap: 10px;">
@@ -1696,7 +1766,10 @@
             'מתכונים': 'fas fa-utensils',
             'כשרות': 'fas fa-certificate',
             'רפואי': 'fas fa-heartbeat',
-            'כללי': 'fas fa-comments'
+            'כללי': 'fas fa-comments',
+            'מסעדות': 'fas fa-store',
+            'תזונה': 'fas fa-apple-whole',
+            'צרכנות': 'fas fa-shopping-cart'
         };
         return icons[category] || 'fas fa-folder';
     }
@@ -1728,6 +1801,23 @@
     function toggleReplies(id) {
         const el = document.getElementById(`box-${id}`);
         el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleReplyToReply(replyId) {
+        const el = document.getElementById(`reply-box-${replyId}`);
+        if (el) {
+            el.classList.toggle('open');
+        }
+    }
+
+    async function sendNestedReply(parentId, replyToName, idx) {
+        const content = document.getElementById(`nested-rep-in-${parentId}-${idx}`).value;
+        if (!content) return;
+        const name = prompt("השם שלך לתגובה:");
+        if (!name) return;
+        const fullContent = `@${replyToName}: ${content}`;
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content: fullContent, parentId }) });
+        location.reload();
     }
 
     function changeCategory(cat, btn) {
