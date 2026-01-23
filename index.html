@@ -15,7 +15,7 @@
             --accent: #e6c453; 
             --accent-light: #f0de9a;
             --accent-dark: #d4b33a;
-            --title-color: #1a5276;
+            --title-color: #87CEEB;
             --bg: #f5f7fa; 
             --card: #ffffff; 
             --text: #2d3748; 
@@ -109,13 +109,13 @@
         .search-box input {
             background: transparent;
             border: none;
-            color: #000000;
+            color: white;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
             width: 200px;
             outline: none;
-            caret-color: #000000;
-            text-shadow: none;
+            caret-color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         .search-box input::placeholder {
@@ -242,27 +242,33 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 380px 1fr;
+            grid-template-columns: 1fr;
             gap: 40px;
             max-width: 1500px;
             margin: 0 auto;
             padding: 40px 30px;
             transition: all 0.3s ease;
         }
-        
-        .main-layout.sidebar-hidden {
-            grid-template-columns: 1fr;
-        }
 
         .sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: 380px;
+            background: var(--bg);
+            z-index: 100;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            box-shadow: -10px 0 40px var(--shadow-lg);
             display: flex;
             flex-direction: column;
             gap: 20px;
-            transition: all 0.3s ease;
         }
         
-        .sidebar.hidden {
-            display: none;
+        .sidebar.open {
+            transform: translateX(0);
         }
 
         .sidebar-card {
@@ -721,9 +727,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(0,0,0,0.05);
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .thread-card:hover {
@@ -910,61 +913,6 @@
             background: var(--text-light);
         }
 
-        /* Success Toast Notification */
-        .toast-notification {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            background: linear-gradient(135deg, var(--success), #2d9b5c);
-            color: white;
-            padding: 18px 28px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(72, 187, 120, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 2000;
-            animation: toastSlideIn 0.4s ease-out;
-            font-family: 'Heebo', sans-serif;
-            font-weight: 500;
-        }
-
-        .toast-notification i {
-            font-size: 1.3rem;
-        }
-
-        .toast-notification.hide {
-            animation: toastSlideOut 0.4s ease-in forwards;
-        }
-
-        @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes toastSlideOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(100px); }
-        }
-
-        /* Delete Button */
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 0.85rem;
-            padding: 5px 10px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-family: 'Heebo', sans-serif;
-            margin-right: 8px;
-        }
-
-        .delete-btn:hover {
-            background: rgba(231, 76, 60, 0.1);
-        }
-
         .fab { 
             position: fixed; 
             bottom: 40px; 
@@ -1101,13 +1049,6 @@
             .tab-btn .tab-icon {
                 width: 35px;
                 height: 35px;
-            }
-            
-            .sidebar-toggle-btn {
-                top: 80px;
-                right: 10px;
-                width: 40px;
-                height: 40px;
             }
         }
     </style>
@@ -1313,7 +1254,7 @@
                                 <h5><i class="fas fa-list"></i> מרכיבים</h5>
                                 <ul>
                                     <li>2 כוסות קמח שקדים טחון דק</li>
-                                    <li>1/2 כוס סוכר דק</li>
+                                    <li>1/2 כוס סו��ר דק</li>
                                     <li>1/4 כפית מלח</li>
                                     <li>1/2 כפית תמצית שקדים (או וניל)</li>
                                     <li>1 ביצה גדולה</li>
@@ -1366,7 +1307,7 @@
                         <div class="info-content">
                             <div class="info-inner">
                                 <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
-                                <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
+                                <p>כאשר אנשים עם צליאק צור��ים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
                                 <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
                             </div>
                         </div>
@@ -1392,7 +1333,7 @@
                                     <li>בחילות והקאות</li>
                                     <li>גזים וצרבת</li>
                                 </ul>
-                                <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
+                                <p><strong>תסמינים מחוץ ל��ערכת העיכול:</strong></p>
                                 <ul>
                                     <li>עייפות ותשישות מתמשכת</li>
                                     <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
@@ -1474,7 +1415,7 @@
                                 <div class="info-icon">
                                     <i class="fas fa-lightbulb"></i>
                                 </div>
-                                <h4>טיפים לחיים עם צליאק</h4>
+                                <h4>טיפים לחיים ע�� צליאק</h4>
                             </div>
                             <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
@@ -1558,7 +1499,7 @@
                             <div class="info-inner">
                                 <ul>
                                     <li>מרפאת צליאק בילינסון - טל: 03-9377222</li>
-                                    <li>מכון גסטרו שיבא - טל: 03-5302234</li>
+                                    <li>מכון ג��טרו שיבא - טל: 03-5302234</li>
                                     <li>מרפאת צליאק הדסה - טל: 02-6776543</li>
                                     <li>רמב"ם מחלקת גסטרו - טל: 04-7772444</li>
                                 </ul>
@@ -1650,150 +1591,22 @@
     </div>
 </div>
 
-<div id="nameModal" class="modal">
-    <div class="modal-content">
-        <h2><i class="fas fa-user-edit"></i> השם שיפורסם בתגובה</h2>
-        <input type="text" id="replyNameInput" placeholder="הכנס את שמך כאן...">
-        <button class="btn-main" id="nameModalConfirm"><i class="fas fa-check"></i> אישור</button>
-        <button class="btn-main btn-secondary" onclick="closeNameModal()"><i class="fas fa-times"></i> ביטול</button>
-    </div>
-</div>
-
-<div id="toastContainer"></div>
-
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcB4Ur9EiWQCKpdeA3Cdjd_seyapLuQIoHenUcbsqTIArh5yVUrBuKGJADcwT9YPFntg/exec";
     let allPosts = [];
     let currentSearchTerm = '';
-    let nameModalCallback = null;
-
-    // Show success toast notification
-    function showToast(message) {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = 'toast-notification';
-        toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-        container.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.classList.add('hide');
-            setTimeout(() => toast.remove(), 400);
-        }, 3000);
-    }
-
-    // Styled name modal instead of prompt
-    function showNameModal() {
-        return new Promise((resolve) => {
-            const modal = document.getElementById('nameModal');
-            const input = document.getElementById('replyNameInput');
-            const confirmBtn = document.getElementById('nameModalConfirm');
-            
-            input.value = '';
-            modal.style.display = 'flex';
-            input.focus();
-            
-            const handleConfirm = () => {
-                const name = input.value.trim();
-                modal.style.display = 'none';
-                confirmBtn.removeEventListener('click', handleConfirm);
-                input.removeEventListener('keypress', handleKeypress);
-                resolve(name || null);
-            };
-            
-            const handleKeypress = (e) => {
-                if (e.key === 'Enter') {
-                    handleConfirm();
-                }
-            };
-            
-            confirmBtn.addEventListener('click', handleConfirm);
-            input.addEventListener('keypress', handleKeypress);
-        });
-    }
-
-    function closeNameModal() {
-        document.getElementById('nameModal').style.display = 'none';
-        document.getElementById('replyNameInput').value = '';
-    }
-
-    // Track likes in localStorage
-    function hasLiked(postId) {
-        const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
-        return likedPosts.includes(postId);
-    }
-
-    function markAsLiked(postId) {
-        const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
-        if (!likedPosts.includes(postId)) {
-            likedPosts.push(postId);
-            localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
-        }
-    }
-
-    // Track authored posts for delete functionality
-    function markAsAuthored(postId) {
-        const authoredPosts = JSON.parse(localStorage.getItem('authoredPosts') || '[]');
-        if (!authoredPosts.includes(postId)) {
-            authoredPosts.push(postId);
-            localStorage.setItem('authoredPosts', JSON.stringify(authoredPosts));
-        }
-    }
-
-    function isAuthored(postId) {
-        const authoredPosts = JSON.parse(localStorage.getItem('authoredPosts') || '[]');
-        return authoredPosts.includes(postId);
-    }
-
-    // Track pending posts to mark as authored after reload
-    function addPendingAuthored(signature) {
-        const pending = JSON.parse(localStorage.getItem('pendingAuthored') || '[]');
-        pending.push(signature);
-        localStorage.setItem('pendingAuthored', JSON.stringify(pending));
-    }
-
-    function processPendingAuthored(posts) {
-        const pending = JSON.parse(localStorage.getItem('pendingAuthored') || '[]');
-        if (pending.length === 0) return;
-        
-        pending.forEach(sig => {
-            const match = posts.find(p => 
-                p.Name === sig.name && 
-                p.Content === sig.content &&
-                Math.abs(new Date(p.Timestamp) - new Date(sig.timestamp)) < 60000 // within 1 minute
-            );
-            if (match && match.ID) {
-                markAsAuthored(match.ID);
-            }
-        });
-        
-        localStorage.setItem('pendingAuthored', JSON.stringify([]));
-    }
 
     // Sidebar toggle functionality
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
-        const mainLayout = document.getElementById('mainLayout');
-        const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
-        
-        sidebar.classList.toggle('hidden');
-        mainLayout.classList.toggle('sidebar-hidden');
-        
-        // Toggle icon between info and arrow
-        if (sidebar.classList.contains('hidden')) {
-            toggleBtn.className = 'fas fa-info-circle';
-        } else {
-            toggleBtn.className = 'fas fa-chevron-right';
-        }
-        
-        // Save preference
-        localStorage.setItem('sidebarHidden', sidebar.classList.contains('hidden'));
+        sidebar.classList.toggle('open');
     }
-    
+
     // Search functionality
     function performSearch(searchTerm) {
         currentSearchTerm = searchTerm.toLowerCase().trim();
         const activeTab = document.querySelector('.tab-btn.active');
-        const hebrewMatch = activeTab ? activeTab.textContent.trim().replace(/[\s\u200B-\u200D\uFEFF]/g, '').match(/[\u0590-\u05FF]+/) : null;
+        const hebrewMatch = activeTab ? activeTab.textContent.trim().match(/[\u0590-\u05FF]+/) : null;
         const currentCategory = hebrewMatch ? hebrewMatch[0] : 'הכל';
         render(currentCategory);
     }
@@ -1829,7 +1642,6 @@
         try {
             const res = await fetch(SCRIPT_URL);
             allPosts = await res.json();
-            processPendingAuthored(allPosts);
             render('הכל');
         } catch(e) { 
             document.getElementById('posts-container').innerHTML = `
@@ -1871,7 +1683,6 @@
         filtered.filter(p => p.ID).forEach(t => {
             const replies = allPosts.filter(r => r.ParentID === t.ID);
             const categoryIcon = getCategoryIcon(t.Category);
-            const canDeletePost = isAuthored(t.ID);
             container.innerHTML += `
                 <div class="thread-card" onclick="toggleReplies('${t.ID}')">
                     <small>
@@ -1885,7 +1696,6 @@
                         <span style="display: flex; align-items: center; gap: 8px;">
                             <i class="fas fa-user-circle" style="color: var(--accent);"></i>
                             מאת: <strong>${t.Name}</strong>
-                            ${canDeletePost ? `<button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                         </span>
                         <div style="display: flex; gap: 10px;">
                             <button class="tab-btn" style="padding: 8px 18px; font-size: 0.9rem;" onclick="event.stopPropagation(); addLike('${t.ID}')">
@@ -1902,15 +1712,12 @@
                             <i class="fas fa-comments" style="color: var(--accent);"></i>
                             תגובות (${replies.length}):
                         </h4>
-                        ${replies.length > 0 ? replies.map((r, idx) => {
-                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`);
-                            return `
+                        ${replies.length > 0 ? replies.map((r, idx) => `
                             <div class="reply-item" id="reply-${r.ID || idx}">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <i class="fas fa-user" style="color: var(--accent);"></i>
                                         <strong>${r.Name}</strong>
-                                        ${canDeleteReply ? `<button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                                     </div>
                                     <button class="reply-btn" onclick="event.stopPropagation(); toggleReplyToReply('${t.ID}-${idx}')">
                                         <i class="fas fa-reply"></i> הגב
@@ -1926,7 +1733,7 @@
                                     </div>
                                 </div>
                             </div>
-                        `}).join('') : '<p style="color: var(--text-muted); text-align: center;">אין תגובות עדיין. היו הראשונים להגיב!</p>'}
+                        `).join('') : '<p style="color: var(--text-muted); text-align: center;">אין תגובות עדיין. היו הראשונים להגיב!</p>'}
                         <div style="margin-top: 20px; display: flex; gap: 10px;">
                             <input type="text" id="rep-in-${t.ID}" placeholder="כתוב תגובה..." style="flex: 1;">
                             <button class="tab-btn active" style="padding: 14px 25px;" onclick="sendReply('${t.ID}')">
@@ -1959,32 +1766,20 @@
             subject: document.getElementById('subject').value,
             content: document.getElementById('content').value
         };
-        if (!payload.name || !payload.subject || !payload.content) return;
-        addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        document.getElementById('postModal').style.display = 'none';
-        showToast('ההודעה שלך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
+        location.reload();
     }
 
     async function sendReply(parentId) {
         const content = document.getElementById(`rep-in-${parentId}`).value;
-        if (!content) return;
-        const name = await showNameModal();
-        if(!name) return;
-        addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
+        const name = prompt("השם שלך לתגובה:");
+        if(!name || !content) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId }) });
-        showToast('תגובתך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
+        location.reload();
     }
 
     async function addLike(id) {
-        if (hasLiked(id)) {
-            showToast('כבר עשית לייק להודעה זו');
-            return;
-        }
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
-        markAsLiked(id);
         loadData();
     }
 
@@ -2003,35 +1798,11 @@
     async function sendNestedReply(parentId, replyToName, idx) {
         const content = document.getElementById(`nested-rep-in-${parentId}-${idx}`).value;
         if (!content) return;
-        const name = await showNameModal();
+        const name = prompt("השם שלך לתגובה:");
         if (!name) return;
         const fullContent = `@${replyToName}: ${content}`;
-        addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content: fullContent, parentId }) });
-        showToast('תגובתך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
-    }
-
-    async function deletePost(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק הודעה זו');
-            return;
-        }
-        if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
-        showToast('ההודעה נמחקה בהצלחה');
-        setTimeout(() => location.reload(), 1500);
-    }
-
-    async function deleteReply(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק תגובה זו');
-            return;
-        }
-        if (!confirm('האם אתה בטוח שברצונך למחוק תגובה זו?')) return;
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
-        showToast('התגובה נמחקה בהצלחה');
-        setTimeout(() => location.reload(), 1500);
+        location.reload();
     }
 
     function changeCategory(cat, btn) {
@@ -2052,17 +1823,6 @@
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             document.body.setAttribute('data-theme', savedTheme);
-        }
-        
-        // Load sidebar state
-        const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
-        if (sidebarHidden) {
-            const sidebar = document.getElementById('sidebar');
-            const mainLayout = document.getElementById('mainLayout');
-            const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
-            sidebar.classList.add('hidden');
-            mainLayout.classList.add('sidebar-hidden');
-            toggleBtn.className = 'fas fa-info-circle';
         }
     });
 
