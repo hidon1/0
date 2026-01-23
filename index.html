@@ -1863,7 +1863,7 @@
         const email = document.getElementById('registerEmail').value.trim();
         
         if (!username) {
-            alert('יש להזין שם משתמש');
+            showToast('יש להזין שם משתמש');
             return;
         }
         
@@ -1888,11 +1888,11 @@
                     closeRegisterModal();
                 }, 2000);
             } else {
-                alert(result.message || 'שגיאה בהרשמה');
+                showToast(result.message || 'שגיאה בהרשמה');
             }
         } catch (error) {
             console.error('Registration error:', error);
-            alert('שגיאה בהרשמה. נסה שנית.');
+            showToast('שגיאה בהרשמה. נסה שנית.');
         }
     }
 
@@ -2223,6 +2223,11 @@
         const nameFromInput = document.getElementById('name').value;
         const userName = currentUser || nameFromInput;
         
+        if (!userName || !userName.trim()) {
+            showToast('נא להזין שם או להתחבר');
+            return;
+        }
+        
         const payload = {
             name: userName,  // Keep for backward compatibility
             username: userName,  // New field as per requirements
@@ -2230,10 +2235,7 @@
             subject: document.getElementById('subject').value,
             content: document.getElementById('content').value
         };
-        if (!payload.name) {
-            showToast('נא להזין שם או להתחבר');
-            return;
-        }
+        
         if (!payload.subject) {
             showToast('נא להזין נושא להודעה');
             return;
