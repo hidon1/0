@@ -12,9 +12,9 @@
             --primary: #1a365d; 
             --primary-light: #2d4a7c;
             --primary-dark: #0f2744;
-            --accent: #c9a227; 
-            --accent-light: #e8d48a;
-            --accent-dark: #a68b1f;
+            --accent: #e6c453; 
+            --accent-light: #f0de9a;
+            --accent-dark: #d4b33a;
             --bg: #f5f7fa; 
             --card: #ffffff; 
             --text: #2d3748; 
@@ -85,13 +85,13 @@
             display: flex;
             align-items: center;
             margin-right: auto;
-            margin-left: 120px;
+            margin-left: 200px;
         }
         
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(255,255,255,0.15);
+            background: rgba(26, 54, 93, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 8px 18px;
@@ -100,7 +100,7 @@
         }
         
         .search-box:focus-within {
-            background: rgba(255,255,255,0.25);
+            background: rgba(26, 54, 93, 0.95);
             border-color: var(--accent);
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
@@ -108,11 +108,12 @@
         .search-box input {
             background: transparent;
             border: none;
-            color: white;
+            color: #ffffff;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
             width: 200px;
             outline: none;
+            caret-color: #ffffff;
         }
         
         .search-box input::placeholder {
@@ -158,6 +159,7 @@
             letter-spacing: 1px;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
             animation: titleFadeIn 1s ease-out;
+            color: #87CEEB;
         }
 
         header .subtitle {
@@ -1034,7 +1036,7 @@
 </header>
 
 <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="הצג/הסתר מידע">
-    <i class="fas fa-info-circle"></i>
+    <i class="fas fa-chevron-right"></i>
 </button>
 
 <div class="main-layout" id="mainLayout">
@@ -1548,9 +1550,9 @@
         
         // Toggle icon between info and arrow
         if (sidebar.classList.contains('hidden')) {
-            toggleBtn.className = 'fas fa-chevron-right';
-        } else {
             toggleBtn.className = 'fas fa-info-circle';
+        } else {
+            toggleBtn.className = 'fas fa-chevron-right';
         }
         
         // Save preference
@@ -1755,7 +1757,7 @@
             const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
             sidebar.classList.add('hidden');
             mainLayout.classList.add('sidebar-hidden');
-            toggleBtn.className = 'fas fa-chevron-right';
+            toggleBtn.className = 'fas fa-info-circle';
         }
     });
 
