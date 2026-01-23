@@ -215,17 +215,18 @@
         .login-btn {
             position: absolute; 
             top: 25px; 
-            left: 180px; 
+            left: 50%; 
+            transform: translateX(-50%);
             background: rgba(255,255,255,0.1); 
             backdrop-filter: blur(15px);
-            border: 2px solid rgba(255,255,255,0.2); 
+            border: 2px solid var(--accent); 
             color: white; 
             padding: 12px 22px; 
-            cursor: pointer; 
             border-radius: 30px;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
             font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             display: flex;
@@ -243,7 +244,8 @@
         .user-display {
             position: absolute; 
             top: 25px; 
-            left: 180px; 
+            left: 50%; 
+            transform: translateX(-50%);
             background: rgba(255,255,255,0.15); 
             backdrop-filter: blur(15px);
             border: 2px solid var(--accent); 
@@ -1218,14 +1220,14 @@
         <i class="fas fa-moon"></i>
         מצב תצוגה
     </button>
-    <button class="login-btn" id="loginBtn" onclick="showLoginModal()">
+    <button class="login-btn" id="loginBtn" onclick="openRegisterModal()">
         <i class="fas fa-sign-in-alt"></i>
-        התחברות
+        התחבר / הירשם
     </button>
     <div class="user-display" id="userDisplay" style="display: none;">
-        <i class="fas fa-user-circle"></i>
-        <span>שלום, <span class="user-name" id="displayUserName"></span></span>
         <button class="logout-btn" onclick="logout()">התנתק</button>
+        <i class="fas fa-user-circle"></i>
+        <span>מחובר: <span class="user-name" id="displayUserName"></span></span>
     </div>
     <div class="header-content">
         <i class="fas fa-wheat-awn header-icon"></i>
@@ -1775,7 +1777,7 @@
     </div>
 </div>
 
-<button class="fab" onclick="document.getElementById('postModal').style.display='flex'">
+<button class="fab" onclick="openPostModal()">
     <i class="fas fa-plus"></i>
 </button>
 
@@ -1809,30 +1811,18 @@
     </div>
 </div>
 
-<div id="loginModal" class="modal">
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
     <div class="modal-content">
-        <h2><i class="fas fa-sign-in-alt"></i> התחברות</h2>
-        <div id="loginTabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button class="tab-btn active" id="loginTabBtn" onclick="switchLoginTab('login')" style="flex: 1;">
-                <span class="tab-icon"><i class="fas fa-sign-in-alt"></i></span> התחברות
-            </button>
-            <button class="tab-btn" id="registerTabBtn" onclick="switchLoginTab('register')" style="flex: 1;">
-                <span class="tab-icon"><i class="fas fa-user-plus"></i></span> הרשמה
-            </button>
-        </div>
-        <div id="loginForm">
-            <input type="email" id="loginEmail" placeholder="כתובת מייל">
-            <input type="password" id="loginPassword" placeholder="סיסמה">
-            <button class="btn-main" onclick="performLogin()"><i class="fas fa-sign-in-alt"></i> התחבר</button>
-        </div>
-        <div id="registerForm" style="display: none;">
-            <input type="text" id="registerName" placeholder="שם מלא">
-            <input type="email" id="registerEmail" placeholder="כתובת מייל">
-            <input type="password" id="registerPassword" placeholder="סיסמה">
-            <input type="password" id="registerPasswordConfirm" placeholder="אימות סיסמה">
-            <button class="btn-main" onclick="performRegister()"><i class="fas fa-user-plus"></i> הירשם</button>
-        </div>
-        <button class="btn-main btn-secondary" onclick="document.getElementById('loginModal').style.display='none'"><i class="fas fa-times"></i> סגור</button>
+        <h2><i class="fas fa-user-plus"></i> הרשמה לפורום</h2>
+        <input type="text" id="registerUsername" placeholder="שם משתמש (חובה)" required>
+        <input type="email" id="registerEmail" placeholder="אימייל (אופציונלי)">
+        <button class="btn-main" onclick="registerUser()">
+            <i class="fas fa-check"></i> הירשם
+        </button>
+        <button class="btn-secondary" onclick="closeRegisterModal()">
+            <i class="fas fa-times"></i> ביטול
+        </button>
     </div>
 </div>
 
@@ -1843,150 +1833,71 @@
     let allPosts = [];
     let currentSearchTerm = '';
     let nameModalCallback = null;
-    let currentUser = null;
 
     // User authentication functions
-    function getLoggedInUser() {
-        const userData = localStorage.getItem('loggedInUser');
-        if (userData) {
-            return JSON.parse(userData);
-        }
-        return null;
-    }
-
-    function setLoggedInUser(user) {
-        localStorage.setItem('loggedInUser', JSON.stringify(user));
-        currentUser = user;
-        updateUserDisplay();
-    }
-
     function updateUserDisplay() {
+        const currentUser = localStorage.getItem('currentUser');
         const loginBtn = document.getElementById('loginBtn');
         const userDisplay = document.getElementById('userDisplay');
-        const displayUserName = document.getElementById('displayUserName');
         
         if (currentUser) {
             loginBtn.style.display = 'none';
             userDisplay.style.display = 'flex';
-            displayUserName.textContent = currentUser.name;
+            userDisplay.querySelector('.user-name').textContent = currentUser;
         } else {
             loginBtn.style.display = 'flex';
             userDisplay.style.display = 'none';
         }
     }
 
-    function showLoginModal() {
-        document.getElementById('loginModal').style.display = 'flex';
-        switchLoginTab('login');
+    function openRegisterModal() {
+        document.getElementById('registerModal').style.display = 'flex';
     }
 
-    function switchLoginTab(tab) {
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const loginTabBtn = document.getElementById('loginTabBtn');
-        const registerTabBtn = document.getElementById('registerTabBtn');
-        
-        if (tab === 'login') {
-            loginForm.style.display = 'block';
-            registerForm.style.display = 'none';
-            loginTabBtn.classList.add('active');
-            registerTabBtn.classList.remove('active');
-        } else {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            loginTabBtn.classList.remove('active');
-            registerTabBtn.classList.add('active');
-        }
+    function closeRegisterModal() {
+        document.getElementById('registerModal').style.display = 'none';
     }
 
-    async function performLogin() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        
-        if (!email || !password) {
-            showToast('נא למלא את כל השדות');
-            return;
-        }
-        
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'login',
-                    email: email,
-                    password: password
-                })
-            });
-            const result = await response.json();
-            
-            if (result.success) {
-                setLoggedInUser({ name: result.name, email: email });
-                document.getElementById('loginModal').style.display = 'none';
-                showToast('התחברת בהצלחה!');
-                // Clear form
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-            } else {
-                showToast(result.message || 'מייל או סיסמה שגויים');
-            }
-        } catch (error) {
-            showToast('שגיאה בהתחברות, נסה שנית');
-        }
-    }
-
-    async function performRegister() {
-        const name = document.getElementById('registerName').value.trim();
+    async function registerUser() {
+        const username = document.getElementById('registerUsername').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
-        const password = document.getElementById('registerPassword').value;
-        const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
         
-        if (!name || !email || !password || !passwordConfirm) {
-            showToast('נא למלא את כל השדות');
-            return;
-        }
-        
-        if (password !== passwordConfirm) {
-            showToast('הסיסמאות לא תואמות');
-            return;
-        }
-        
-        if (password.length < 6) {
-            showToast('הסיסמה חייבת להכיל לפחות 6 תווים');
+        if (!username) {
+            showToast('יש להזין שם משתמש');
             return;
         }
         
         try {
+            // שליחה ל-Google Apps Script
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify({
                     action: 'register',
-                    name: name,
-                    email: email,
-                    password: password
+                    username: username,
+                    email: email
                 })
             });
+            
             const result = await response.json();
             
-            if (result.success) {
-                setLoggedInUser({ name: name, email: email });
-                document.getElementById('loginModal').style.display = 'none';
-                showToast('נרשמת בהצלחה!');
-                // Clear form
-                document.getElementById('registerName').value = '';
-                document.getElementById('registerEmail').value = '';
-                document.getElementById('registerPassword').value = '';
-                document.getElementById('registerPasswordConfirm').value = '';
+            if (result.status === 'success' || result.success) {
+                localStorage.setItem('currentUser', username);
+                showToast(result.message || 'נרשמת בהצלחה!');
+                updateUserDisplay();
+                setTimeout(() => {
+                    closeRegisterModal();
+                }, 2000);
             } else {
                 showToast(result.message || 'שגיאה בהרשמה');
             }
         } catch (error) {
-            showToast('שגיאה בהרשמה, נסה שנית');
+            console.error('Registration error:', error);
+            showToast('שגיאה בהרשמה. נסה שנית.');
         }
     }
 
     function logout() {
-        localStorage.removeItem('loggedInUser');
-        currentUser = null;
+        localStorage.removeItem('currentUser');
         updateUserDisplay();
         showToast('התנתקת בהצלחה');
     }
@@ -2281,22 +2192,50 @@
         return icons[category] || 'fas fa-folder';
     }
 
-    async function sendPost() {
-        // Use logged-in user's name if available, otherwise use the input field
-        const nameFromInput = document.getElementById('name').value;
-        const userName = currentUser ? currentUser.name : nameFromInput;
+    function openPostModal() {
+        const currentUser = localStorage.getItem('currentUser');
+        const nameField = document.getElementById('name');
         
-        const payload = {
-            name: userName,
-            category: document.getElementById('category').value,
-            subject: document.getElementById('subject').value,
-            content: document.getElementById('content').value,
-            userEmail: currentUser ? currentUser.email : null
-        };
-        if (!payload.name) {
+        if (currentUser) {
+            nameField.style.display = 'none';
+            // Also hide the label if it exists
+            const labels = document.querySelectorAll('#postModal label');
+            labels.forEach(label => {
+                if (label.getAttribute('for') === 'name') {
+                    label.style.display = 'none';
+                }
+            });
+        } else {
+            nameField.style.display = 'block';
+            const labels = document.querySelectorAll('#postModal label');
+            labels.forEach(label => {
+                if (label.getAttribute('for') === 'name') {
+                    label.style.display = 'block';
+                }
+            });
+        }
+        
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    async function sendPost() {
+        const currentUser = localStorage.getItem('currentUser');
+        const nameFromInput = document.getElementById('name').value;
+        const userName = currentUser || nameFromInput;
+        
+        if (!userName || !userName.trim()) {
             showToast('נא להזין שם או להתחבר');
             return;
         }
+        
+        const payload = {
+            name: userName,  // Keep for backward compatibility
+            username: userName,  // New field as per requirements
+            category: document.getElementById('category').value,
+            subject: document.getElementById('subject').value,
+            content: document.getElementById('content').value
+        };
+        
         if (!payload.subject) {
             showToast('נא להזין נושא להודעה');
             return;
@@ -2313,12 +2252,20 @@
     }
 
     async function sendReply(parentId) {
+        const currentUser = localStorage.getItem('currentUser');
         const content = document.getElementById(`rep-in-${parentId}`).value;
         if (!content) return;
-        const name = await showNameModal();
-        if(!name) return;
+        
+        let name;
+        if (currentUser) {
+            name = currentUser;
+        } else {
+            name = await showNameModal();
+            if(!name) return;
+        }
+        
         addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content, parentId, userEmail: currentUser ? currentUser.email : null }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
@@ -2346,13 +2293,21 @@
     }
 
     async function sendNestedReply(parentId, replyToName, idx) {
+        const currentUser = localStorage.getItem('currentUser');
         const content = document.getElementById(`nested-rep-in-${parentId}-${idx}`).value;
         if (!content) return;
-        const name = await showNameModal();
-        if (!name) return;
+        
+        let name;
+        if (currentUser) {
+            name = currentUser;
+        } else {
+            name = await showNameModal();
+            if (!name) return;
+        }
+        
         const fullContent = `@${replyToName}: ${content}`;
         addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, content: fullContent, parentId, userEmail: currentUser ? currentUser.email : null }) });
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content: fullContent, parentId }) });
         showToast('תגובתך נשלחה בהצלחה!');
         setTimeout(() => location.reload(), 1500);
     }
@@ -2410,18 +2365,8 @@
             toggleBtn.className = 'fas fa-info-circle';
         }
         
-        // Load logged in user
-        currentUser = getLoggedInUser();
+        // Load user state
         updateUserDisplay();
-        
-        // Pre-fill name field if logged in
-        if (currentUser) {
-            const nameField = document.getElementById('name');
-            if (nameField) {
-                nameField.value = currentUser.name;
-                nameField.disabled = true;
-            }
-        }
     });
 
     loadData();
