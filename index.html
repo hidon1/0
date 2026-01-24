@@ -2240,6 +2240,11 @@
         const currentUser = localStorage.getItem('currentUser');
         let name, email, message;
         
+        // Email validation helper
+        function isValidEmail(emailStr) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr);
+        }
+        
         if (currentUser) {
             // Logged-in user
             name = currentUser;
@@ -2249,6 +2254,10 @@
             
             if (!message) {
                 showToast('נא להזין תוכן להודעה');
+                return;
+            }
+            if (message.length > 5000) {
+                showToast('ההודעה ארוכה מדי (מקסימום 5000 תווים)');
                 return;
             }
         } else {
@@ -2265,8 +2274,16 @@
                 showToast('נא להזין כתובת אימייל');
                 return;
             }
+            if (!isValidEmail(email)) {
+                showToast('נא להזין כתובת אימייל תקינה');
+                return;
+            }
             if (!message) {
                 showToast('נא להזין תוכן להודעה');
+                return;
+            }
+            if (message.length > 5000) {
+                showToast('ההודעה ארוכה מדי (מקסימום 5000 תווים)');
                 return;
             }
         }
