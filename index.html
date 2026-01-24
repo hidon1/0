@@ -94,18 +94,23 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(15px);
             border-radius: 30px;
-            padding: 6px 18px;
-            border: 2px solid rgba(255,255,255,0.2);
+            padding: 12px 22px;
+            border: 2px solid var(--accent);
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            height: 44px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            gap: 10px;
         }
         
         .search-box:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
         
         .search-box:focus-within {
@@ -120,7 +125,7 @@
             color: white;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
-            width: 280px;
+            width: 150px;
             outline: none;
             caret-color: white;
             text-shadow: none;
@@ -781,7 +786,7 @@
             display: flex; 
             gap: 15px; 
             overflow-x: auto; 
-            padding: 30px 0; 
+            padding: 30px 15px; 
             position: sticky; 
             top: 0; 
             background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 90%, transparent 100%);
@@ -2501,8 +2506,14 @@
     }
 
     async function sendReply(parentId) {
+        // Get the send button and check if already submitting
+        const replyBox = document.getElementById(`box-${parentId}`);
+        const sendBtn = replyBox?.querySelector('button.tab-btn.active');
+        if (sendBtn?.disabled) return;
+        
         const currentUser = localStorage.getItem('currentUser');
-        const content = document.getElementById(`rep-in-${parentId}`).value;
+        const inputField = document.getElementById(`rep-in-${parentId}`);
+        const content = inputField.value;
         if (!content) return;
         
         let name;
@@ -2512,6 +2523,11 @@
             name = await showNameModal();
             if(!name) return;
         }
+        
+        // Disable button and close input immediately to prevent multiple submissions
+        if (sendBtn) sendBtn.disabled = true;
+        inputField.value = '';
+        replyBox.style.display = 'none';
         
         addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
@@ -2524,8 +2540,10 @@
             showToast('כבר עשית לייק להודעה זו');
             return;
         }
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
+        // Mark as liked immediately to prevent multiple clicks
         markAsLiked(id);
+        showToast('תודה על הלייק!');
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
         loadData();
     }
 
@@ -2542,8 +2560,14 @@
     }
 
     async function sendNestedReply(parentId, replyToName, idx) {
+        // Get the send button and check if already submitting
+        const replyBox = document.getElementById(`reply-box-${parentId}-${idx}`);
+        const sendBtn = replyBox?.querySelector('button.tab-btn.active');
+        if (sendBtn?.disabled) return;
+        
         const currentUser = localStorage.getItem('currentUser');
-        const content = document.getElementById(`nested-rep-in-${parentId}-${idx}`).value;
+        const inputField = document.getElementById(`nested-rep-in-${parentId}-${idx}`);
+        const content = inputField.value;
         if (!content) return;
         
         let name;
@@ -2553,6 +2577,11 @@
             name = await showNameModal();
             if (!name) return;
         }
+        
+        // Disable button and close input immediately to prevent multiple submissions
+        if (sendBtn) sendBtn.disabled = true;
+        inputField.value = '';
+        replyBox.classList.remove('open');
         
         const fullContent = `@${replyToName}: ${content}`;
         addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
