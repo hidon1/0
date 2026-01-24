@@ -2325,7 +2325,10 @@
             });
         }
         
-        if (filtered.filter(p => p.ID).length === 0) {
+        // Filter to only show valid posts with ID, Name, and Content
+        const validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content));
+        
+        if (validPosts.length === 0) {
             const message = currentSearchTerm ? 'לא נמצאו תוצאות לחיפוש' : 'אין הודעות עדיין';
             const submessage = currentSearchTerm ? 'נסו לחפש מונח אחר' : 'היו הראשונים לפתוח שרשור חדש!';
             container.innerHTML = `
@@ -2338,8 +2341,9 @@
             return;
         }
         
-        filtered.filter(p => p.ID).forEach(t => {
-            const replies = allPosts.filter(r => r.ParentID === t.ID);
+        validPosts.forEach(t => {
+            // Filter replies to only show valid ones with Name and Content
+            const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content);
             const categoryIcon = getCategoryIcon(t.Category);
             const canDeletePost = isAuthored(t.ID);
             container.innerHTML += `
@@ -2526,13 +2530,22 @@
         
         // Disable button and close input immediately to prevent multiple submissions
         if (sendBtn) sendBtn.disabled = true;
+        const savedContent = content;
         inputField.value = '';
         replyBox.style.display = 'none';
         
-        addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
-        showToast('תגובתך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
+        try {
+            addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
+            showToast('תגובתך נשלחה בהצלחה!');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            // Re-enable button and restore content on error
+            if (sendBtn) sendBtn.disabled = false;
+            inputField.value = savedContent;
+            replyBox.style.display = 'block';
+            showToast('שגיאה בשליחת התגובה. נסה שנית.');
+        }
     }
 
     async function addLike(id) {
@@ -2543,8 +2556,19 @@
         // Mark as liked immediately to prevent multiple clicks
         markAsLiked(id);
         showToast('תודה על הלייק!');
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
-        loadData();
+        try {
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
+            loadData();
+        } catch (error) {
+            // Revert like state on error
+            const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
+            const index = likedPosts.indexOf(id);
+            if (index > -1) {
+                likedPosts.splice(index, 1);
+                localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+            }
+            showToast('שגיאה בשליחת הלייק. נסה שנית.');
+        }
     }
 
     function toggleReplies(id) {
@@ -2580,14 +2604,23 @@
         
         // Disable button and close input immediately to prevent multiple submissions
         if (sendBtn) sendBtn.disabled = true;
+        const savedContent = content;
         inputField.value = '';
         replyBox.classList.remove('open');
         
-        const fullContent = `@${replyToName}: ${content}`;
-        addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content: fullContent, parentId }) });
-        showToast('תגובתך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
+        try {
+            const fullContent = `@${replyToName}: ${content}`;
+            addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content: fullContent, parentId }) });
+            showToast('תגובתך נשלחה בהצלחה!');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            // Re-enable button and restore content on error
+            if (sendBtn) sendBtn.disabled = false;
+            inputField.value = savedContent;
+            replyBox.classList.add('open');
+            showToast('שגיאה בשליחת התגובה. נסה שנית.');
+        }
     }
 
     async function deletePost(id) {
