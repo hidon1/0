@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי - המהדורה המלאה</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e6c453'/%3E%3Cg fill='none' stroke='white' stroke-width='4'%3E%3Cpath d='M50 15 L75 60 L25 60 Z'/%3E%3Cpath d='M50 85 L25 40 L75 40 Z'/%3E%3C/g%3E%3Cline x1='25' y1='70' x2='75' y2='30' stroke='%23c0392b' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e6c453'/%3E%3Cg fill='none' stroke='white' stroke-width='2' transform='translate(50,52)'%3E%3Cline x1='0' y1='25' x2='0' y2='-20' stroke-width='2.5'/%3E%3Cellipse cx='-5' cy='-15' rx='4' ry='7' fill='white'/%3E%3Cellipse cx='5' cy='-15' rx='4' ry='7' fill='white'/%3E%3Cellipse cx='-4' cy='-5' rx='3.5' ry='6' fill='white'/%3E%3Cellipse cx='4' cy='-5' rx='3.5' ry='6' fill='white'/%3E%3Cellipse cx='0' cy='-22' rx='3' ry='6' fill='white'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%23c0392b' stroke-width='4'/%3E%3Cline x1='22' y1='68' x2='78' y2='32' stroke='%23c0392b' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@400;500;700;800&family=Varela+Round&family=Alef:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -159,21 +159,22 @@
         }
         
         .search-box input {
-            background: transparent;
+            background: rgba(255,255,255,0.95);
             border: none;
-            color: white;
+            color: black;
             font-family: 'Heebo', sans-serif;
             font-size: 0.9rem;
             width: 140px;
             outline: none;
-            caret-color: white;
+            caret-color: black;
             text-shadow: none;
-            padding: 0;
+            padding: 4px 8px;
             margin: 0;
+            border-radius: 15px;
         }
         
         .search-box input::placeholder {
-            color: rgba(255,255,255,0.7);
+            color: rgba(0,0,0,0.5);
         }
         
         .search-box i {
@@ -246,6 +247,21 @@
         @keyframes logoPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
+        }
+        
+        @keyframes noEntryPulse {
+            0%, 100% { 
+                stroke-opacity: 1;
+                filter: drop-shadow(0 0 3px rgba(192, 57, 43, 0.5));
+            }
+            50% { 
+                stroke-opacity: 0.7;
+                filter: drop-shadow(0 0 8px rgba(192, 57, 43, 0.8));
+            }
+        }
+        
+        .logo-no-entry {
+            animation: noEntryPulse 1.5s ease-in-out infinite;
         }
 
         .user-display {
@@ -431,6 +447,19 @@
 
         .accordion-header.active .toggle-icon {
             transform: rotate(180deg);
+        }
+
+        .contact-card-header {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.05));
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 20px;
+        }
+
+        .contact-card-header:hover {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.1));
+            border-color: rgba(231, 76, 60, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.2);
         }
 
         .accordion-content {
@@ -1323,13 +1352,30 @@
                         <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
                     </filter>
                 </defs>
+                <!-- Background circle -->
                 <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" filter="url(#logoShadow)"/>
-                <g fill="white" transform="translate(50,50) scale(0.7)">
-                    <path d="M-25,-8 L0,-43 L25,-8 Z" stroke="white" stroke-width="3"/>
-                    <path d="M-25,8 L0,43 L25,8 Z" stroke="white" stroke-width="3"/>
-                    <path d="M-25,-8 L0,-43 L25,-8 Z M-25,8 L0,43 L25,8 Z" fill="none" stroke="white" stroke-width="3"/>
+                <!-- Wheat stalk - centered beautiful wheat -->
+                <g fill="none" stroke="white" stroke-width="2" transform="translate(50, 52)">
+                    <!-- Main stem -->
+                    <line x1="0" y1="25" x2="0" y2="-20" stroke-width="2.5"/>
+                    <!-- Wheat grains - left side -->
+                    <ellipse cx="-6" cy="-18" rx="4" ry="7" fill="white" transform="rotate(-20)"/>
+                    <ellipse cx="-5" cy="-10" rx="4" ry="7" fill="white" transform="rotate(-15)"/>
+                    <ellipse cx="-4" cy="-2" rx="3.5" ry="6" fill="white" transform="rotate(-10)"/>
+                    <ellipse cx="-3" cy="6" rx="3" ry="5" fill="white" transform="rotate(-5)"/>
+                    <!-- Wheat grains - right side -->
+                    <ellipse cx="6" cy="-18" rx="4" ry="7" fill="white" transform="rotate(20)"/>
+                    <ellipse cx="5" cy="-10" rx="4" ry="7" fill="white" transform="rotate(15)"/>
+                    <ellipse cx="4" cy="-2" rx="3.5" ry="6" fill="white" transform="rotate(10)"/>
+                    <ellipse cx="3" cy="6" rx="3" ry="5" fill="white" transform="rotate(5)"/>
+                    <!-- Wheat top -->
+                    <ellipse cx="0" cy="-24" rx="3" ry="6" fill="white"/>
                 </g>
-                <line x1="25" y1="65" x2="75" y2="35" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+                <!-- No entry sign - red circle and diagonal line with animation -->
+                <g class="logo-no-entry">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#c0392b" stroke-width="4"/>
+                    <line x1="22" y1="68" x2="78" y2="32" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+                </g>
             </svg>
         </span>
         <div class="header-text">
@@ -1860,6 +1906,19 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Contact Card -->
+        <div class="sidebar-card">
+            <div class="accordion-header contact-card-header" onclick="openContactModal()">
+                <div class="header-left">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <span>יצירת קשר</span>
+                </div>
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
     </aside>
 
     <div class="container">
@@ -1961,6 +2020,39 @@
             <input type="password" id="loginPassword" placeholder="סיסמה" required>
             <button class="btn-main" onclick="loginUser()">
                 <i class="fas fa-sign-in-alt"></i> התחבר
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeContactModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2><i class="fas fa-envelope"></i> יצירת קשר</h2>
+        <p style="margin-bottom: 15px; color: var(--text-muted); text-align: center;">שלחו לנו הודעה ונחזור אליכם בהקדם</p>
+        
+        <!-- Form for guests (not logged in) -->
+        <div id="contactFormGuest">
+            <input type="text" id="contactName" placeholder="השם שלך (חובה)">
+            <input type="email" id="contactEmail" placeholder="כתובת אימייל (חובה)">
+            <textarea id="contactMessage" rows="5" placeholder="תוכן ההודעה..."></textarea>
+            <button class="btn-main" id="sendContactBtn" onclick="sendContactForm()">
+                <i class="fas fa-paper-plane"></i> שלח הודעה
+            </button>
+        </div>
+        
+        <!-- Form for logged-in users -->
+        <div id="contactFormUser" style="display: none;">
+            <div style="background: var(--info); border: 1px solid var(--info-border); border-radius: 10px; padding: 12px; margin-bottom: 15px; text-align: center;">
+                <i class="fas fa-user-circle" style="color: var(--primary);"></i>
+                <span style="margin-right: 8px;">שולח כ: <strong id="contactUserName"></strong></span>
+            </div>
+            <textarea id="contactMessageUser" rows="5" placeholder="תוכן ההודעה..."></textarea>
+            <button class="btn-main" id="sendContactBtnUser" onclick="sendContactForm()">
+                <i class="fas fa-paper-plane"></i> שלח הודעה
             </button>
         </div>
     </div>
@@ -2093,6 +2185,7 @@
             
             if (result.status === 'success' || result.success) {
                 localStorage.setItem('currentUser', username);
+                localStorage.setItem('userEmail', email);
                 showToast(result.message || 'נרשמת בהצלחה!');
                 updateUserDisplay();
                 setTimeout(() => {
@@ -2109,8 +2202,108 @@
 
     function logout() {
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('userEmail');
         updateUserDisplay();
         showToast('התנתקת בהצלחה');
+    }
+
+    // Contact modal functions
+    function openContactModal() {
+        const currentUser = localStorage.getItem('currentUser');
+        const guestForm = document.getElementById('contactFormGuest');
+        const userForm = document.getElementById('contactFormUser');
+        
+        if (currentUser) {
+            // Show logged-in user form
+            guestForm.style.display = 'none';
+            userForm.style.display = 'block';
+            document.getElementById('contactUserName').textContent = currentUser;
+        } else {
+            // Show guest form
+            guestForm.style.display = 'block';
+            userForm.style.display = 'none';
+        }
+        
+        document.getElementById('contactModal').style.display = 'flex';
+    }
+
+    function closeContactModal() {
+        document.getElementById('contactModal').style.display = 'none';
+        // Clear form fields
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMessage').value = '';
+        document.getElementById('contactMessageUser').value = '';
+    }
+
+    async function sendContactForm() {
+        const currentUser = localStorage.getItem('currentUser');
+        let name, email, message;
+        
+        if (currentUser) {
+            // Logged-in user
+            name = currentUser;
+            // Get email from localStorage if stored during registration
+            email = localStorage.getItem('userEmail') || '';
+            message = document.getElementById('contactMessageUser').value.trim();
+            
+            if (!message) {
+                showToast('נא להזין תוכן להודעה');
+                return;
+            }
+        } else {
+            // Guest user
+            name = document.getElementById('contactName').value.trim();
+            email = document.getElementById('contactEmail').value.trim();
+            message = document.getElementById('contactMessage').value.trim();
+            
+            if (!name) {
+                showToast('נא להזין שם');
+                return;
+            }
+            if (!email) {
+                showToast('נא להזין כתובת אימייל');
+                return;
+            }
+            if (!message) {
+                showToast('נא להזין תוכן להודעה');
+                return;
+            }
+        }
+        
+        // Disable buttons during submission
+        const guestBtn = document.getElementById('sendContactBtn');
+        const userBtn = document.getElementById('sendContactBtnUser');
+        if (guestBtn) guestBtn.disabled = true;
+        if (userBtn) userBtn.disabled = true;
+        
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'contact',
+                    name: name,
+                    email: email,
+                    message: message
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                showToast('ההודעה נשלחה בהצלחה!');
+                closeContactModal();
+            } else {
+                showToast(result.message || 'שגיאה בשליחת ההודעה');
+            }
+        } catch (error) {
+            console.error('Contact form error:', error);
+            showToast('שגיאה בשליחת ההודעה. נסה שנית.');
+        } finally {
+            // Re-enable buttons
+            if (guestBtn) guestBtn.disabled = false;
+            if (userBtn) userBtn.disabled = false;
+        }
     }
 
     // Show success toast notification
@@ -2447,6 +2640,7 @@
         }
         
         const currentUser = localStorage.getItem('currentUser');
+        const userEmail = localStorage.getItem('userEmail') || '';
         const nameFromInput = document.getElementById('name').value;
         const userName = currentUser || nameFromInput;
         
@@ -2458,6 +2652,7 @@
         const payload = {
             name: userName,  // Keep for backward compatibility
             username: userName,  // New field as per requirements
+            email: userEmail,  // Include email for auto-reply
             category: document.getElementById('category').value,
             subject: document.getElementById('subject').value,
             content: document.getElementById('content').value
@@ -2496,6 +2691,7 @@
         if (sendBtn?.disabled) return;
         
         const currentUser = localStorage.getItem('currentUser');
+        const userEmail = localStorage.getItem('userEmail') || '';
         const inputField = document.getElementById(`rep-in-${parentId}`);
         const content = inputField.value;
         if (!content) return;
@@ -2516,7 +2712,7 @@
         
         try {
             addPendingAuthored({ name, content, timestamp: new Date().toISOString() });
-            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content, parentId }) });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, email: userEmail, content, parentId }) });
             showToast('תגובתך נשלחה בהצלחה!');
             setTimeout(() => location.reload(), 1500);
         } catch (error) {
@@ -2570,6 +2766,7 @@
         if (sendBtn?.disabled) return;
         
         const currentUser = localStorage.getItem('currentUser');
+        const userEmail = localStorage.getItem('userEmail') || '';
         const inputField = document.getElementById(`nested-rep-in-${parentId}-${idx}`);
         const content = inputField.value;
         if (!content) return;
@@ -2591,7 +2788,7 @@
         try {
             const fullContent = `@${replyToName}: ${content}`;
             addPendingAuthored({ name, content: fullContent, timestamp: new Date().toISOString() });
-            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, content: fullContent, parentId }) });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ name, username: name, email: userEmail, content: fullContent, parentId }) });
             showToast('תגובתך נשלחה בהצלחה!');
             setTimeout(() => location.reload(), 1500);
         } catch (error) {
