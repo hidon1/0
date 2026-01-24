@@ -250,11 +250,12 @@
         }
         
         @keyframes wheatSway {
-            0%, 100% { transform: translate(50px, 50px) rotate(0deg); }
-            25% { transform: translate(50px, 50px) rotate(-3deg); }
-            75% { transform: translate(50px, 50px) rotate(3deg); }
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
         }
         
+        /* Circle circumference = 2πr = 2π×42 ≈ 264 */
         @keyframes noEntryStroke {
             0% { 
                 stroke-dasharray: 0 264;
@@ -270,6 +271,7 @@
             }
         }
         
+        /* Line length calculated from coordinates: sqrt((78-22)² + (32-68)²) ≈ 79 */
         @keyframes noEntryLine {
             0% { 
                 stroke-dasharray: 0 79;
@@ -1449,7 +1451,7 @@
                 <!-- Background circle -->
                 <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" filter="url(#logoShadow)"/>
                 <!-- Wheat stalk - realistic wheat ear design -->
-                <g fill="white" style="animation: wheatSway 4s ease-in-out infinite;">
+                <g fill="white" transform="translate(50, 50)" style="animation: wheatSway 4s ease-in-out infinite; transform-origin: center center;">
                     <!-- Main stem -->
                     <path d="M0 28 L0 -5" stroke="white" stroke-width="2.5" fill="none"/>
                     <!-- Wheat grains - alternating left and right like real wheat -->
@@ -2785,8 +2787,9 @@
                         ${replies.length > 0 ? replies.map((r, idx) => {
                             const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`);
                             
-                            // Format reply date with time
-                            const replyDate = new Date(r.Timestamp || Date.now());
+                            // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
+                            const replyTimestamp = r.Timestamp || t.Timestamp;
+                            const replyDate = new Date(replyTimestamp);
                             const replyDateTime = replyDate.toLocaleDateString('he-IL') + ' ' + replyDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
                             
                             return `
