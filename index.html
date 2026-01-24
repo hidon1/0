@@ -25,6 +25,7 @@
             --info-border: #90cdf4;
             --success: #48bb78;
             --warning: #ed8936;
+            --error: #e74c3c;
             --shadow: rgba(0,0,0,0.1);
             --shadow-lg: rgba(0,0,0,0.15);
         }
@@ -39,6 +40,7 @@
             --text-muted: #718096;
             --info: #1a365d;
             --info-border: #4a6fa5;
+            --error: #e74c3c;
             --shadow: rgba(0,0,0,0.3);
             --shadow-lg: rgba(0,0,0,0.4);
         }
@@ -195,7 +197,7 @@
         .header-icon .x-mark {
             position: absolute;
             opacity: 0;
-            color: #e74c3c;
+            color: var(--error);
             font-size: 2.8rem;
             animation: xMarkAppear 4s ease-in-out infinite;
         }
@@ -2098,9 +2100,6 @@
         } else {
             toggleBtn.className = 'fas fa-chevron-right';
         }
-        
-        // Save preference
-        localStorage.setItem('sidebarHidden', sidebar.classList.contains('hidden'));
     }
     
     // Search functionality
