@@ -25,6 +25,7 @@
             --info-border: #90cdf4;
             --success: #48bb78;
             --warning: #ed8936;
+            --error: #e74c3c;
             --shadow: rgba(0,0,0,0.1);
             --shadow-lg: rgba(0,0,0,0.15);
         }
@@ -39,6 +40,7 @@
             --text-muted: #718096;
             --info: #1a365d;
             --info-border: #4a6fa5;
+            --error: #e74c3c;
             --shadow: rgba(0,0,0,0.3);
             --shadow-lg: rgba(0,0,0,0.4);
         }
@@ -92,29 +94,34 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 8px 18px;
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 10px 18px;
+            border: 2px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .search-box:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .search-box:focus-within {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             border-color: var(--accent);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
         
         .search-box input {
             background: transparent;
             border: none;
-            color: #000000;
+            color: white;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
-            width: 200px;
+            width: 250px;
             outline: none;
-            caret-color: #000000;
+            caret-color: white;
             text-shadow: none;
         }
         
@@ -177,7 +184,36 @@
         .header-icon {
             font-size: 2.2rem;
             color: var(--accent);
-            animation: titleFadeIn 0.8s ease-out;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header-icon .wheat {
+            animation: wheatPulse 4s ease-in-out infinite;
+        }
+        
+        .header-icon .x-mark {
+            position: absolute;
+            opacity: 0;
+            color: var(--error);
+            font-size: 2.8rem;
+            animation: xMarkAppear 4s ease-in-out infinite;
+        }
+        
+        @keyframes wheatPulse {
+            0%, 40% { transform: scale(1) rotate(0deg); }
+            20% { transform: scale(1.1) rotate(5deg); }
+            45%, 55% { transform: scale(0.9); }
+            60%, 100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        @keyframes xMarkAppear {
+            0%, 40% { opacity: 0; transform: scale(0) rotate(-180deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(0deg); }
+            60% { opacity: 1; transform: scale(1) rotate(0deg); }
+            70%, 100% { opacity: 0; transform: scale(0) rotate(180deg); }
         }
 
         .theme-toggle {
@@ -237,7 +273,7 @@
 
         .login-btn:hover {
             background: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
+            transform: translateX(-50%) scale(1.05);
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
 
@@ -312,28 +348,49 @@
         }
 
         .main-layout {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 40px;
+            display: block;
             max-width: 1500px;
             margin: 0 auto;
             padding: 40px 30px;
+            padding-right: 60px;
             transition: all 0.3s ease;
         }
         
         .main-layout.sidebar-hidden {
-            grid-template-columns: 1fr;
+            padding-right: 30px;
         }
 
         .sidebar {
+            position: fixed;
+            top: 100px;
+            right: 80px;
+            width: 380px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 20px;
             transition: all 0.3s ease;
+            z-index: 999;
         }
         
         .sidebar.hidden {
             display: none;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 998;
+            display: none;
+        }
+        
+        .sidebar-overlay.visible {
+            display: block;
         }
 
         .sidebar-card {
@@ -1221,8 +1278,7 @@
         מצב תצוגה
     </button>
     <button class="login-btn" id="loginBtn" onclick="openRegisterModal()">
-        <i class="fas fa-sign-in-alt"></i>
-        התחבר / הירשם
+        הירשם / התחבר
     </button>
     <div class="user-display" id="userDisplay" style="display: none;">
         <button class="logout-btn" onclick="logout()">התנתק</button>
@@ -1230,7 +1286,10 @@
         <span>מחובר: <span class="user-name" id="displayUserName"></span></span>
     </div>
     <div class="header-content">
-        <i class="fas fa-wheat-awn header-icon"></i>
+        <span class="header-icon">
+            <i class="fas fa-wheat-awn wheat"></i>
+            <i class="fas fa-times x-mark"></i>
+        </span>
         <div class="header-text">
             <h1>פורום הצליאק החרדי</h1>
             <p class="subtitle">בית חם לעזרה הדדית, מתכונים מקצועיים ומידע רפואי מהימן</p>
@@ -1245,14 +1304,16 @@
 </header>
 
 <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="הצג/הסתר מידע">
-    <i class="fas fa-chevron-right"></i>
+    <i class="fas fa-info-circle"></i>
 </button>
 
-<div class="main-layout" id="mainLayout">
-    <aside class="sidebar" id="sidebar">
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="main-layout sidebar-hidden" id="mainLayout">
+    <aside class="sidebar hidden" id="sidebar">
         <!-- Recipes Accordion Card -->
         <div class="sidebar-card">
-            <div class="accordion-header active" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-utensils"></i>
@@ -1261,7 +1322,7 @@
                 </div>
                 <i class="fas fa-chevron-down toggle-icon"></i>
             </div>
-            <div class="accordion-content open">
+            <div class="accordion-content">
                 <div class="accordion-inner">
                     <!-- Recipe 1: Gluten-Free Bread -->
                     <div class="recipe-card" onclick="toggleRecipe(this)">
@@ -1816,7 +1877,8 @@
     <div class="modal-content">
         <h2><i class="fas fa-user-plus"></i> הרשמה לפורום</h2>
         <input type="text" id="registerUsername" placeholder="שם משתמש (חובה)" required>
-        <input type="email" id="registerEmail" placeholder="אימייל (אופציונלי)">
+        <input type="email" id="registerEmail" placeholder="אימייל (חובה)" required>
+        <input type="password" id="registerPassword" placeholder="סיסמה (חובה)" required>
         <button class="btn-main" onclick="registerUser()">
             <i class="fas fa-check"></i> הירשם
         </button>
@@ -1861,9 +1923,20 @@
     async function registerUser() {
         const username = document.getElementById('registerUsername').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
         
         if (!username) {
             showToast('יש להזין שם משתמש');
+            return;
+        }
+        
+        if (!email) {
+            showToast('יש להזין אימייל');
+            return;
+        }
+        
+        if (!password) {
+            showToast('יש להזין סיסמה');
             return;
         }
         
@@ -1874,7 +1947,8 @@
                 body: JSON.stringify({
                     action: 'register',
                     username: username,
-                    email: email
+                    email: email,
+                    password: password
                 })
             });
             
@@ -2014,9 +2088,11 @@
         const sidebar = document.getElementById('sidebar');
         const mainLayout = document.getElementById('mainLayout');
         const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
+        const overlay = document.getElementById('sidebarOverlay');
         
         sidebar.classList.toggle('hidden');
         mainLayout.classList.toggle('sidebar-hidden');
+        overlay.classList.toggle('visible');
         
         // Toggle icon between info and arrow
         if (sidebar.classList.contains('hidden')) {
@@ -2024,9 +2100,6 @@
         } else {
             toggleBtn.className = 'fas fa-chevron-right';
         }
-        
-        // Save preference
-        localStorage.setItem('sidebarHidden', sidebar.classList.contains('hidden'));
     }
     
     // Search functionality
@@ -2354,16 +2427,8 @@
             document.body.setAttribute('data-theme', savedTheme);
         }
         
-        // Load sidebar state
-        const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
-        if (sidebarHidden) {
-            const sidebar = document.getElementById('sidebar');
-            const mainLayout = document.getElementById('mainLayout');
-            const toggleBtn = document.querySelector('.sidebar-toggle-btn i');
-            sidebar.classList.add('hidden');
-            mainLayout.classList.add('sidebar-hidden');
-            toggleBtn.className = 'fas fa-info-circle';
-        }
+        // Sidebar starts hidden by default - no need to load saved state
+        // The sidebar will be hidden on page load and user can toggle it
         
         // Load user state
         updateUserDisplay();
