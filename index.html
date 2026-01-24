@@ -1956,8 +1956,8 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="auth-tabs">
-            <button class="auth-tab active" onclick="switchAuthTab('register')">הרשמה</button>
-            <button class="auth-tab" onclick="switchAuthTab('login')">התחברות</button>
+            <button class="auth-tab active" data-tab="register" onclick="switchAuthTab('register')">הרשמה</button>
+            <button class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">התחברות</button>
         </div>
         
         <!-- Registration Form -->
@@ -2014,8 +2014,8 @@
     }
 
     function switchAuthTab(tab) {
-        const registerTab = document.querySelector('.auth-tab:first-child');
-        const loginTab = document.querySelector('.auth-tab:last-child');
+        const registerTab = document.querySelector('.auth-tab[data-tab="register"]');
+        const loginTab = document.querySelector('.auth-tab[data-tab="login"]');
         const registerForm = document.getElementById('registerForm');
         const loginForm = document.getElementById('loginForm');
         
@@ -2486,11 +2486,18 @@
         // Disable button and close modal immediately
         sendBtn.disabled = true;
         document.getElementById('postModal').style.display = 'none';
-        showToast('ההודעה שלך נשלחה בהצלחה!');
         
-        addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        setTimeout(() => location.reload(), 1500);
+        try {
+            addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+            showToast('ההודעה שלך נשלחה בהצלחה!');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            console.error('Error sending post:', error);
+            showToast('שגיאה בשליחת ההודעה. נסה שנית.');
+            sendBtn.disabled = false;
+            document.getElementById('postModal').style.display = 'flex';
+        }
     }
 
     async function sendReply(parentId) {
