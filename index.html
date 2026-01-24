@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פורום הצליאק החרדי - המהדורה המלאה</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e6c453'/%3E%3Cg fill='none' stroke='white' stroke-width='4'%3E%3Cpath d='M50 15 L75 60 L25 60 Z'/%3E%3Cpath d='M50 85 L25 40 L75 40 Z'/%3E%3C/g%3E%3Cline x1='25' y1='70' x2='75' y2='30' stroke='%23c0392b' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e6c453'/%3E%3Cg transform='translate(50,50)'%3E%3Cline x1='0' y1='35' x2='0' y2='-10' stroke='%238B7355' stroke-width='2.5' stroke-linecap='round'/%3E%3Cellipse cx='-6' cy='-5' rx='4' ry='8' fill='white' transform='rotate(-20)'/%3E%3Cellipse cx='-5' cy='-15' rx='3.5' ry='7' fill='white' transform='rotate(-15)'/%3E%3Cellipse cx='-4' cy='-24' rx='3' ry='6' fill='white' transform='rotate(-10)'/%3E%3Cellipse cx='6' cy='-5' rx='4' ry='8' fill='white' transform='rotate(20)'/%3E%3Cellipse cx='5' cy='-15' rx='3.5' ry='7' fill='white' transform='rotate(15)'/%3E%3Cellipse cx='4' cy='-24' rx='3' ry='6' fill='white' transform='rotate(10)'/%3E%3Cellipse cx='0' cy='-30' rx='3' ry='6' fill='white'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23c0392b' stroke-width='5'/%3E%3Cline x1='25' y1='65' x2='75' y2='35' stroke='%23c0392b' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@400;500;700;800&family=Varela+Round&family=Alef:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -68,7 +68,7 @@
             padding: 1.5rem 2rem; 
             position: relative;
             box-shadow: 0 8px 40px var(--shadow-lg);
-            overflow: hidden;
+            overflow: visible;
         }
         
         .header-content {
@@ -159,21 +159,22 @@
         }
         
         .search-box input {
-            background: transparent;
+            background: rgba(255,255,255,0.9);
             border: none;
-            color: white;
+            color: #2d3748;
             font-family: 'Heebo', sans-serif;
             font-size: 0.9rem;
             width: 140px;
             outline: none;
-            caret-color: white;
+            caret-color: #2d3748;
             text-shadow: none;
-            padding: 0;
+            padding: 4px 8px;
             margin: 0;
+            border-radius: 8px;
         }
         
         .search-box input::placeholder {
-            color: rgba(255,255,255,0.7);
+            color: #718096;
         }
         
         .search-box i {
@@ -366,7 +367,7 @@
         .sidebar-card {
             background: var(--card);
             border-radius: 20px;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 10px 40px var(--shadow);
             border: 1px solid rgba(0,0,0,0.05);
             transition: all 0.3s ease;
@@ -1324,16 +1325,39 @@
                     </filter>
                 </defs>
                 <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" filter="url(#logoShadow)"/>
-                <g fill="white" transform="translate(50,50) scale(0.7)">
-                    <path d="M-25,-8 L0,-43 L25,-8 Z" stroke="white" stroke-width="3"/>
-                    <path d="M-25,8 L0,43 L25,8 Z" stroke="white" stroke-width="3"/>
-                    <path d="M-25,-8 L0,-43 L25,-8 Z M-25,8 L0,43 L25,8 Z" fill="none" stroke="white" stroke-width="3"/>
+                <!-- Animated wheat icon -->
+                <g transform="translate(50,50)">
+                    <!-- Wheat stalk - swaying animation -->
+                    <g>
+                        <animateTransform attributeName="transform" type="rotate" values="-5;5;-5" dur="2s" repeatCount="indefinite"/>
+                        <!-- Main stem -->
+                        <line x1="0" y1="35" x2="0" y2="-10" stroke="#8B7355" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Wheat grains - left side -->
+                        <ellipse cx="-6" cy="-5" rx="4" ry="8" fill="white" transform="rotate(-20)"/>
+                        <ellipse cx="-5" cy="-15" rx="3.5" ry="7" fill="white" transform="rotate(-15)"/>
+                        <ellipse cx="-4" cy="-24" rx="3" ry="6" fill="white" transform="rotate(-10)"/>
+                        <!-- Wheat grains - right side -->
+                        <ellipse cx="6" cy="-5" rx="4" ry="8" fill="white" transform="rotate(20)"/>
+                        <ellipse cx="5" cy="-15" rx="3.5" ry="7" fill="white" transform="rotate(15)"/>
+                        <ellipse cx="4" cy="-24" rx="3" ry="6" fill="white" transform="rotate(10)"/>
+                        <!-- Top grain -->
+                        <ellipse cx="0" cy="-30" rx="3" ry="6" fill="white"/>
+                    </g>
                 </g>
-                <line x1="25" y1="65" x2="75" y2="35" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+                <!-- Animated prohibition circle -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#c0392b" stroke-width="5" stroke-linecap="round"
+                    stroke-dasharray="239" stroke-dashoffset="239">
+                    <animate attributeName="stroke-dashoffset" values="239;0;0;239" dur="3s" repeatCount="indefinite" keyTimes="0;0.4;0.6;1"/>
+                </circle>
+                <!-- Animated prohibition line -->
+                <line x1="25" y1="65" x2="75" y2="35" stroke="#c0392b" stroke-width="5" stroke-linecap="round"
+                    stroke-dasharray="60" stroke-dashoffset="60">
+                    <animate attributeName="stroke-dashoffset" values="60;0;0;60" dur="3s" repeatCount="indefinite" keyTimes="0;0.4;0.6;1"/>
+                </line>
             </svg>
         </span>
         <div class="header-text">
-            <h1>פורום הצליאק החרדי</h1>
+            <h1 onclick="window.scrollTo({top: 0, behavior: 'smooth'}); location.reload();" style="cursor: pointer;">פורום הצליאק החרדי</h1>
             <p class="subtitle">בית חם לעזרה הדדית, מתכונים מקצועיים ומידע רפואי מהימן</p>
         </div>
         <div class="header-controls">
@@ -2308,6 +2332,9 @@
         // Filter to only show valid posts with ID, Name, and Content
         const validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content));
         
+        // Sort posts from newest to oldest
+        validPosts.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
+        
         if (validPosts.length === 0) {
             const message = currentSearchTerm ? 'לא נמצאו תוצאות לחיפוש' : 'אין הודעות עדיין';
             const submessage = currentSearchTerm ? 'נסו לחפש מונח אחר' : 'היו הראשונים לפתוח שרשור חדש!';
@@ -2326,12 +2353,17 @@
             const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content);
             const categoryIcon = getCategoryIcon(t.Category);
             const canDeletePost = isAuthored(t.ID);
+            const postDate = new Date(t.Timestamp);
+            const dateStr = postDate.toLocaleDateString('he-IL');
+            const timeStr = postDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
             container.innerHTML += `
                 <div class="thread-card" onclick="toggleReplies('${t.ID}')">
                     <small>
                         <i class="${categoryIcon}"></i> ${t.Category} 
                         <span style="margin: 0 8px;">|</span>
-                        <i class="fas fa-calendar-alt"></i> ${new Date(t.Timestamp).toLocaleDateString('he-IL')}
+                        <i class="fas fa-calendar-alt"></i> ${dateStr}
+                        <span style="margin: 0 8px;">|</span>
+                        <i class="fas fa-clock"></i> ${timeStr}
                     </small>
                     <h3>${t.Subject}</h3>
                     <p>${t.Content}</p>
