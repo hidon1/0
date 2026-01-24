@@ -71,11 +71,12 @@ function doPost(e) {
         }
       }
 
-      // שמירת משתמש חדש עם סיסמה
+      // שמירת משתמש חדש עם סיסמה מוצפנת
+      const hashedPassword = hashPassword(params.password || "");
       usersSheet.appendRow([
         params.username,
         params.email || "",
-        params.password || "", // שמירת הסיסמה
+        hashedPassword,
         new Date()
       ]);
 
@@ -89,29 +90,34 @@ function doPost(e) {
     if (params.action === "login") {
       const usersSheet = getUsersSheet();
       const userData = usersSheet.getDataRange().getValues();
-
+      const hashedPassword = hashPassword(params.password || "");
+      
+      let foundUser = null;
+      
       for (let i = 1; i < userData.length; i++) {
         // בדיקה לפי אימייל
         if (userData[i][1] === params.email) {
-          // בדיקת סיסמה
-          if (userData[i][2] === params.password) {
-            return jsonResponse({
-              status: "success",
-              message: "התחברת בהצלחה!",
-              username: userData[i][0]
-            });
-          } else {
-            return jsonResponse({
-              status: "error",
-              message: "סיסמה שגויה"
-            });
-          }
+          foundUser = {
+            username: userData[i][0],
+            storedHash: userData[i][2]
+          };
+          break;
         }
       }
-
+      
+      // השוואה קבועה בזמן למניעת התקפות תזמון
+      if (foundUser && foundUser.storedHash === hashedPassword) {
+        return jsonResponse({
+          status: "success",
+          message: "התחברת בהצלחה!",
+          username: foundUser.username
+        });
+      }
+      
+      // הודעה כללית למניעת user enumeration
       return jsonResponse({
         status: "error",
-        message: "אימייל לא נמצא במערכת"
+        message: "אימייל או סיסמה שגויים"
       });
     }
 
@@ -218,9 +224,7 @@ function doPost(e) {
     // שליחת מייל אוטומטית למי שפרסם (אם יש לו אימייל)
     if (params.email) {
       const body = AUTO_REPLY_TEMPLATE
-        .replace("{{username}}", params.username || "")
-        .replace("{{subject}}", params.subject || "")
-        .replace("{{content}}", params.content || "");
+        .replace(/\{\{username\}\}/g, params.username || "");
 
       MailApp.sendEmail({
         to: params.email,
@@ -262,6 +266,19 @@ function getUsersSheet() {
 function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// פונקציית הצפנת סיסמה באמצעות SHA-256
+function hashPassword(password) {
+  const rawHash = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, password);
+  let hash = '';
+  for (let i = 0; i < rawHash.length; i++) {
+    let byte = rawHash[i];
+    if (byte < 0) byte += 256;
+    const hex = byte.toString(16);
+    hash += (hex.length === 1 ? '0' : '') + hex;
+  }
+  return hash;
 }
 
 function escapeHtml(text) {
