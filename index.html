@@ -2130,6 +2130,8 @@
         
         try {
             // Get stored user credentials from localStorage
+            // Note: This is a client-side workaround since the backend doesn't support password-based login.
+            // In a production environment, proper authentication should be implemented on the server side.
             const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
             const userKey = email.toLowerCase();
             
@@ -2206,6 +2208,8 @@
             
             if (result.status === 'success' || result.success) {
                 // Save credentials locally for login
+                // Note: This is a workaround since the backend doesn't support password storage.
+                // In a production environment, proper authentication should be implemented on the server side.
                 const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
                 const userKey = email.toLowerCase();
                 storedUsers[userKey] = {
