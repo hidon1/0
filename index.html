@@ -97,10 +97,11 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
             border-radius: 30px;
-            padding: 10px 18px;
+            padding: 6px 18px;
             border: 2px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            height: 44px;
         }
         
         .search-box:hover {
@@ -119,10 +120,12 @@
             color: white;
             font-family: 'Heebo', sans-serif;
             font-size: 0.95rem;
-            width: 250px;
+            width: 280px;
             outline: none;
             caret-color: white;
             text-shadow: none;
+            padding: 0;
+            margin: 0;
         }
         
         .search-box input::placeholder {
@@ -384,9 +387,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.5);
             z-index: 998;
             display: none;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         
         .sidebar-overlay.visible {
@@ -471,7 +476,8 @@
         }
 
         .accordion-content.open {
-            max-height: 3000px;
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         .accordion-inner {
@@ -972,6 +978,73 @@
             color: var(--text);
             box-shadow: 0 30px 80px rgba(0,0,0,0.4);
             animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--text-muted), var(--text-light));
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close-btn:hover {
+            background: linear-gradient(135deg, var(--error), #c0392b);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .modal-close-btn i {
+            color: white;
+            font-size: 1rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 14px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab:hover {
+            background: var(--info);
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
         }
 
         .modal-content h2 {
@@ -1844,6 +1917,9 @@
 
 <div id="postModal" class="modal">
     <div class="modal-content">
+        <button class="modal-close-btn" onclick="document.getElementById('postModal').style.display='none'">
+            <i class="fas fa-times"></i>
+        </button>
         <h2><i class="fas fa-pen-to-square"></i> פתיחת שרשור חדש</h2>
         <input type="text" id="name" placeholder="השם שלך">
         <select id="category">
@@ -1858,33 +1934,50 @@
         </select>
         <input type="text" id="subject" placeholder="נושא ההודעה">
         <textarea id="content" rows="5" placeholder="תוכן ההודעה..."></textarea>
-        <button class="btn-main" onclick="sendPost()"><i class="fas fa-paper-plane"></i> פרסם עכשיו</button>
-        <button class="btn-main btn-secondary" onclick="document.getElementById('postModal').style.display='none'"><i class="fas fa-times"></i> סגור</button>
+        <button class="btn-main" id="sendPostBtn" onclick="sendPost()"><i class="fas fa-paper-plane"></i> פרסם עכשיו</button>
     </div>
 </div>
 
 <div id="nameModal" class="modal">
     <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeNameModal()">
+            <i class="fas fa-times"></i>
+        </button>
         <h2><i class="fas fa-user-edit"></i> השם שיפורסם בתגובה</h2>
         <input type="text" id="replyNameInput" placeholder="הכנס את שמך כאן...">
         <button class="btn-main" id="nameModalConfirm"><i class="fas fa-check"></i> אישור</button>
-        <button class="btn-main btn-secondary" onclick="closeNameModal()"><i class="fas fa-times"></i> ביטול</button>
     </div>
 </div>
 
 <!-- Register Modal -->
 <div id="registerModal" class="modal">
     <div class="modal-content">
-        <h2><i class="fas fa-user-plus"></i> הרשמה לפורום</h2>
-        <input type="text" id="registerUsername" placeholder="שם משתמש (חובה)" required>
-        <input type="email" id="registerEmail" placeholder="אימייל (חובה)" required>
-        <input type="password" id="registerPassword" placeholder="סיסמה (חובה)" required>
-        <button class="btn-main" onclick="registerUser()">
-            <i class="fas fa-check"></i> הירשם
+        <button class="modal-close-btn" onclick="closeRegisterModal()">
+            <i class="fas fa-times"></i>
         </button>
-        <button class="btn-secondary" onclick="closeRegisterModal()">
-            <i class="fas fa-times"></i> ביטול
-        </button>
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="register" onclick="switchAuthTab('register')">הרשמה</button>
+            <button class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">התחברות</button>
+        </div>
+        
+        <!-- Registration Form -->
+        <div id="registerForm" class="auth-form active">
+            <input type="text" id="registerUsername" placeholder="שם משתמש (חובה)" required>
+            <input type="email" id="registerEmail" placeholder="אימייל (חובה)" required>
+            <input type="password" id="registerPassword" placeholder="סיסמה (חובה)" required>
+            <button class="btn-main" onclick="registerUser()">
+                <i class="fas fa-user-plus"></i> הירשם
+            </button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form">
+            <input type="email" id="loginEmail" placeholder="אימייל" required>
+            <input type="password" id="loginPassword" placeholder="סיסמה" required>
+            <button class="btn-main" onclick="loginUser()">
+                <i class="fas fa-sign-in-alt"></i> התחבר
+            </button>
+        </div>
     </div>
 </div>
 
@@ -1918,6 +2011,65 @@
 
     function closeRegisterModal() {
         document.getElementById('registerModal').style.display = 'none';
+    }
+
+    function switchAuthTab(tab) {
+        const registerTab = document.querySelector('.auth-tab[data-tab="register"]');
+        const loginTab = document.querySelector('.auth-tab[data-tab="login"]');
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        
+        if (tab === 'register') {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        } else {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        }
+    }
+
+    async function loginUser() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email) {
+            showToast('יש להזין אימייל');
+            return;
+        }
+        
+        if (!password) {
+            showToast('יש להזין סיסמה');
+            return;
+        }
+        
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'login',
+                    email: email,
+                    password: password
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success' || result.success) {
+                localStorage.setItem('currentUser', result.username || email.split('@')[0]);
+                showToast(result.message || 'התחברת בהצלחה!');
+                updateUserDisplay();
+                closeRegisterModal();
+            } else {
+                showToast(result.message || 'שגיאה בהתחברות');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showToast('שגיאה בהתחברות. נסה שנית.');
+        }
     }
 
     async function registerUser() {
@@ -2268,6 +2420,12 @@
     function openPostModal() {
         const currentUser = localStorage.getItem('currentUser');
         const nameField = document.getElementById('name');
+        const sendBtn = document.getElementById('sendPostBtn');
+        
+        // Re-enable the send button when opening modal
+        if (sendBtn) {
+            sendBtn.disabled = false;
+        }
         
         if (currentUser) {
             nameField.style.display = 'none';
@@ -2292,6 +2450,13 @@
     }
 
     async function sendPost() {
+        const sendBtn = document.getElementById('sendPostBtn');
+        
+        // Prevent double submission
+        if (sendBtn.disabled) {
+            return;
+        }
+        
         const currentUser = localStorage.getItem('currentUser');
         const nameFromInput = document.getElementById('name').value;
         const userName = currentUser || nameFromInput;
@@ -2317,11 +2482,22 @@
             showToast('נא להזין תוכן להודעה');
             return;
         }
-        addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
-        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        
+        // Disable button and close modal immediately
+        sendBtn.disabled = true;
         document.getElementById('postModal').style.display = 'none';
-        showToast('ההודעה שלך נשלחה בהצלחה!');
-        setTimeout(() => location.reload(), 1500);
+        
+        try {
+            addPendingAuthored({ name: payload.name, content: payload.content, timestamp: new Date().toISOString() });
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+            showToast('ההודעה שלך נשלחה בהצלחה!');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            console.error('Error sending post:', error);
+            showToast('שגיאה בשליחת ההודעה. נסה שנית.');
+            sendBtn.disabled = false;
+            document.getElementById('postModal').style.display = 'flex';
+        }
     }
 
     async function sendReply(parentId) {
