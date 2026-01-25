@@ -2285,6 +2285,14 @@
                                 <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
                                 <li>ההחלטות הסופיות בידי צוות המנהלים</li>
                             </ul>
+                            
+                            <h5 style="color: var(--error); margin-top: 1.5rem; margin-bottom: 0.8rem;">אחריות רפואית:</h5>
+                            <ul class="styled-rules-list">
+                                <li><strong>אין כל אחריות על מידע רפואי המתפרסם בפורום</strong></li>
+                                <li>המידע באתר הוא לצרכי מידע כללי בלבד ואינו תחליף לייעוץ רפואי מקצועי</li>
+                                <li>יש להתייעץ עם רופא או גורם רפואי מוסמך בכל נושא רפואי</li>
+                                <li>הפורום אינו נושא באחריות לכל נזק שיגרם כתוצאה משימוש במידע המפורסם כאן</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -2559,6 +2567,16 @@
                     <li>המנהלים שומרים לעצמם את הזכות למחוק או לערוך תכנים לא הולמים</li>
                     <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
                     <li>ההחלטות הסופיות בידי צוות המנהלים</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3 style="color: var(--error);"><i class="fas fa-exclamation-triangle"></i> אחריות רפואית</h3>
+                <ul class="styled-rules-list">
+                    <li><strong>אין כל אחריות על מידע רפואי המתפרסם בפורום</strong></li>
+                    <li>המידע באתר הוא לצרכי מידע כללי בלבד ואינו תחליף לייעוץ רפואי מקצועי</li>
+                    <li>יש להתייעץ עם רופא או גורם רפואי מוסמך בכל נושא רפואי</li>
+                    <li>הפורום אינו נושא באחריות לכל נזק שיגרם כתוצאה משימוש במידע המפורסם כאן</li>
                 </ul>
             </div>
             
@@ -3117,9 +3135,45 @@
         const modal = getOrCreateInfoModal();
         
         // Populate modal content
-        const innerContent = content.querySelector('.accordion-inner');
+        // First, try to find .accordion-inner (for simple content)
+        let innerContent = content.querySelector('.accordion-inner');
+        
+        // If not found, collect all .info-inner from .info-accordion sections
         if (!innerContent) {
-            console.error('Content structure is missing .accordion-inner element');
+            const infoSections = content.querySelectorAll('.info-accordion');
+            if (infoSections.length > 0) {
+                let combinedHtml = '';
+                infoSections.forEach((section, index) => {
+                    const sectionTitle = section.querySelector('h4');
+                    const sectionIcon = section.querySelector('.info-icon');
+                    const sectionContent = section.querySelector('.info-inner');
+                    
+                    if (sectionTitle && sectionContent) {
+                        if (index > 0) {
+                            combinedHtml += '<hr style="margin: 2rem 0; border: none; border-top: 2px solid var(--info-border); opacity: 0.3;">';
+                        }
+                        combinedHtml += `<div style="margin-bottom: 2rem;">`;
+                        if (sectionIcon) {
+                            combinedHtml += `<h3 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">`;
+                            combinedHtml += `<span style="font-size: 1.5rem;">${sectionIcon.innerHTML}</span>`;
+                            combinedHtml += `<span>${sectionTitle.textContent}</span>`;
+                            combinedHtml += `</h3>`;
+                        }
+                        combinedHtml += sectionContent.innerHTML;
+                        combinedHtml += `</div>`;
+                    }
+                });
+                
+                modal.querySelector('.info-icon').innerHTML = iconHtml;
+                modal.querySelector('h2').textContent = title;
+                modal.querySelector('.info-inner').innerHTML = combinedHtml;
+                
+                // Show modal
+                modal.style.display = 'flex';
+                return;
+            }
+            
+            console.error('Content structure is missing .accordion-inner or .info-accordion elements');
             return;
         }
         
@@ -3541,8 +3595,15 @@
             showToast('ההודעה לא נמצאה');
             return;
         }
-        // Thread authors can delete their threads at any time (no time restriction)
-        // Note: Replies/comments still have 24-hour deletion window
+        
+        // Check if the thread has any replies
+        const hasReplies = allPosts.some(p => p.ParentID === id);
+        if (hasReplies) {
+            showToast('לא ניתן למחוק שרשור שיש לו תגובות');
+            return;
+        }
+        
+        // Thread authors can delete their threads only if there are no replies
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('ההודעה נמחקה בהצלחה');
