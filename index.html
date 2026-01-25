@@ -502,7 +502,7 @@
         }
 
         .accordion-content.open {
-            max-height: 800px;
+            max-height: 2000px;
             overflow-y: auto;
         }
 
@@ -747,7 +747,8 @@
         }
 
         .info-content.open {
-            max-height: 1000px;
+            max-height: 2000px;
+            overflow-y: auto;
         }
 
         .info-inner {
@@ -1517,6 +1518,50 @@
                 width: 40px;
                 height: 40px;
             }
+            
+            /* Better mobile layout for thread cards */
+            .thread-card {
+                padding: 15px;
+            }
+            
+            .thread-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .thread-card p {
+                font-size: 0.9rem;
+            }
+            
+            /* Better mobile layout for reply sections */
+            .reply-item {
+                padding: 12px;
+            }
+            
+            .reply-item > div {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+            
+            /* Stack buttons vertically on mobile */
+            .delete-btn, .reply-btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+            
+            /* Better input fields on mobile */
+            input[type="text"], textarea {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+            }
+            
+            /* Improve accordion content scrollability on mobile */
+            .accordion-content.open {
+                max-height: 80vh;
+            }
+            
+            .info-content.open {
+                max-height: 70vh;
+            }
         }
     </style>
 </head>
@@ -1789,7 +1834,7 @@
             <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
-                        <i class="fas fa-book-medical"></i>
+                        <i class="fas fa-info-circle"></i>
                     </div>
                     <span>מידע רפואי על צליאק</span>
                 </div>
@@ -2825,6 +2870,17 @@
         }
     }
 
+    // Check if post/comment can be deleted (within 24 hours)
+    function canDelete(timestamp) {
+        if (!timestamp) return false;
+        const postTime = new Date(timestamp);
+        // Check if date is valid
+        if (isNaN(postTime.getTime())) return false;
+        const now = new Date();
+        const hoursDiff = (now - postTime) / (1000 * 60 * 60);
+        return hoursDiff <= 24;
+    }
+
     // Track authored posts for delete functionality
     function markAsAuthored(postId) {
         const authoredPosts = JSON.parse(localStorage.getItem('authoredPosts') || '[]');
@@ -2950,7 +3006,10 @@
         }
         
         // Filter to only show valid posts with ID, Name, and Content (excluding replies with ParentID)
-        const validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content) && !p.ParentID);
+        let validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content) && !p.ParentID);
+        
+        // Sort threads by timestamp - newest first
+        validPosts.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
         
         if (validPosts.length === 0) {
             const message = currentSearchTerm ? 'לא נמצאו תוצאות לחיפוש' : 'אין הודעות עדיין';
@@ -2966,10 +3025,11 @@
         }
         
         validPosts.forEach(t => {
-            // Filter replies to only show valid ones with Name and Content, then reverse order (newest first)
-            const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content).reverse();
+            // Filter replies to only show valid ones with Name and Content, sort oldest first
+            const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content)
+                .sort((a, b) => new Date(a.Timestamp) - new Date(b.Timestamp));
             const categoryIcon = getCategoryIcon(t.Category);
-            const canDeletePost = isAuthored(t.ID);
+            const canDeletePost = isAuthored(t.ID) && canDelete(t.Timestamp);
             
             // Format date with time
             const threadDate = new Date(t.Timestamp);
@@ -3006,7 +3066,7 @@
                             תגובות (${replies.length}):
                         </h4>
                         ${replies.length > 0 ? replies.map((r, idx) => {
-                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`);
+                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`) && canDelete(r.Timestamp);
                             
                             // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
                             const replyTimestamp = r.Timestamp || t.Timestamp;
@@ -3024,9 +3084,14 @@
                                         </span>
                                         ${canDeleteReply ? `<button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                                     </div>
-                                    <button class="reply-btn" onclick="event.stopPropagation(); toggleReplyToReply('${t.ID}-${idx}')">
-                                        <i class="fas fa-reply"></i> הגב
-                                    </button>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <button class="tab-btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="event.stopPropagation(); addCommentLike('${r.ID || `reply-${t.ID}-${idx}`}')">
+                                            <i class="fas fa-heart" style="color: #e74c3c;"></i> ${r.Likes || 0}
+                                        </button>
+                                        <button class="reply-btn" onclick="event.stopPropagation(); toggleReplyToReply('${t.ID}-${idx}')">
+                                            <i class="fas fa-reply"></i> הגב
+                                        </button>
+                                    </div>
                                 </div>
                                 <p style="margin-right: 28px;">${r.Content}</p>
                                 <div id="reply-box-${t.ID}-${idx}" class="reply-to-reply-box">
@@ -3189,9 +3254,10 @@
         }
     }
 
-    async function addLike(id) {
+    async function addLike(id, isComment = false) {
+        const itemType = isComment ? 'תגובה' : 'הודעה';
         if (hasLiked(id)) {
-            showToast('כבר עשית לייק להודעה זו');
+            showToast(`כבר עשית לייק ל${itemType} זו`);
             return;
         }
         // Mark as liked immediately to prevent multiple clicks
@@ -3210,6 +3276,10 @@
             }
             showToast('שגיאה בשליחת הלייק. נסה שנית.');
         }
+    }
+
+    async function addCommentLike(id) {
+        return addLike(id, true);
     }
 
     function toggleReplies(id) {
@@ -3270,6 +3340,16 @@
             showToast('אין לך הרשאה למחוק הודעה זו');
             return;
         }
+        // Find the post to check timestamp
+        const post = allPosts.find(p => p.ID === id);
+        if (!post) {
+            showToast('ההודעה לא נמצאה');
+            return;
+        }
+        if (!canDelete(post.Timestamp)) {
+            showToast('לא ניתן למחוק הודעה לאחר 24 שעות');
+            return;
+        }
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('ההודעה נמחקה בהצלחה');
@@ -3279,6 +3359,16 @@
     async function deleteReply(id) {
         if (!isAuthored(id)) {
             showToast('אין לך הרשאה למחוק תגובה זו');
+            return;
+        }
+        // Find the reply to check timestamp
+        const reply = allPosts.find(p => p.ID === id);
+        if (!reply) {
+            showToast('התגובה לא נמצאה');
+            return;
+        }
+        if (!canDelete(reply.Timestamp)) {
+            showToast('לא ניתן למחוק תגובה לאחר 24 שעות');
             return;
         }
         if (!confirm('האם אתה בטוח שברצונך למחוק תגובה זו?')) return;
