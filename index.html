@@ -380,11 +380,12 @@
             top: 100px;
             right: 80px;
             width: 380px;
-            max-height: calc(100vh - 120px);
+            max-height: calc(100vh - 140px);
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            padding-bottom: 40px;
             transition: all 0.3s ease;
             z-index: 999;
         }
@@ -501,7 +502,7 @@
         }
 
         .accordion-content.open {
-            max-height: 500px;
+            max-height: 800px;
             overflow-y: auto;
         }
 
@@ -1490,6 +1491,11 @@
             .header-icon {
                 font-size: 1.8rem;
             }
+            
+            .header-icon .logo-svg {
+                width: 60px;
+                height: 60px;
+            }
 
             .nav-tabs {
                 gap: 10px;
@@ -1519,7 +1525,7 @@
 <header>
     <div class="header-content">
         <span class="header-icon">
-            <svg class="logo-svg" viewBox="0 0 100 100" width="55" height="55">
+            <svg class="logo-svg" viewBox="0 0 100 100" width="90" height="90">
                 <defs>
                     <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" style="stop-color:#e6c453"/>
@@ -2943,8 +2949,8 @@
             });
         }
         
-        // Filter to only show valid posts with ID, Name, and Content
-        const validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content));
+        // Filter to only show valid posts with ID, Name, and Content (excluding replies with ParentID)
+        const validPosts = filtered.filter(p => p.ID && p.Name && (p.Subject || p.Content) && !p.ParentID);
         
         if (validPosts.length === 0) {
             const message = currentSearchTerm ? 'לא נמצאו תוצאות לחיפוש' : 'אין הודעות עדיין';
