@@ -2962,12 +2962,6 @@
         content.classList.toggle('open');
     }
 
-    // Info section accordion
-    function toggleInfo(header) {
-        header.classList.toggle('active');
-        header.nextElementSibling.classList.toggle('open');
-    }
-    
     // Info modal functions
     const infoContent = {
         whatIsCeliac: {
@@ -3102,13 +3096,15 @@
         modal.style.display = 'none';
     }
     
-    // Close modal when clicking outside of it
-    window.onclick = function(event) {
-        const modal = document.getElementById('infoModal');
-        if (event.target === modal) {
-            closeInfoModal();
-        }
-    }
+    // Close modal when clicking outside of it - using addEventListener to avoid conflicts
+    document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('infoModal');
+            if (event.target === modal) {
+                closeInfoModal();
+            }
+        });
+    });
 
     // Recipe details toggle
     function toggleRecipe(card) {
