@@ -3112,10 +3112,16 @@
             });
         }
         
-        // Populate modal content
+        // Populate modal content with error handling
+        const innerContent = infoContent.querySelector('.info-inner');
+        if (!innerContent) {
+            console.error('Info content structure is missing .info-inner element');
+            return;
+        }
+        
         modal.querySelector('.info-icon').innerHTML = iconHtml;
         modal.querySelector('h2').textContent = title;
-        modal.querySelector('.info-inner').innerHTML = infoContent.querySelector('.info-inner').innerHTML;
+        modal.querySelector('.info-inner').innerHTML = innerContent.innerHTML;
         
         // Show modal
         modal.style.display = 'flex';
