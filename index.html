@@ -2874,6 +2874,8 @@
     function canDelete(timestamp) {
         if (!timestamp) return false;
         const postTime = new Date(timestamp);
+        // Check if date is valid
+        if (isNaN(postTime.getTime())) return false;
         const now = new Date();
         const hoursDiff = (now - postTime) / (1000 * 60 * 60);
         return hoursDiff <= 24;
@@ -3064,7 +3066,7 @@
                             תגובות (${replies.length}):
                         </h4>
                         ${replies.length > 0 ? replies.map((r, idx) => {
-                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`) && canDelete(r.Timestamp || t.Timestamp);
+                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`) && canDelete(r.Timestamp);
                             
                             // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
                             const replyTimestamp = r.Timestamp || t.Timestamp;
@@ -3358,7 +3360,11 @@
         }
         // Find the post to check timestamp
         const post = allPosts.find(p => p.ID === id);
-        if (!canDelete(post?.Timestamp)) {
+        if (!post) {
+            showToast('ההודעה לא נמצאה');
+            return;
+        }
+        if (!canDelete(post.Timestamp)) {
             showToast('לא ניתן למחוק הודעה לאחר 24 שעות');
             return;
         }
@@ -3375,7 +3381,11 @@
         }
         // Find the reply to check timestamp
         const reply = allPosts.find(p => p.ID === id);
-        if (!canDelete(reply?.Timestamp)) {
+        if (!reply) {
+            showToast('התגובה לא נמצאה');
+            return;
+        }
+        if (!canDelete(reply.Timestamp)) {
             showToast('לא ניתן למחוק תגובה לאחר 24 שעות');
             return;
         }
