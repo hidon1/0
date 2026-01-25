@@ -1749,7 +1749,7 @@
     <aside class="sidebar hidden" id="sidebar">
         <!-- Recipes Accordion Card -->
         <div class="sidebar-card">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-utensils"></i>
@@ -1947,7 +1947,7 @@
 
         <!-- Medical Information Accordion Card -->
         <div class="sidebar-card">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-info-circle"></i>
@@ -2139,7 +2139,7 @@
 
         <!-- Resources Card -->
         <div class="sidebar-card">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-link"></i>
@@ -2241,7 +2241,7 @@
         
         <!-- Rules Card -->
         <div class="sidebar-card">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
                     <div class="icon-wrapper" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
                         <i class="fas fa-gavel"></i>
@@ -3077,6 +3077,55 @@
         content.classList.toggle('open');
     }
 
+    // Banner functionality for main category cards
+    function toggleBanner(header) {
+        const content = header.nextElementSibling;
+        const title = header.querySelector('span').textContent;
+        const iconHtml = header.querySelector('.icon-wrapper').innerHTML;
+        
+        // Create modal if it doesn't exist
+        let modal = document.getElementById('infoModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'infoModal';
+            modal.className = 'info-modal';
+            modal.innerHTML = `
+                <div class="info-modal-content">
+                    <button class="info-modal-close" onclick="closeInfoModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="info-modal-header">
+                        <div class="info-icon"></div>
+                        <h2></h2>
+                    </div>
+                    <div class="info-inner"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeInfoModal();
+                }
+            });
+        }
+        
+        // Populate modal content
+        const innerContent = content.querySelector('.accordion-inner');
+        if (!innerContent) {
+            console.error('Content structure is missing .accordion-inner element');
+            return;
+        }
+        
+        modal.querySelector('.info-icon').innerHTML = iconHtml;
+        modal.querySelector('h2').textContent = title;
+        modal.querySelector('.info-inner').innerHTML = innerContent.innerHTML;
+        
+        // Show modal
+        modal.style.display = 'flex';
+    }
+
     // Info section accordion
     function toggleInfo(header) {
         // Get the info content from the next sibling
@@ -3196,7 +3245,7 @@
             const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content)
                 .sort((a, b) => new Date(a.Timestamp) - new Date(b.Timestamp));
             const categoryIcon = getCategoryIcon(t.Category);
-            const canDeletePost = isAuthored(t.ID) && canDelete(t.Timestamp);
+            const canDeletePost = isAuthored(t.ID);
             
             // Format date with time
             const threadDate = new Date(t.Timestamp);
@@ -3513,10 +3562,7 @@
             showToast('ההודעה לא נמצאה');
             return;
         }
-        if (!canDelete(post.Timestamp)) {
-            showToast('לא ניתן למחוק הודעה לאחר 24 שעות');
-            return;
-        }
+        // Thread authors can delete their threads at any time
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('ההודעה נמחקה בהצלחה');
