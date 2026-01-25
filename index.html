@@ -3244,7 +3244,8 @@
         const container = document.getElementById('posts-container');
         container.innerHTML = '';
         
-        // Get current logged-in user
+        // Get current logged-in user to control delete button visibility
+        // Note: This is client-side only. Server-side validation is also required in the backend.
         const currentUser = localStorage.getItem('currentUser');
         
         let filtered = category === 'הכל' ? allPosts : allPosts.filter(p => p.Category === category);
