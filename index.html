@@ -3244,6 +3244,9 @@
         const container = document.getElementById('posts-container');
         container.innerHTML = '';
         
+        // Get current logged-in user
+        const currentUser = localStorage.getItem('currentUser');
+        
         let filtered = category === 'הכל' ? allPosts : allPosts.filter(p => p.Category === category);
         
         // Apply search filter
@@ -3296,7 +3299,7 @@
                         <span style="display: flex; align-items: center; gap: 8px;">
                             <i class="fas fa-user-circle" style="color: var(--accent);"></i>
                             מאת: <strong>${t.Name}</strong>
-                            <button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>
+                            ${currentUser && currentUser === t.Name ? `<button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                         </span>
                         <div style="display: flex; gap: 10px;">
                             <button class="tab-btn" style="padding: 8px 18px; font-size: 0.9rem;" onclick="event.stopPropagation(); addLike('${t.ID}')">
@@ -3328,7 +3331,7 @@
                                         <span style="color: var(--text-muted); font-size: 0.75rem; margin-right: 8px;">
                                             <i class="fas fa-clock" style="font-size: 0.7rem;"></i> ${replyDateTime}
                                         </span>
-                                        <button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>
+                                        ${currentUser && currentUser === r.Name ? `<button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button class="tab-btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="event.stopPropagation(); addCommentLike('${r.ID || `reply-${t.ID}-${idx}`}')">
