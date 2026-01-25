@@ -3077,13 +3077,8 @@
         content.classList.toggle('open');
     }
 
-    // Banner functionality for main category cards
-    function toggleBanner(header) {
-        const content = header.nextElementSibling;
-        const title = header.querySelector('span').textContent;
-        const iconHtml = header.querySelector('.icon-wrapper').innerHTML;
-        
-        // Create modal if it doesn't exist
+    // Helper function to get or create info modal
+    function getOrCreateInfoModal() {
         let modal = document.getElementById('infoModal');
         if (!modal) {
             modal = document.createElement('div');
@@ -3110,6 +3105,16 @@
                 }
             });
         }
+        return modal;
+    }
+
+    // Banner functionality for main category cards
+    function toggleBanner(header) {
+        const content = header.nextElementSibling;
+        const title = header.querySelector('span').textContent;
+        const iconHtml = header.querySelector('.icon-wrapper').innerHTML;
+        
+        const modal = getOrCreateInfoModal();
         
         // Populate modal content
         const innerContent = content.querySelector('.accordion-inner');
@@ -3133,33 +3138,7 @@
         const title = header.querySelector('h4').textContent;
         const iconHtml = header.querySelector('.info-icon').innerHTML;
         
-        // Create modal if it doesn't exist
-        let modal = document.getElementById('infoModal');
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = 'infoModal';
-            modal.className = 'info-modal';
-            modal.innerHTML = `
-                <div class="info-modal-content">
-                    <button class="info-modal-close" onclick="closeInfoModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="info-modal-header">
-                        <div class="info-icon"></div>
-                        <h2></h2>
-                    </div>
-                    <div class="info-inner"></div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            // Close modal when clicking outside
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeInfoModal();
-                }
-            });
-        }
+        const modal = getOrCreateInfoModal();
         
         // Populate modal content with error handling
         const innerContent = infoContent.querySelector('.info-inner');
@@ -3245,7 +3224,7 @@
             const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content)
                 .sort((a, b) => new Date(a.Timestamp) - new Date(b.Timestamp));
             const categoryIcon = getCategoryIcon(t.Category);
-            const canDeletePost = isAuthored(t.ID);
+            const isThreadAuthor = isAuthored(t.ID);
             
             // Format date with time
             const threadDate = new Date(t.Timestamp);
@@ -3264,7 +3243,7 @@
                         <span style="display: flex; align-items: center; gap: 8px;">
                             <i class="fas fa-user-circle" style="color: var(--accent);"></i>
                             מאת: <strong>${t.Name}</strong>
-                            ${canDeletePost ? `<button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
+                            ${isThreadAuthor ? `<button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                         </span>
                         <div style="display: flex; gap: 10px;">
                             <button class="tab-btn" style="padding: 8px 18px; font-size: 0.9rem;" onclick="event.stopPropagation(); addLike('${t.ID}')">
@@ -3562,7 +3541,8 @@
             showToast('ההודעה לא נמצאה');
             return;
         }
-        // Thread authors can delete their threads at any time
+        // Thread authors can delete their threads at any time (no time restriction)
+        // Note: Replies/comments still have 24-hour deletion window
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('ההודעה נמחקה בהצלחה');
