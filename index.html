@@ -249,19 +249,50 @@
             50% { transform: scale(1.05); }
         }
         
-        @keyframes noEntryPulse {
-            0%, 100% { 
-                stroke-opacity: 1;
-                filter: drop-shadow(0 0 3px rgba(192, 57, 43, 0.5));
+        @keyframes wheatSway {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+        
+        /* Circle circumference = 2πr = 2π×42 ≈ 264 */
+        @keyframes noEntryStroke {
+            0% { 
+                stroke-dasharray: 0 264;
+                stroke-dashoffset: 0;
             }
             50% { 
-                stroke-opacity: 0.7;
-                filter: drop-shadow(0 0 8px rgba(192, 57, 43, 0.8));
+                stroke-dasharray: 264 264;
+                stroke-dashoffset: 0;
+            }
+            100% { 
+                stroke-dasharray: 0 264;
+                stroke-dashoffset: 0;
             }
         }
         
-        .logo-no-entry {
-            animation: noEntryPulse 1.5s ease-in-out infinite;
+        /* Line length calculated from coordinates: sqrt((78-22)² + (32-68)²) ≈ 79 */
+        @keyframes noEntryLine {
+            0% { 
+                stroke-dasharray: 0 79;
+                stroke-dashoffset: 0;
+            }
+            50% { 
+                stroke-dasharray: 79 79;
+                stroke-dashoffset: 0;
+            }
+            100% { 
+                stroke-dasharray: 0 79;
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .logo-no-entry circle {
+            animation: noEntryStroke 3s ease-in-out infinite;
+        }
+        
+        .logo-no-entry line {
+            animation: noEntryLine 3s ease-in-out infinite;
         }
 
         .user-display {
@@ -1042,6 +1073,71 @@
         .auth-form.active {
             display: block;
         }
+        
+        .terms-checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            cursor: pointer;
+            padding: 15px;
+            background: var(--info);
+            border-radius: 12px;
+            border: 2px solid var(--info-border);
+            transition: all 0.3s ease;
+        }
+        
+        .terms-checkbox-container:hover {
+            background: var(--info-border);
+        }
+        
+        .terms-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .terms-checkbox.checked {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            border-color: var(--success);
+        }
+        
+        .terms-checkbox i {
+            color: white;
+            font-size: 1rem;
+            display: none;
+        }
+        
+        .terms-checkbox.checked i {
+            display: block;
+            animation: checkPop 0.3s ease;
+        }
+        
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .terms-text {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .btn-main:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
 
         .modal-content h2 {
             font-family: 'Heebo', sans-serif;
@@ -1355,7 +1451,7 @@
                 <!-- Background circle -->
                 <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" filter="url(#logoShadow)"/>
                 <!-- Wheat stalk - realistic wheat ear design -->
-                <g fill="white" transform="translate(50, 50)">
+                <g fill="white" transform="translate(50, 50)" style="animation: wheatSway 4s ease-in-out infinite; transform-origin: center center;">
                     <!-- Main stem -->
                     <path d="M0 28 L0 -5" stroke="white" stroke-width="2.5" fill="none"/>
                     <!-- Wheat grains - alternating left and right like real wheat -->
@@ -1912,6 +2008,63 @@
             </div>
         </div>
         
+        <!-- Rules Card -->
+        <div class="sidebar-card">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="header-left">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <span>כללים ומטרת האתר</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h4>מטרת האתר</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <p>פורום הצליאק החרדי נוצר במטרה ליצור מרחב בטוח ותומך עבור אנשים בציבור החרדי החיים עם מחלת הצליאק.</p>
+                            <p>אנו שואפים לספק מידע עדכני, מהימן ומקצועי בנושא התמודדות עם המחלה, מתכונים נטולי גלוטן, מידע על כשרות, רפואה ועוד.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <h4>כללי השימוש באתר</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul>
+                                <li>כבדו זה את זה - התייחסו לכולם בכבוד ובנימוס</li>
+                                <li>שמרו על לשון נקייה ושפה תרבותית</li>
+                                <li>אל תשתפו מידע רפואי מוטעה - היוועצו תמיד ברופא</li>
+                                <li>שמרו על פרטיות אישית - אל תשתפו מידע אישי רגיש</li>
+                                <li>אל תפרסמו פרסומות או ספאם</li>
+                                <li>תגובות פוגעניות או פוליטיות ימחקו</li>
+                                <li>שמרו על כללי הצניעות והכשרות המקובלים בציבור החרדי</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Contact Card -->
         <div class="sidebar-card">
             <div class="accordion-header contact-card-header" onclick="openContactModal()">
@@ -2014,7 +2167,17 @@
             <input type="text" id="registerUsername" placeholder="שם משתמש (חובה)" required>
             <input type="email" id="registerEmail" placeholder="אימייל (חובה)" required>
             <input type="password" id="registerPassword" placeholder="סיסמה (חובה)" required>
-            <button class="btn-main" onclick="registerUser()">
+            
+            <div class="terms-checkbox-container" onclick="toggleTermsCheckbox()">
+                <div class="terms-checkbox" id="termsCheckbox">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="terms-text">
+                    אני מסכים/ה לקבל את כללי השימוש של האתר ולפעול על פיהם
+                </div>
+            </div>
+            
+            <button class="btn-main" id="registerButton" onclick="registerUser()" disabled>
                 <i class="fas fa-user-plus"></i> הירשם
             </button>
         </div>
@@ -2111,6 +2274,20 @@
             registerTab.classList.remove('active');
             loginForm.classList.add('active');
             registerForm.classList.remove('active');
+        }
+    }
+    
+    function toggleTermsCheckbox() {
+        const checkbox = document.getElementById('termsCheckbox');
+        const registerButton = document.getElementById('registerButton');
+        
+        checkbox.classList.toggle('checked');
+        
+        // Enable or disable register button based on checkbox state
+        if (checkbox.classList.contains('checked')) {
+            registerButton.disabled = false;
+        } else {
+            registerButton.disabled = true;
         }
     }
 
@@ -2568,16 +2745,21 @@
         }
         
         validPosts.forEach(t => {
-            // Filter replies to only show valid ones with Name and Content
-            const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content);
+            // Filter replies to only show valid ones with Name and Content, then reverse order (newest first)
+            const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content).reverse();
             const categoryIcon = getCategoryIcon(t.Category);
             const canDeletePost = isAuthored(t.ID);
+            
+            // Format date with time
+            const threadDate = new Date(t.Timestamp);
+            const threadDateTime = threadDate.toLocaleDateString('he-IL') + ' ' + threadDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+            
             container.innerHTML += `
                 <div class="thread-card" onclick="toggleReplies('${t.ID}')">
                     <small>
                         <i class="${categoryIcon}"></i> ${t.Category} 
                         <span style="margin: 0 8px;">|</span>
-                        <i class="fas fa-calendar-alt"></i> ${new Date(t.Timestamp).toLocaleDateString('he-IL')}
+                        <i class="fas fa-calendar-alt"></i> ${threadDateTime}
                     </small>
                     <h3>${t.Subject}</h3>
                     <p>${t.Content}</p>
@@ -2604,12 +2786,21 @@
                         </h4>
                         ${replies.length > 0 ? replies.map((r, idx) => {
                             const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`);
+                            
+                            // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
+                            const replyTimestamp = r.Timestamp || t.Timestamp;
+                            const replyDate = new Date(replyTimestamp);
+                            const replyDateTime = replyDate.toLocaleDateString('he-IL') + ' ' + replyDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                            
                             return `
                             <div class="reply-item" id="reply-${r.ID || idx}">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <i class="fas fa-user" style="color: var(--accent);"></i>
                                         <strong>${r.Name}</strong>
+                                        <span style="color: var(--text-muted); font-size: 0.75rem; margin-right: 8px;">
+                                            <i class="fas fa-clock" style="font-size: 0.7rem;"></i> ${replyDateTime}
+                                        </span>
                                         ${canDeleteReply ? `<button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
                                     </div>
                                     <button class="reply-btn" onclick="event.stopPropagation(); toggleReplyToReply('${t.ID}-${idx}')">
