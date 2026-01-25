@@ -1734,6 +1734,40 @@
 <button class="fab" onclick="openPostModal()">
     <i class="fas fa-plus"></i>
 </button>
+
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="document.getElementById('postModal').style.display='none'">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2><i class="fas fa-pen-to-square"></i> פתיחת שרשור חדש</h2>
+        <input type="text" id="name" placeholder="השם שלך">
+        <select id="category">
+            <option value="">בחר קטגוריה...</option>
+            <option value="מתכונים">מתכונים</option>
+            <option value="כשרות">כשרות</option>
+            <option value="רפואי">רפואי</option>
+            <option value="מסעדות">מסעדות</option>
+            <option value="תזונה">תזונה</option>
+            <option value="צרכנות">צרכנות</option>
+            <option value="שאלות כלליות">שאלות כלליות</option>
+        </select>
+        <textarea id="content" rows="5" placeholder="תוכן ההודעה..."></textarea>
+        <button class="btn-main" id="sendPostBtn" onclick="sendPost()"><i class="fas fa-paper-plane"></i> פרסם עכשיו</button>
+    </div>
+</div>
+
+<div id="nameModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeNameModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2><i class="fas fa-user-edit"></i> השם שיפורסם בתגובה</h2>
+        <input type="text" id="replyNameInput" placeholder="הכנס את שמך כאן...">
+        <button class="btn-main" id="nameModalConfirm"><i class="fas fa-check"></i> אישור</button>
+    </div>
+</div>
+
 <!-- Register Modal -->
 <div id="registerModal" class="modal">
     <div class="modal-content">
