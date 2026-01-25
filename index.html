@@ -797,6 +797,33 @@
             content: '\f071';
             color: var(--warning);
         }
+        
+        .styled-rules-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .styled-rules-list li {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            padding: 12px 0;
+            padding-right: 35px;
+            position: relative;
+            border-bottom: none;
+            line-height: 1.7;
+        }
+        
+        .styled-rules-list li::before {
+            font-family: 'Font Awesome 6 Free';
+            content: '\f111';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: var(--primary);
+            font-size: 0.5rem;
+            top: 18px;
+        }
 
         .container { 
             flex: 1;
@@ -1133,6 +1160,60 @@
             font-weight: 500;
         }
         
+        .terms-link {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .terms-link:hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+        
+        .terms-modal-content {
+            max-width: 750px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .terms-modal-body {
+            padding: 10px 0;
+        }
+        
+        .terms-section {
+            margin-bottom: 2rem;
+        }
+        
+        .terms-section h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .terms-section h3 i {
+            font-size: 1.1rem;
+        }
+        
+        .terms-footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        
+        .terms-footer p {
+            margin: 0.5rem 0;
+        }
+        
         .btn-main:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -1447,31 +1528,14 @@
                     <filter id="logoShadow" x="-20%" y="-20%" width="140%" height="140%">
                         <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
                     </filter>
+                    <clipPath id="circleClip">
+                        <circle cx="50" cy="50" r="36"/>
+                    </clipPath>
                 </defs>
                 <!-- Background circle -->
                 <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" filter="url(#logoShadow)"/>
-                <!-- Wheat stalk - realistic wheat ear design -->
-                <g fill="white" transform="translate(50, 50)" style="animation: wheatSway 4s ease-in-out infinite; transform-origin: center center;">
-                    <!-- Main stem -->
-                    <path d="M0 28 L0 -5" stroke="white" stroke-width="2.5" fill="none"/>
-                    <!-- Wheat grains - alternating left and right like real wheat -->
-                    <!-- Bottom grains -->
-                    <ellipse cx="-4" cy="8" rx="3.5" ry="6" transform="rotate(-25 -4 8)"/>
-                    <ellipse cx="4" cy="5" rx="3.5" ry="6" transform="rotate(25 4 5)"/>
-                    <!-- Middle grains -->
-                    <ellipse cx="-5" cy="-2" rx="3.2" ry="5.5" transform="rotate(-20 -5 -2)"/>
-                    <ellipse cx="5" cy="-5" rx="3.2" ry="5.5" transform="rotate(20 5 -5)"/>
-                    <!-- Upper grains -->
-                    <ellipse cx="-4" cy="-12" rx="2.8" ry="5" transform="rotate(-15 -4 -12)"/>
-                    <ellipse cx="4" cy="-15" rx="2.8" ry="5" transform="rotate(15 4 -15)"/>
-                    <!-- Top grains -->
-                    <ellipse cx="-3" cy="-21" rx="2.5" ry="4.5" transform="rotate(-10 -3 -21)"/>
-                    <ellipse cx="3" cy="-24" rx="2.5" ry="4.5" transform="rotate(10 3 -24)"/>
-                    <!-- Very top grain -->
-                    <ellipse cx="0" cy="-30" rx="2" ry="4" transform="rotate(0 0 -30)"/>
-                    <!-- Awns (whiskers) at top -->
-                    <path d="M0 -34 L-3 -40 M0 -34 L0 -42 M0 -34 L3 -40" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                </g>
+                <!-- Wheat image centered in circle with clip -->
+                <image href="1.png" x="14" y="14" width="72" height="72" clip-path="url(#circleClip)" preserveAspectRatio="xMidYMid slice"/>
                 <!-- No entry sign - red circle and diagonal line with animation -->
                 <g class="logo-no-entry">
                     <circle cx="50" cy="50" r="42" fill="none" stroke="#c0392b" stroke-width="4"/>
@@ -2024,16 +2088,36 @@
                     <div class="info-header" onclick="toggleInfo(this)">
                         <div class="info-left">
                             <div class="info-icon">
-                                <i class="fas fa-bullseye"></i>
+                                <i class="fas fa-gavel"></i>
                             </div>
-                            <h4>מטרת האתר</h4>
+                            <h4>כללי האתר</h4>
                         </div>
                         <i class="fas fa-chevron-down toggle-icon"></i>
                     </div>
                     <div class="info-content">
                         <div class="info-inner">
-                            <p>פורום הצליאק החרדי נוצר במטרה ליצור מרחב בטוח ותומך עבור אנשים בציבור החרדי החיים עם מחלת הצליאק.</p>
-                            <p>אנו שואפים לספק מידע עדכני, מהימן ומקצועי בנושא התמודדות עם המחלה, מתכונים נטולי גלוטן, מידע על כשרות, רפואה ועוד.</p>
+                            <h5 style="color: var(--primary); margin-top: 1rem; margin-bottom: 0.8rem;">כללי יסוד:</h5>
+                            <ul class="styled-rules-list">
+                                <li>שמירה על כבוד הזולת ולשון נקייה בכל עת</li>
+                                <li>איסור מוחלט על לשון הרע, רכילות והוצאת דיבה</li>
+                                <li>איסור על פרסום תוכן פוגעני, מעליב או בלתי הולם</li>
+                                <li>כל התכנים חייבים להיות ענייניים ורלוונטיים לנושא הצליאק</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">כללי פרסום:</h5>
+                            <ul class="styled-rules-list">
+                                <li>איסור על פרסום מוצרים מסחריים ללא אישור המנהלים</li>
+                                <li>שמירה על טון מכבד ואדיב גם במחלוקות</li>
+                                <li>ביקורות לתוכן ולא לאדם</li>
+                                <li>הימנעות מוויכוחים מיותרים</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">אכיפה:</h5>
+                            <ul class="styled-rules-list">
+                                <li>המנהלים שומרים לעצמם את הזכות למחוק או לערוך תכנים לא הולמים</li>
+                                <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
+                                <li>ההחלטות הסופיות בידי צוות המנהלים</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -2042,23 +2126,68 @@
                     <div class="info-header" onclick="toggleInfo(this)">
                         <div class="info-left">
                             <div class="info-icon">
-                                <i class="fas fa-list-check"></i>
+                                <i class="fas fa-bullseye"></i>
                             </div>
-                            <h4>כללי השימוש באתר</h4>
+                            <h4>מטרת האתר</h4>
                         </div>
                         <i class="fas fa-chevron-down toggle-icon"></i>
                     </div>
                     <div class="info-content">
                         <div class="info-inner">
-                            <ul>
-                                <li>כבדו זה את זה - התייחסו לכולם בכבוד ובנימוס</li>
-                                <li>שמרו על לשון נקייה ושפה תרבותית</li>
-                                <li>אל תשתפו מידע רפואי מוטעה - היוועצו תמיד ברופא</li>
-                                <li>שמרו על פרטיות אישית - אל תשתפו מידע אישי רגיש</li>
-                                <li>אל תפרסמו פרסומות או ספאם</li>
-                                <li>תגובות פוגעניות או פוליטיות ימחקו</li>
-                                <li>שמרו על כללי הצניעות והכשרות המקובלים בציבור החרדי</li>
+                            <ul class="styled-rules-list">
+                                <li>מרכז מידע עדכני ומהימן על צליאק</li>
+                                <li>שיתוף מתכונים מותאמים למטבח החרדי</li>
+                                <li>מידע על מוצרים כשרים ללא גלוטן</li>
+                                <li>טיפים מעשיים להתמודדות יומיומית ועוד</li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h4>שיתוף ידע</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul class="styled-rules-list">
+                                <li>למידה מניסיון של אחרים</li>
+                                <li>פתרונות יצירתיים לאתגרים שבחיי היומיום</li>
+                                <li>המלצות על מקומות אוכל, חנויות ושירותים</li>
+                                <li>עזרה בניווט במערכות בריאות וביטוח</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-star-of-david"></i>
+                            </div>
+                            <h4>שמירה על זהות</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul class="styled-rules-list">
+                                <li>שילוב ערכי היהדות החרדית</li>
+                                <li>התאמה למציאות הייחודית של החברה החרדית</li>
+                                <li>כיבוד הלכות כשרות ומנהגים</li>
+                                <li>שפה ותוכן הולמים את הקהל</li>
+                            </ul>
+                            <p style="margin-top: 1.5rem; font-weight: 600; color: var(--primary); text-align: center;">
+                                בברכת בריאות ושמחה<br>
+                                צוות פורום הצליאק החרדי
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -2173,7 +2302,7 @@
                     <i class="fas fa-check"></i>
                 </div>
                 <div class="terms-text">
-                    אני מסכים/ה לקבל את כללי השימוש של האתר ולפעול על פיהם
+                    אני מסכים/ה לקבל את <span class="terms-link" onclick="event.stopPropagation(); openTermsModal();">כללי השימוש</span> של האתר ולפעול על פיהם
                 </div>
             </div>
             
@@ -2222,6 +2351,84 @@
             <button class="btn-main" id="sendContactBtnUser" onclick="sendContactForm()">
                 <i class="fas fa-paper-plane"></i> שלח הודעה
             </button>
+        </div>
+    </div>
+</div>
+
+<!-- Terms of Use Modal -->
+<div id="termsModal" class="modal">
+    <div class="modal-content terms-modal-content">
+        <button class="modal-close-btn" onclick="closeTermsModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 1.5rem;">
+            <i class="fas fa-gavel"></i> כללי השימוש באתר
+        </h2>
+        
+        <div class="terms-modal-body">
+            <div class="terms-section">
+                <h3><i class="fas fa-shield-alt"></i> כללי יסוד</h3>
+                <ul class="styled-rules-list">
+                    <li>שמירה על כבוד הזולת ולשון נקייה בכל עת</li>
+                    <li>איסור מוחלט על לשון הרע, רכילות והוצאת דיבה</li>
+                    <li>איסור על פרסום תוכן פוגעני, מעליב או בלתי הולם</li>
+                    <li>כל התכנים חייבים להיות ענייניים ורלוונטיים לנושא הצליאק</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3><i class="fas fa-bullhorn"></i> כללי פרסום</h3>
+                <ul class="styled-rules-list">
+                    <li>איסור על פרסום מוצרים מסחריים ללא אישור המנהלים</li>
+                    <li>שמירה על טון מכבד ואדיב גם במחלוקות</li>
+                    <li>ביקורות לתוכן ולא לאדם</li>
+                    <li>הימנעות מוויכוחים מיותרים</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3><i class="fas fa-gavel"></i> אכיפה</h3>
+                <ul class="styled-rules-list">
+                    <li>המנהלים שומרים לעצמם את הזכות למחוק או לערוך תכנים לא הולמים</li>
+                    <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
+                    <li>ההחלטות הסופיות בידי צוות המנהלים</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3><i class="fas fa-bullseye"></i> מטרת האתר</h3>
+                <ul class="styled-rules-list">
+                    <li>מרכז מידע עדכני ומהימן על צליאק</li>
+                    <li>שיתוף מתכונים מותאמים למטבח החרדי</li>
+                    <li>מידע על מוצרים כשרים ללא גלוטן</li>
+                    <li>טיפים מעשיים להתמודדות יומיומית ועוד</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3><i class="fas fa-handshake"></i> שיתוף ידע</h3>
+                <ul class="styled-rules-list">
+                    <li>למידה מניסיון של אחרים</li>
+                    <li>פתרונות יצירתיים לאתגרים שבחיי היומיום</li>
+                    <li>המלצות על מקומות אוכל, חנויות ושירותים</li>
+                    <li>עזרה בניווט במערכות בריאות וביטוח</li>
+                </ul>
+            </div>
+            
+            <div class="terms-section">
+                <h3><i class="fas fa-star-of-david"></i> שמירה על זהות</h3>
+                <ul class="styled-rules-list">
+                    <li>שילוב ערכי היהדות החרדית</li>
+                    <li>התאמה למציאות הייחודית של החברה החרדית</li>
+                    <li>כיבוד הלכות כשרות ומנהגים</li>
+                    <li>שפה ותוכן הולמים את הקהל</li>
+                </ul>
+            </div>
+            
+            <div class="terms-footer">
+                <p>בברכת בריאות ושמחה</p>
+                <p><strong>צוות פורום הצליאק החרדי</strong></p>
+            </div>
         </div>
     </div>
 </div>
@@ -2446,6 +2653,14 @@
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactMessage').value = '';
         document.getElementById('contactMessageUser').value = '';
+    }
+
+    function openTermsModal() {
+        document.getElementById('termsModal').style.display = 'flex';
+    }
+
+    function closeTermsModal() {
+        document.getElementById('termsModal').style.display = 'none';
     }
 
     async function sendContactForm() {
