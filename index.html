@@ -3135,9 +3135,45 @@
         const modal = getOrCreateInfoModal();
         
         // Populate modal content
-        const innerContent = content.querySelector('.accordion-inner');
+        // First, try to find .accordion-inner (for simple content)
+        let innerContent = content.querySelector('.accordion-inner');
+        
+        // If not found, collect all .info-inner from .info-accordion sections
         if (!innerContent) {
-            console.error('Content structure is missing .accordion-inner element');
+            const infoSections = content.querySelectorAll('.info-accordion');
+            if (infoSections.length > 0) {
+                let combinedHtml = '';
+                infoSections.forEach((section, index) => {
+                    const sectionTitle = section.querySelector('h4');
+                    const sectionIcon = section.querySelector('.info-icon');
+                    const sectionContent = section.querySelector('.info-inner');
+                    
+                    if (sectionTitle && sectionContent) {
+                        if (index > 0) {
+                            combinedHtml += '<hr style="margin: 2rem 0; border: none; border-top: 2px solid var(--info-border); opacity: 0.3;">';
+                        }
+                        combinedHtml += `<div style="margin-bottom: 2rem;">`;
+                        if (sectionIcon) {
+                            combinedHtml += `<h3 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">`;
+                            combinedHtml += `<span style="font-size: 1.5rem;">${sectionIcon.innerHTML}</span>`;
+                            combinedHtml += `<span>${sectionTitle.textContent}</span>`;
+                            combinedHtml += `</h3>`;
+                        }
+                        combinedHtml += sectionContent.innerHTML;
+                        combinedHtml += `</div>`;
+                    }
+                });
+                
+                modal.querySelector('.info-icon').innerHTML = iconHtml;
+                modal.querySelector('h2').textContent = title;
+                modal.querySelector('.info-inner').innerHTML = combinedHtml;
+                
+                // Show modal
+                modal.style.display = 'flex';
+                return;
+            }
+            
+            console.error('Content structure is missing .accordion-inner or .info-accordion elements');
             return;
         }
         
