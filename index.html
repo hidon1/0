@@ -3254,9 +3254,10 @@
         }
     }
 
-    async function addLike(id) {
+    async function addLike(id, isComment = false) {
+        const itemType = isComment ? 'תגובה' : 'הודעה';
         if (hasLiked(id)) {
-            showToast('כבר עשית לייק להודעה זו');
+            showToast(`כבר עשית לייק ל${itemType} זו`);
             return;
         }
         // Mark as liked immediately to prevent multiple clicks
@@ -3278,26 +3279,7 @@
     }
 
     async function addCommentLike(id) {
-        if (hasLiked(id)) {
-            showToast('כבר עשית לייק לתגובה זו');
-            return;
-        }
-        // Mark as liked immediately to prevent multiple clicks
-        markAsLiked(id);
-        showToast('תודה על הלייק!');
-        try {
-            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "like", id: id}) });
-            loadData();
-        } catch (error) {
-            // Revert like state on error
-            const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
-            const index = likedPosts.indexOf(id);
-            if (index > -1) {
-                likedPosts.splice(index, 1);
-                localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
-            }
-            showToast('שגיאה בשליחת הלייק. נסה שנית.');
-        }
+        return addLike(id, true);
     }
 
     function toggleReplies(id) {
