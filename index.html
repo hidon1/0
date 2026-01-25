@@ -3278,7 +3278,6 @@
             const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content)
                 .sort((a, b) => new Date(a.Timestamp) - new Date(b.Timestamp));
             const categoryIcon = getCategoryIcon(t.Category);
-            const isThreadAuthor = isAuthored(t.ID);
             
             // Format date with time
             const threadDate = new Date(t.Timestamp);
@@ -3297,7 +3296,7 @@
                         <span style="display: flex; align-items: center; gap: 8px;">
                             <i class="fas fa-user-circle" style="color: var(--accent);"></i>
                             מאת: <strong>${t.Name}</strong>
-                            ${isThreadAuthor ? `<button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
+                            <button class="delete-btn" onclick="event.stopPropagation(); deletePost('${t.ID}')"><i class="fas fa-trash"></i> מחק</button>
                         </span>
                         <div style="display: flex; gap: 10px;">
                             <button class="tab-btn" style="padding: 8px 18px; font-size: 0.9rem;" onclick="event.stopPropagation(); addLike('${t.ID}')">
@@ -3315,8 +3314,6 @@
                             תגובות (${replies.length}):
                         </h4>
                         ${replies.length > 0 ? replies.map((r, idx) => {
-                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`) && canDelete(r.Timestamp);
-                            
                             // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
                             const replyTimestamp = r.Timestamp || t.Timestamp;
                             const replyDate = new Date(replyTimestamp);
@@ -3331,7 +3328,7 @@
                                         <span style="color: var(--text-muted); font-size: 0.75rem; margin-right: 8px;">
                                             <i class="fas fa-clock" style="font-size: 0.7rem;"></i> ${replyDateTime}
                                         </span>
-                                        ${canDeleteReply ? `<button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>` : ''}
+                                        <button class="delete-btn" onclick="event.stopPropagation(); deleteReply('${r.ID || `reply-${t.ID}-${idx}`}')"><i class="fas fa-trash"></i> מחק</button>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button class="tab-btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="event.stopPropagation(); addCommentLike('${r.ID || `reply-${t.ID}-${idx}`}')">
@@ -3585,25 +3582,6 @@
     }
 
     async function deletePost(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק הודעה זו');
-            return;
-        }
-        // Find the post to check timestamp
-        const post = allPosts.find(p => p.ID === id);
-        if (!post) {
-            showToast('ההודעה לא נמצאה');
-            return;
-        }
-        
-        // Check if the thread has any replies
-        const hasReplies = allPosts.some(p => p.ParentID === id);
-        if (hasReplies) {
-            showToast('לא ניתן למחוק שרשור שיש לו תגובות');
-            return;
-        }
-        
-        // Thread authors can delete their threads only if there are no replies
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('ההודעה נמחקה בהצלחה');
@@ -3611,20 +3589,6 @@
     }
 
     async function deleteReply(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק תגובה זו');
-            return;
-        }
-        // Find the reply to check timestamp
-        const reply = allPosts.find(p => p.ID === id);
-        if (!reply) {
-            showToast('התגובה לא נמצאה');
-            return;
-        }
-        if (!canDelete(reply.Timestamp)) {
-            showToast('לא ניתן למחוק תגובה לאחר 24 שעות');
-            return;
-        }
         if (!confirm('האם אתה בטוח שברצונך למחוק תגובה זו?')) return;
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', id: id }) });
         showToast('התגובה נמחקה בהצלחה');
