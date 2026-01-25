@@ -481,18 +481,6 @@
             transform: rotate(180deg);
         }
 
-        .contact-card-header {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.05));
-            border: 2px solid rgba(231, 76, 60, 0.3);
-            border-radius: 20px;
-        }
-
-        .contact-card-header:hover {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.1));
-            border-color: rgba(231, 76, 60, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.2);
-        }
 
         .accordion-content {
             max-height: 0;
@@ -503,7 +491,7 @@
 
         .accordion-content.open {
             max-height: 2000px;
-            overflow-y: auto;
+            overflow: visible;
         }
 
         .accordion-inner {
@@ -1756,7 +1744,7 @@
                     </div>
                     <span>מתכונים מומלצים</span>
                 </div>
-                <i class="fas fa-chevron-down toggle-icon"></i>
+                <i class="fas fa-arrow-left"></i>
             </div>
             <div class="accordion-content">
                 <div class="accordion-inner">
@@ -1950,11 +1938,11 @@
             <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
-                        <i class="fas fa-info-circle"></i>
+                        <i class="fas fa-hospital-user"></i>
                     </div>
                     <span>מידע רפואי על צליאק</span>
                 </div>
-                <i class="fas fa-chevron-down toggle-icon"></i>
+                <i class="fas fa-arrow-left"></i>
             </div>
             <div class="accordion-content">
                 <div class="accordion-inner">
@@ -2146,7 +2134,7 @@
                     </div>
                     <span>קישורים וכתובות שימושיות</span>
                 </div>
-                <i class="fas fa-chevron-down toggle-icon"></i>
+                <i class="fas fa-arrow-left"></i>
             </div>
             <div class="accordion-content">
                 <div class="accordion-inner">
@@ -2163,10 +2151,11 @@
                         <div class="info-content">
                             <div class="info-inner">
                                 <ul>
-                                    <li><a href="https://www.celiac.org.il" target="_blank" style="color: var(--primary); text-decoration: none;">עמותת צליאק ישראל</a> - האתר הרשמי של העמותה</li>
-                                    <li><a href="https://www.health.gov.il" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
-                                    <li><a href="https://www.clalit.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כללית שירותי בריאות</a> - מאמרים על צליאק ותזונה</li>
-                                    <li><a href="https://www.maccabi4u.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">מכבי שירותי בריאות</a> - מידע לחולי צליאק</li>
+                                    <li><a href="https://www.clalit.co.il/he/lifestyle/nutrition/Pages/celiac_dietary_directions.aspx?utm_source=chatgpt.com" target="_blank" style="color: var(--primary); text-decoration: none;">תזונה כללית - כללית</a> - הנחיות תזונתיות לחולי צליאק</li>
+                                    <li><a href="https://me.health.gov.il/parenting/raising-children/common-childhood-diseases-and-symptoms/intolerance-and-allergies/celiac-dis" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רשמי על צליאק</li>
+                                    <li><a href="https://www.klg.co.il/" target="_blank" style="color: var(--primary); text-decoration: none;">KLG</a> - אתר עם הרבה מתכונים ומידע</li>
+                                    <li><a href="https://celiacrights.org.il/" target="_blank" style="color: var(--primary); text-decoration: none;">ארגון זכויות הצליאק</a> - ארגון לזכויות חולי צליאק</li>
+                                    <li><a href="https://mylilblog.com/" target="_blank" style="color: var(--primary); text-decoration: none;">אמא ללא גלוטן</a> - אתר ללא גלוטן</li>
                                 </ul>
                             </div>
                         </div>
@@ -2243,14 +2232,15 @@
         <div class="sidebar-card">
             <div class="accordion-header" onclick="toggleBanner(this)">
                 <div class="header-left">
-                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                    <div class="icon-wrapper">
                         <i class="fas fa-gavel"></i>
                     </div>
                     <span>כללים ומטרת האתר</span>
                 </div>
-                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-arrow-left"></i>
             </div>
             <div class="accordion-content">
+                <div class="accordion-inner">
                 <div class="info-accordion">
                     <div class="info-header" onclick="toggleInfo(this)">
                         <div class="info-left">
@@ -2358,14 +2348,15 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
         
         <!-- Contact Card -->
         <div class="sidebar-card">
-            <div class="accordion-header contact-card-header" onclick="openContactModal()">
+            <div class="accordion-header" onclick="openContactModal()">
                 <div class="header-left">
-                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                    <div class="icon-wrapper">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <span>יצירת קשר</span>
@@ -3224,7 +3215,7 @@
             const replies = allPosts.filter(r => r.ParentID === t.ID && r.Name && r.Content)
                 .sort((a, b) => new Date(a.Timestamp) - new Date(b.Timestamp));
             const categoryIcon = getCategoryIcon(t.Category);
-            const isThreadAuthor = isAuthored(t.ID);
+            const isThreadAuthor = isAuthored(t.ID) || (currentUser && t.Name === currentUser);
             
             // Format date with time
             const threadDate = new Date(t.Timestamp);
@@ -3261,7 +3252,7 @@
                             תגובות (${replies.length}):
                         </h4>
                         ${replies.length > 0 ? replies.map((r, idx) => {
-                            const canDeleteReply = isAuthored(r.ID || `reply-${t.ID}-${idx}`) && canDelete(r.Timestamp);
+                            const canDeleteReply = (isAuthored(r.ID || `reply-${t.ID}-${idx}`) || (currentUser && r.Name === currentUser)) && canDelete(r.Timestamp);
                             
                             // Format reply date with time - use thread timestamp as fallback if reply timestamp missing
                             const replyTimestamp = r.Timestamp || t.Timestamp;
@@ -3531,16 +3522,21 @@
     }
 
     async function deletePost(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק הודעה זו');
-            return;
-        }
-        // Find the post to check timestamp
+        // Find the post first
         const post = allPosts.find(p => p.ID === id);
         if (!post) {
             showToast('ההודעה לא נמצאה');
             return;
         }
+        
+        // Check if user is authorized to delete
+        // User can delete if they authored it (in localStorage) OR if the Name matches currentUser
+        const isOwner = isAuthored(id) || (currentUser && post.Name === currentUser);
+        if (!isOwner) {
+            showToast('אין לך הרשאה למחוק הודעה זו');
+            return;
+        }
+        
         // Thread authors can delete their threads at any time (no time restriction)
         // Note: Replies/comments still have 24-hour deletion window
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
@@ -3550,16 +3546,21 @@
     }
 
     async function deleteReply(id) {
-        if (!isAuthored(id)) {
-            showToast('אין לך הרשאה למחוק תגובה זו');
-            return;
-        }
-        // Find the reply to check timestamp
+        // Find the reply first
         const reply = allPosts.find(p => p.ID === id);
         if (!reply) {
             showToast('התגובה לא נמצאה');
             return;
         }
+        
+        // Check if user is authorized to delete
+        // User can delete if they authored it (in localStorage) OR if the Name matches currentUser
+        const isOwner = isAuthored(id) || (currentUser && reply.Name === currentUser);
+        if (!isOwner) {
+            showToast('אין לך הרשאה למחוק תגובה זו');
+            return;
+        }
+        
         if (!canDelete(reply.Timestamp)) {
             showToast('לא ניתן למחוק תגובה לאחר 24 שעות');
             return;
