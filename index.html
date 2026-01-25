@@ -1633,53 +1633,615 @@
     <aside class="sidebar hidden" id="sidebar">
         <!-- Recipes Accordion Card -->
         <div class="sidebar-card">
-            <div class="accordion-header contact-card-header" onclick="openRecipesModal()">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-utensils"></i>
                     </div>
                     <span>מתכונים מומלצים</span>
                 </div>
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-inner">
+                    <!-- Recipe 1: Gluten-Free Bread -->
+                    <div class="recipe-card" onclick="toggleRecipe(this)">
+                        <div class="recipe-header">
+                            <div class="recipe-icon">
+                                <i class="fas fa-bread-slice"></i>
+                            </div>
+                            <h4>לחם ללא גלוטן - רך ואוורירי</h4>
+                        </div>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 90 דקות</span>
+                            <span><i class="fas fa-fire"></i> בינוני</span>
+                            <span><i class="fas fa-users"></i> כיכר אחת</span>
+                        </div>
+                        <p class="recipe-desc">לחם ביתי מושלם עם קרום פריך ופנים רך ואוורירי. מתאים לשבת ולכל יום.</p>
+                        <div class="recipe-details">
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-list"></i> מרכיבים</h5>
+                                <ul>
+                                    <li>2 כוסות קמח ללא גלוטן (תערובת אורז וטפיוקה)</li>
+                                    <li>1 כף שמרים יבשים</li>
+                                    <li>1 כפית מלח</li>
+                                    <li>1 כף סוכר</li>
+                                    <li>1 כפית גומי גואר או קסנטן</li>
+                                    <li>2 ביצים גדולות בטמפרטורת החדר</li>
+                                    <li>1/4 כוס שמן זית</li>
+                                    <li>1 כוס מים פושרים (כ-40 מעלות)</li>
+                                    <li>1 כף חומץ תפוחים</li>
+                                </ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
+                                <ol>
+                                    <li>המיסו את השמרים במים הפושרים עם הסוכר והמתינו 10 דקות עד שמבעבע.</li>
+                                    <li>בקערה גדולה, ערבבו את הקמח, המלח והגומי.</li>
+                                    <li>הוסיפו את הביצים, השמן, החומץ ותערובת השמרים וערבבו היטב עם מיקסר כ-3 דקות.</li>
+                                    <li>העבירו לתבנית לחם משומנת וכסו בניילון. תנו לתפוח שעה בטמפרטורת החדר.</li>
+                                    <li>חממו תנור ל-190 מעלות ואפו 45-50 דקות עד שהלחם מוזהב.</li>
+                                    <li>הוציאו מהתנור והניחו להתקרר לפחות 20 דקות לפני החיתוך.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 2: Chocolate Cake -->
+                    <div class="recipe-card" onclick="toggleRecipe(this)">
+                        <div class="recipe-header">
+                            <div class="recipe-icon">
+                                <i class="fas fa-cake-candles"></i>
+                            </div>
+                            <h4>עוגת שוקולד בלגית עשירה</h4>
+                        </div>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 60 דקות</span>
+                            <span><i class="fas fa-fire"></i> קל</span>
+                            <span><i class="fas fa-users"></i> 12 מנות</span>
+                        </div>
+                        <p class="recipe-desc">עוגת שוקולד עשירה ולחה במיוחד, נמסה בפה. מושלמת לשבתות ואירועים.</p>
+                        <div class="recipe-details">
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-list"></i> מרכיבים</h5>
+                                <ul>
+                                    <li>200 גרם שוקולד מריר ללא גלוטן (לפחות 70%)</li>
+                                    <li>150 גרם חמאה בטמפרטורת החדר</li>
+                                    <li>1 כוס סוכר</li>
+                                    <li>4 ביצים גדולות</li>
+                                    <li>1/2 כוס קמח שקדים טחון דק</li>
+                                    <li>1/4 כוס קקאו הולנדי איכותי</li>
+                                    <li>1/2 כפית אבקת אפייה</li>
+                                    <li>קורט מלח</li>
+                                    <li>1 כפית תמצית וניל טהורה</li>
+                                </ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
+                                <ol>
+                                    <li>חממו תנור ל-170 מעלות. שמנו תבנית עגולה קוטר 24 ס"מ.</li>
+                                    <li>המיסו את השוקולד עם החמאה במיקרוגל במשך 2 דקות, ערבבו עד חלק.</li>
+                                    <li>הוסיפו את הסוכר וערבבו היטב. הכניסו ביצה אחת בכל פעם.</li>
+                                    <li>הוסיפו את קמח השקדים, הקקאו, אבקת האפייה, המלח והוניל.</li>
+                                    <li>ערבבו בעדינות עד לקבלת בלילה חלקה והעבירו לתבנית.</li>
+                                    <li>אפו 35-40 דקות. העוגה תהיה לחה מעט במרכז - זה תקין!</li>
+                                    <li>צננו לחלוטין לפני ההגשה. ניתן לקשט עם אבקת סוכר.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 3: Pizza -->
+                    <div class="recipe-card" onclick="toggleRecipe(this)">
+                        <div class="recipe-header">
+                            <div class="recipe-icon">
+                                <i class="fas fa-pizza-slice"></i>
+                            </div>
+                            <h4>פיצה ביתית איטלקית אמיתית</h4>
+                        </div>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 45 דקות</span>
+                            <span><i class="fas fa-fire"></i> בינוני</span>
+                            <span><i class="fas fa-users"></i> 2 פיצות</span>
+                        </div>
+                        <p class="recipe-desc">בצק פיצה גמיש ופריך עם רוטב עגבניות ביתי וגבינה נמשכת.</p>
+                        <div class="recipe-details">
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-list"></i> מרכיבים לבצק</h5>
+                                <ul>
+                                    <li>2 כוסות קמח ללא גלוטן לאפייה</li>
+                                    <li>1 כפית שמרים יבשים</li>
+                                    <li>1 כפית סוכר</li>
+                                    <li>1/2 כפית מלח</li>
+                                    <li>1 כפית גומי קסנטן</li>
+                                    <li>1 כוס מים פושרים</li>
+                                    <li>2 כפות שמן זית</li>
+                                </ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-list"></i> מרכיבים לרוטב</h5>
+                                <ul>
+                                    <li>1 פחית רסק עגבניות (400 גרם)</li>
+                                    <li>2 שיני שום כתושות</li>
+                                    <li>1 כפית אורגנו יבש</li>
+                                    <li>1/2 כפית בזיליקום יבש</li>
+                                    <li>מלח ופלפל לפי הטעם</li>
+                                    <li>1 כף שמן זית</li>
+                                </ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
+                                <ol>
+                                    <li>המיסו שמרים בחלק מהמים עם הסוכר. המתינו 5 דקות.</li>
+                                    <li>ערבבו את המרכיבים היבשים בקערה גדולה.</li>
+                                    <li>הוסיפו את תערובת השמרים, שאר המים והשמן. לשו 3 דקות.</li>
+                                    <li>חלקו לשתי כדורים ופרשו על נייר אפייה.</li>
+                                    <li>לרוטב: ערבבו את כל המרכיבים במחבת על אש נמוכה 10 דקות.</li>
+                                    <li>מרחו רוטב על הבצק, הוסיפו מוצרלה ותוספות לבחירה.</li>
+                                    <li>אפו בתנור ב-220 מעלות למשך 15-20 דקות.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 4: Cookies -->
+                    <div class="recipe-card" onclick="toggleRecipe(this)">
+                        <div class="recipe-header">
+                            <div class="recipe-icon">
+                                <i class="fas fa-cookie"></i>
+                            </div>
+                            <h4>עוגיות שקדים פריכות</h4>
+                        </div>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 30 דקות</span>
+                            <span><i class="fas fa-fire"></i> קל מאוד</span>
+                            <span><i class="fas fa-users"></i> כ-24 עוגיות</span>
+                        </div>
+                        <p class="recipe-desc">עוגיות פריכות ומתפוררות עם טעם שקדים עדין. מושלמות לאירוח.</p>
+                        <div class="recipe-details">
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-list"></i> מרכיבים</h5>
+                                <ul>
+                                    <li>2 כוסות קמח שקדים טחון דק</li>
+                                    <li>1/2 כוס סוכר דק</li>
+                                    <li>1/4 כפית מלח</li>
+                                    <li>1/2 כפית תמצית שקדים (או וניל)</li>
+                                    <li>1 ביצה גדולה</li>
+                                    <li>2 כפות חמאה מומסת</li>
+                                    <li>שקדים קלויים לקישוט</li>
+                                </ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
+                                <ol>
+                                    <li>חממו תנור ל-175 מעלות וצפו תבנית בנייר אפייה.</li>
+                                    <li>ערבבו את קמח השקדים, הסוכר והמלח בקערה.</li>
+                                    <li>הוסיפו את הביצה, החמאה ותמצית השקדים וערבבו היטב.</li>
+                                    <li>צרו כדורים קטנים ושטחו מעט. הניחו על התבנית.</li>
+                                    <li>לחצו שקד קלוי במרכז כל עוגייה.</li>
+                                    <li>אפו 12-15 דקות עד שהקצוות מוזהבים.</li>
+                                    <li>העוגיות יתקשו בהתקררות. שמרו במיכל אטום.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Medical Information Accordion Card -->
         <div class="sidebar-card">
-            <div class="accordion-header contact-card-header" onclick="openMedicalInfoModal()">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-info-circle"></i>
                     </div>
                     <span>מידע רפואי על צליאק</span>
                 </div>
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-inner">
+                    <!-- What is Celiac -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <h4>מה זה צליאק?</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
+                                <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
+                                <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                                <h4>תסמינים ואבחון</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p><strong>תסמינים עיקריים במערכת העיכול:</strong></p>
+                                <ul>
+                                    <li>שלשולים כרוניים או עצירות</li>
+                                    <li>כאבי בטן ונפיחות</li>
+                                    <li>בחילות והקאות</li>
+                                    <li>גזים וצרבת</li>
+                                </ul>
+                                <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
+                                <ul>
+                                    <li>עייפות ותשישות מתמשכת</li>
+                                    <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
+                                    <li>כאבי ראש ומיגרנות</li>
+                                    <li>אוסטיאופורוזיס מוקדם</li>
+                                    <li>פריחה עורית (דרמטיטיס הרפפטיפורמיס)</li>
+                                    <li>בעיות פוריות ומקרים של הפלות חוזרות</li>
+                                </ul>
+                                <p><strong>אבחון:</strong> בדיקות דם לנוגדנים (Anti-tTG, Anti-EMA) ואישור באמצעות ביופסיה מהמעי הדק. חשוב מאוד להמשיך לצרוך גלוטן עד לאחר האבחון.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Allowed Foods -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h4>מזונות מותרים</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p>מזונות טבעיים ללא גלוטן שניתן לצרוך בחופשיות:</p>
+                                <ul>
+                                    <li>אורז לבן, חום, בסמטי וכל מוצרי האורז</li>
+                                    <li>תירס, פולנטה, קמח תירס ופופקורן</li>
+                                    <li>קינואה, דוחן, אמרנט וטף</li>
+                                    <li>תפוחי אדמה ובטטות</li>
+                                    <li>כל סוגי הפירות והירקות הטריים</li>
+                                    <li>בשר, עוף ודגים טריים (לא מעובדים)</li>
+                                    <li>ביצים</li>
+                                    <li>חלב ומוצרי חלב טבעיים</li>
+                                    <li>קטניות: עדשים, חומוס, שעועית, אפונה</li>
+                                    <li>אגוזים וזרעים טבעיים</li>
+                                    <li>שמנים טהורים</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forbidden Foods -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <h4>מזונות אסורים</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p>מזונות המכילים גלוטן שיש להימנע מהם לחלוטין:</p>
+                                <ul>
+                                    <li class="warning">חיטה בכל צורותיה (לחם, פיתות, חלות, עוגות)</li>
+                                    <li class="warning">שעורה ומוצריה (כולל שעורה בירה)</li>
+                                    <li class="warning">שיפון</li>
+                                    <li class="warning">כוסמין (ספלט)</li>
+                                    <li class="warning">סולת, בורגול, קוסקוס</li>
+                                    <li class="warning">פסטה רגילה</li>
+                                    <li class="warning">דגני בוקר רגילים</li>
+                                    <li class="warning">ביסקוויטים ועוגיות רגילות</li>
+                                    <li class="warning">בירה רגילה</li>
+                                    <li class="warning">רטבים ותבלינים המכילים קמח חיטה</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h4>טיפים לחיים עם צליאק</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p><strong>בבית:</strong></p>
+                                <ul>
+                                    <li>הקפידו על כלי מטבח נפרדים (קרש חיתוך, טוסטר, מחבת)</li>
+                                    <li>הימנעו מזיהום צולב - אל תשתמשו באותו שמן טיגון</li>
+                                    <li>שמרו מזון ללא גלוטן במדפים נפרדים</li>
+                                    <li>בדקו תוויות של כל מוצר - גם תרופות וויטמינים</li>
+                                </ul>
+                                <p><strong>מחוץ לבית:</strong></p>
+                                <ul>
+                                    <li>התקשרו למסעדות מראש לוודא אפשרויות ללא גלוטן</li>
+                                    <li>הביאו חטיפים מהבית לנסיעות</li>
+                                    <li>בקשו מהשף להכין את המנה בכלים נפרדים</li>
+                                </ul>
+                                <p><strong>בריאות כללית:</strong></p>
+                                <ul>
+                                    <li>בצעו בדיקות דם תקופתיות לוודא ספיגה תקינה</li>
+                                    <li>שקלו נטילת תוספי ויטמין D, B12, ברזל וסידן</li>
+                                    <li>בצעו בדיקת צפיפות עצם אחת לשנתיים</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recovery -->
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-heart-pulse"></i>
+                                </div>
+                                <h4>תהליך ההחלמה</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <p>הבשורה הטובה: עם שמירה קפדנית על דיאטה ללא גלוטן, רוב החולים חווים שיפור משמעותי!</p>
+                                <ul>
+                                    <li>שיפור בתסמיני העיכול מורגש תוך ימים עד שבועות</li>
+                                    <li>רמות האנרגיה עולות תוך חודשים ספורים</li>
+                                    <li>הנוגדנים בדם יורדים תוך 3-6 חודשים</li>
+                                    <li>ריפוי מלא של הוילי במעי לוקח 1-2 שנים</li>
+                                </ul>
+                                <p>חשוב לזכור: אפילו כמויות קטנות מאוד של גלוטן (מעל 20 מ"ג ליום) יכולות לפגוע במעי ולעכב את תהליך הריפוי. לכן ההקפדה על הדיאטה היא קריטית!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Resources Card -->
         <div class="sidebar-card">
-            <div class="accordion-header contact-card-header" onclick="openResourcesModal()">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper">
                         <i class="fas fa-link"></i>
                     </div>
                     <span>קישורים וכתובות שימושיות</span>
                 </div>
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-inner">
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <h4>אתרים מומלצים</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li><a href="https://www.celiac.org.il" target="_blank" style="color: var(--primary); text-decoration: none;">עמותת צליאק ישראל</a> - האתר הרשמי של העמותה</li>
+                                    <li><a href="https://www.health.gov.il" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
+                                    <li><a href="https://www.clalit.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כללית שירותי בריאות</a> - מאמרים על צליאק ותזונה</li>
+                                    <li><a href="https://www.maccabi4u.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">מכבי שירותי בריאות</a> - מידע לחולי צליאק</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h4>חנויות ורשתות מזון</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li><a href="https://www.shufersal.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">שופרסל</a> - מוצרים ללא גלוטן במגוון סניפים</li>
+                                    <li><a href="https://www.rami-levy.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">רמי לוי</a> - מגוון מוצרים ללא גלוטן</li>
+                                    <li><a href="https://www.tivall.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">תיבל</a> - מוצרי מזון צמחוניים וללא גלוטן</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4>קהילות ותמיכה</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/groups/celiacisrael" target="_blank" style="color: var(--primary); text-decoration: none;">קבוצת צליאק ישראל בפייסבוק</a></li>
+                                    <li><a href="https://www.camoni.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כמוני</a> - קהילה לאנשים עם מגבלות תזונה</li>
+                                    <li>עמותת צליאק ישראל - קו חם: 03-5254253</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-accordion">
+                        <div class="info-header" onclick="toggleInfo(this)">
+                            <div class="info-left">
+                                <div class="info-icon">
+                                    <i class="fas fa-hospital"></i>
+                                </div>
+                                <h4>מרפאות ובתי חולים</h4>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-inner">
+                                <ul>
+                                    <li>בי"ח שיבא - מרכז גסטרו ילדים - טל: 03-5302234</li>
+                                    <li>בי"ח רמב"ם - מחלקת גסטרו - טל: 04-7772444</li>
+                                    <li>מרכז רפואי הדסה - טל: 02-6776543</li>
+                                    <li>בי"ח בילינסון - מכון גסטרו - טל: 03-9377222</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- Rules Card -->
         <div class="sidebar-card">
-            <div class="accordion-header contact-card-header" onclick="openRulesModal()">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="header-left">
                     <div class="icon-wrapper" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
                         <i class="fas fa-gavel"></i>
                     </div>
                     <span>כללים ומטרת האתר</span>
                 </div>
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <h4>כללי האתר</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <h5 style="color: var(--primary); margin-top: 1rem; margin-bottom: 0.8rem;">כללי יסוד:</h5>
+                            <ul class="styled-rules-list">
+                                <li>שמירה על כבוד הזולת ולשון נקייה בכל עת</li>
+                                <li>איסור מוחלט על לשון הרע, רכילות והוצאת דיבה</li>
+                                <li>איסור על פרסום תוכן פוגעני, מעליב או בלתי הולם</li>
+                                <li>כל התכנים חייבים להיות ענייניים ורלוונטיים לנושא הצליאק</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">כללי פרסום:</h5>
+                            <ul class="styled-rules-list">
+                                <li>איסור על פרסום מוצרים מסחריים ללא אישור המנהלים</li>
+                                <li>שמירה על טון מכבד ואדיב גם במחלוקות</li>
+                                <li>ביקורות לתוכן ולא לאדם</li>
+                                <li>הימנעות מוויכוחים מיותרים</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">אכיפה:</h5>
+                            <ul class="styled-rules-list">
+                                <li>המנהלים שומרים לעצמם את הזכות למחוק או לערוך תכנים לא הולמים</li>
+                                <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
+                                <li>ההחלטות הסופיות בידי צוות המנהלים</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h4>מטרת האתר</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul class="styled-rules-list">
+                                <li>מרכז מידע עדכני ומהימן על צליאק</li>
+                                <li>שיתוף מתכונים מותאמים למטבח החרדי</li>
+                                <li>מידע על מוצרים כשרים ללא גלוטן</li>
+                                <li>טיפים מעשיים להתמודדות יומיומית ועוד</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h4>שיתוף ידע</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul class="styled-rules-list">
+                                <li>למידה מניסיון של אחרים</li>
+                                <li>פתרונות יצירתיים לאתגרים שבחיי היומיום</li>
+                                <li>המלצות על מקומות אוכל, חנויות ושירותים</li>
+                                <li>עזרה בניווט במערכות בריאות וביטוח</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-accordion">
+                    <div class="info-header" onclick="toggleInfo(this)">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-star-of-david"></i>
+                            </div>
+                            <h4>שמירה על זהות</h4>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-inner">
+                            <ul class="styled-rules-list">
+                                <li>שילוב ערכי היהדות החרדית</li>
+                                <li>התאמה למציאות הייחודית של החברה החרדית</li>
+                                <li>כיבוד הלכות כשרות ומנהגים</li>
+                                <li>שפה ותוכן הולמים את הקהל</li>
+                            </ul>
+                            <p style="margin-top: 1.5rem; font-weight: 600; color: var(--primary); text-align: center;">
+                                בברכת בריאות ושמחה<br>
+                                צוות פורום הצליאק החרדי
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1743,15 +2305,16 @@
         <h2><i class="fas fa-pen-to-square"></i> פתיחת שרשור חדש</h2>
         <input type="text" id="name" placeholder="השם שלך">
         <select id="category">
-            <option value="">בחר קטגוריה...</option>
+            <option value="כללי">בחר קטגוריה</option>
             <option value="מתכונים">מתכונים</option>
-            <option value="כשרות">כשרות</option>
-            <option value="רפואי">רפואי</option>
+            <option value="כשרות">כשרות ומסעדות</option>
+            <option value="רפואי">שאלות רפואיות</option>
             <option value="מסעדות">מסעדות</option>
             <option value="תזונה">תזונה</option>
             <option value="צרכנות">צרכנות</option>
-            <option value="שאלות כלליות">שאלות כלליות</option>
+            <option value="כללי">שאלות כלליות</option>
         </select>
+        <input type="text" id="subject" placeholder="נושא ההודעה">
         <textarea id="content" rows="5" placeholder="תוכן ההודעה..."></textarea>
         <button class="btn-main" id="sendPostBtn" onclick="sendPost()"><i class="fas fa-paper-plane"></i> פרסם עכשיו</button>
     </div>
@@ -1839,609 +2402,6 @@
             <button class="btn-main" id="sendContactBtnUser" onclick="sendContactForm()">
                 <i class="fas fa-paper-plane"></i> שלח הודעה
             </button>
-        </div>
-    </div>
-</div>
-
-<!-- Recipes Modal -->
-<div id="recipesModal" class="modal">
-    <div class="modal-content">
-        <button class="modal-close-btn" onclick="closeRecipesModal()">
-            <i class="fas fa-times"></i>
-        </button>
-        <h2><i class="fas fa-utensils"></i> מתכונים מומלצים</h2>
-        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-            <div class="accordion-inner">
-                <!-- Recipe 1: Gluten-Free Bread -->
-                <div class="recipe-card" onclick="toggleRecipe(this)">
-                    <div class="recipe-header">
-                        <div class="recipe-icon">
-                            <i class="fas fa-bread-slice"></i>
-                        </div>
-                        <h4>לחם ללא גלוטן - רך ואוורירי</h4>
-                    </div>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 90 דקות</span>
-                        <span><i class="fas fa-fire"></i> בינוני</span>
-                        <span><i class="fas fa-users"></i> כיכר אחת</span>
-                    </div>
-                    <p class="recipe-desc">לחם ביתי מושלם עם קרום פריך ופנים רך ואוורירי. מתאים לשבת ולכל יום.</p>
-                    <div class="recipe-details">
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-list"></i> מרכיבים</h5>
-                            <ul>
-                                <li>2 כוסות קמח ללא גלוטן (תערובת אורז וטפיוקה)</li>
-                                <li>1 כף שמרים יבשים</li>
-                                <li>1 כפית מלח</li>
-                                <li>1 כף סוכר</li>
-                                <li>1 כפית גומי גואר או קסנטן</li>
-                                <li>2 ביצים גדולות בטמפרטורת החדר</li>
-                                <li>1/4 כוס שמן זית</li>
-                                <li>1 כוס מים פושרים (כ-40 מעלות)</li>
-                                <li>1 כף חומץ תפוחים</li>
-                            </ul>
-                        </div>
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
-                            <ol>
-                                <li>המיסו את השמרים במים הפושרים עם הסוכר והמתינו 10 דקות עד שמבעבע.</li>
-                                <li>בקערה גדולה, ערבבו את הקמח, המלח והגומי.</li>
-                                <li>הוסיפו את הביצים, השמן, החומץ ותערובת השמרים וערבבו היטב עם מיקסר כ-3 דקות.</li>
-                                <li>העבירו לתבנית לחם משומנת וכסו בניילון. תנו לתפוח שעה בטמפרטורת החדר.</li>
-                                <li>חממו תנור ל-190 מעלות ואפו 45-50 דקות עד שהלחם מוזהב.</li>
-                                <li>הוציאו מהתנור והניחו להתקרר לפחות 20 דקות לפני החיתוך.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recipe 2: Chocolate Cake -->
-                <div class="recipe-card" onclick="toggleRecipe(this)">
-                    <div class="recipe-header">
-                        <div class="recipe-icon">
-                            <i class="fas fa-cake-candles"></i>
-                        </div>
-                        <h4>עוגת שוקולד בלגית עשירה</h4>
-                    </div>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 60 דקות</span>
-                        <span><i class="fas fa-fire"></i> קל</span>
-                        <span><i class="fas fa-users"></i> 12 מנות</span>
-                    </div>
-                    <p class="recipe-desc">עוגת שוקולד עשירה ולחה במיוחד, נמסה בפה. מושלמת לשבתות ואירועים.</p>
-                    <div class="recipe-details">
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-list"></i> מרכיבים</h5>
-                            <ul>
-                                <li>200 גרם שוקולד מריר ללא גלוטן (לפחות 70%)</li>
-                                <li>150 גרם חמאה בטמפרטורת החדר</li>
-                                <li>1 כוס סוכר</li>
-                                <li>4 ביצים גדולות</li>
-                                <li>1/2 כוס קמח שקדים טחון דק</li>
-                                <li>1/4 כוס קקאו הולנדי איכותי</li>
-                                <li>1/2 כפית אבקת אפייה</li>
-                                <li>קורט מלח</li>
-                                <li>1 כפית תמצית וניל טהורה</li>
-                            </ul>
-                        </div>
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
-                            <ol>
-                                <li>חממו תנור ל-170 מעלות. שמנו תבנית עגולה קוטר 24 ס"מ.</li>
-                                <li>המיסו את השוקולד עם החמאה במיקרוגל במשך 2 דקות, ערבבו עד חלק.</li>
-                                <li>הוסיפו את הסוכר וערבבו היטב. הכניסו ביצה אחת בכל פעם.</li>
-                                <li>הוסיפו את קמח השקדים, הקקאו, אבקת האפייה, המלח והוניל.</li>
-                                <li>ערבבו בעדינות עד לקבלת בלילה חלקה והעבירו לתבנית.</li>
-                                <li>אפו 35-40 דקות. העוגה תהיה לחה מעט במרכז - זה תקין!</li>
-                                <li>צננו לחלוטין לפני ההגשה. ניתן לקשט עם אבקת סוכר.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recipe 3: Pizza -->
-                <div class="recipe-card" onclick="toggleRecipe(this)">
-                    <div class="recipe-header">
-                        <div class="recipe-icon">
-                            <i class="fas fa-pizza-slice"></i>
-                        </div>
-                        <h4>פיצה ביתית איטלקית אמיתית</h4>
-                    </div>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 45 דקות</span>
-                        <span><i class="fas fa-fire"></i> בינוני</span>
-                        <span><i class="fas fa-users"></i> 2 פיצות</span>
-                    </div>
-                    <p class="recipe-desc">בצק פיצה גמיש ופריך עם רוטב עגבניות ביתי וגבינה נמשכת.</p>
-                    <div class="recipe-details">
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-list"></i> מרכיבים לבצק</h5>
-                            <ul>
-                                <li>2 כוסות קמח ללא גלוטן לאפייה</li>
-                                <li>1 כפית שמרים יבשים</li>
-                                <li>1 כפית סוכר</li>
-                                <li>1/2 כפית מלח</li>
-                                <li>1 כפית גומי קסנטן</li>
-                                <li>1 כוס מים פושרים</li>
-                                <li>2 כפות שמן זית</li>
-                            </ul>
-                        </div>
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-list"></i> מרכיבים לרוטב</h5>
-                            <ul>
-                                <li>1 פחית רסק עגבניות (400 גרם)</li>
-                                <li>2 שיני שום כתושות</li>
-                                <li>1 כפית אורגנו יבש</li>
-                                <li>1/2 כפית בזיליקום יבש</li>
-                                <li>מלח ופלפל לפי הטעם</li>
-                                <li>1 כף שמן זית</li>
-                            </ul>
-                        </div>
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
-                            <ol>
-                                <li>המיסו שמרים בחלק מהמים עם הסוכר. המתינו 5 דקות.</li>
-                                <li>ערבבו את המרכיבים היבשים בקערה גדולה.</li>
-                                <li>הוסיפו את תערובת השמרים, שאר המים והשמן. לשו 3 דקות.</li>
-                                <li>חלקו לשתי כדורים ופרשו על נייר אפייה.</li>
-                                <li>לרוטב: ערבבו את כל המרכיבים במחבת על אש נמוכה 10 דקות.</li>
-                                <li>מרחו רוטב על הבצק, הוסיפו מוצרלה ותוספות לבחירה.</li>
-                                <li>אפו בתנור ב-220 מעלות למשך 15-20 דקות.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recipe 4: Cookies -->
-                <div class="recipe-card" onclick="toggleRecipe(this)">
-                    <div class="recipe-header">
-                        <div class="recipe-icon">
-                            <i class="fas fa-cookie"></i>
-                        </div>
-                        <h4>עוגיות שקדים פריכות</h4>
-                    </div>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 30 דקות</span>
-                        <span><i class="fas fa-fire"></i> קל מאוד</span>
-                        <span><i class="fas fa-users"></i> כ-24 עוגיות</span>
-                    </div>
-                    <p class="recipe-desc">עוגיות פריכות ומתפוררות עם טעם שקדים עדין. מושלמות לאירוח.</p>
-                    <div class="recipe-details">
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-list"></i> מרכיבים</h5>
-                            <ul>
-                                <li>2 כוסות קמח שקדים טחון דק</li>
-                                <li>1/2 כוס סוכר דק</li>
-                                <li>1/4 כפית מלח</li>
-                                <li>1/2 כפית תמצית שקדים (או וניל)</li>
-                                <li>1 ביצה גדולה</li>
-                                <li>2 כפות חמאה מומסת</li>
-                                <li>שקדים קלויים לקישוט</li>
-                            </ul>
-                        </div>
-                        <div class="recipe-section">
-                            <h5><i class="fas fa-tasks"></i> אופן ההכנה</h5>
-                            <ol>
-                                <li>חממו תנור ל-175 מעלות וצפו תבנית בנייר אפייה.</li>
-                                <li>ערבבו את קמח השקדים, הסוכר והמלח בקערה.</li>
-                                <li>הוסיפו את הביצה, החמאה ותמצית השקדים וערבבו היטב.</li>
-                                <li>צרו כדורים קטנים ושטחו מעט. הניחו על התבנית.</li>
-                                <li>לחצו שקד קלוי במרכז כל עוגייה.</li>
-                                <li>אפו 12-15 דקות עד שהקצוות מוזהבים.</li>
-                                <li>העוגיות יתקשו בהתקררות. שמרו במיכל אטום.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Medical Information Modal -->
-<div id="medicalInfoModal" class="modal">
-    <div class="modal-content">
-        <button class="modal-close-btn" onclick="closeMedicalInfoModal()">
-            <i class="fas fa-times"></i>
-        </button>
-        <h2><i class="fas fa-info-circle"></i> מידע רפואי על צליאק</h2>
-        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-            <div class="accordion-inner">
-                <!-- What is Celiac -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-question-circle"></i>
-                            </div>
-                            <h4>מה זה צליאק?</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
-                            <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
-                            <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Symptoms -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-stethoscope"></i>
-                            </div>
-                            <h4>תסמינים ואבחון</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p><strong>תסמינים עיקריים במערכת העיכול:</strong></p>
-                            <ul>
-                                <li>שלשולים כרוניים או עצירות</li>
-                                <li>כאבי בטן ונפיחות</li>
-                                <li>בחילות והקאות</li>
-                                <li>גזים וצרבת</li>
-                            </ul>
-                            <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
-                            <ul>
-                                <li>עייפות ותשישות מתמשכת</li>
-                                <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
-                                <li>כאבי ראש ומיגרנות</li>
-                                <li>אוסטיאופורוזיס מוקדם</li>
-                                <li>פריחה עורית (דרמטיטיס הרפפטיפורמיס)</li>
-                                <li>בעיות פוריות ומקרים של הפלות חוזרות</li>
-                            </ul>
-                            <p><strong>אבחון:</strong> בדיקות דם לנוגדנים (Anti-tTG, Anti-EMA) ואישור באמצעות ביופסיה מהמעי הדק. חשוב מאוד להמשיך לצרוך גלוטן עד לאחר האבחון.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Allowed Foods -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <h4>מזונות מותרים</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p>מזונות טבעיים ללא גלוטן שניתן לצרוך בחופשיות:</p>
-                            <ul>
-                                <li>אורז לבן, חום, בסמטי וכל מוצרי האורז</li>
-                                <li>תירס, פולנטה, קמח תירס ופופקורן</li>
-                                <li>קינואה, דוחן, אמרנט וטף</li>
-                                <li>תפוחי אדמה ובטטות</li>
-                                <li>כל סוגי הפירות והירקות הטריים</li>
-                                <li>בשר, עוף ודגים טריים (לא מעובדים)</li>
-                                <li>ביצים</li>
-                                <li>חלב ומוצרי חלב טבעיים</li>
-                                <li>קטניות: עדשים, חומוס, שעועית, אפונה</li>
-                                <li>אגוזים וזרעים טבעיים</li>
-                                <li>שמנים טהורים</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Forbidden Foods -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-ban"></i>
-                            </div>
-                            <h4>מזונות אסורים</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p>מזונות המכילים גלוטן שיש להימנע מהם לחלוטין:</p>
-                            <ul>
-                                <li class="warning">חיטה בכל צורותיה (לחם, פיתות, חלות, עוגות)</li>
-                                <li class="warning">שעורה ומוצריה (כולל שעורה בירה)</li>
-                                <li class="warning">שיפון</li>
-                                <li class="warning">כוסמין (ספלט)</li>
-                                <li class="warning">סולת, בורגול, קוסקוס</li>
-                                <li class="warning">פסטה רגילה</li>
-                                <li class="warning">דגני בוקר רגילים</li>
-                                <li class="warning">ביסקוויטים ועוגיות רגילות</li>
-                                <li class="warning">בירה רגילה</li>
-                                <li class="warning">רטבים ותבלינים המכילים קמח חיטה</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tips -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h4>טיפים לחיים עם צליאק</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p><strong>בבית:</strong></p>
-                            <ul>
-                                <li>הקפידו על כלי מטבח נפרדים (קרש חיתוך, טוסטר, מחבת)</li>
-                                <li>הימנעו מזיהום צולב - אל תשתמשו באותו שמן טיגון</li>
-                                <li>שמרו מזון ללא גלוטן במדפים נפרדים</li>
-                                <li>בדקו תוויות של כל מוצר - גם תרופות וויטמינים</li>
-                            </ul>
-                            <p><strong>מחוץ לבית:</strong></p>
-                            <ul>
-                                <li>התקשרו למסעדות מראש לוודא אפשרויות ללא גלוטן</li>
-                                <li>הביאו חטיפים מהבית לנסיעות</li>
-                                <li>בקשו מהשף להכין את המנה בכלים נפרדים</li>
-                            </ul>
-                            <p><strong>בריאות כללית:</strong></p>
-                            <ul>
-                                <li>בצעו בדיקות דם תקופתיות לוודא ספיגה תקינה</li>
-                                <li>שקלו נטילת תוספי ויטמין D, B12, ברזל וסידן</li>
-                                <li>בצעו בדיקת צפיפות עצם אחת לשנתיים</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recovery -->
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-heart-pulse"></i>
-                            </div>
-                            <h4>תהליך ההחלמה</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <p>הבשורה הטובה: עם שמירה קפדנית על דיאטה ללא גלוטן, רוב החולים חווים שיפור משמעותי!</p>
-                            <ul>
-                                <li>שיפור בתסמיני העיכול מורגש תוך ימים עד שבועות</li>
-                                <li>רמות האנרגיה עולות תוך חודשים ספורים</li>
-                                <li>הנוגדנים בדם יורדים תוך 3-6 חודשים</li>
-                                <li>ריפוי מלא של הוילי במעי לוקח 1-2 שנים</li>
-                            </ul>
-                            <p>חשוב לזכור: אפילו כמויות קטנות מאוד של גלוטן (מעל 20 מ"ג ליום) יכולות לפגוע במעי ולעכב את תהליך הריפוי. לכן ההקפדה על הדיאטה היא קריטית!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Resources Modal -->
-<div id="resourcesModal" class="modal">
-    <div class="modal-content">
-        <button class="modal-close-btn" onclick="closeResourcesModal()">
-            <i class="fas fa-times"></i>
-        </button>
-        <h2><i class="fas fa-link"></i> קישורים וכתובות שימושיות</h2>
-        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-            <div class="accordion-inner">
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <h4>אתרים מומלצים</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <ul>
-                                <li><a href="https://www.clalit.co.il/he/lifestyle/nutrition/Pages/celiac_dietary_directions.aspx?utm_source=chatgpt.com" target="_blank" style="color: var(--primary); text-decoration: none;">כללית שירותי בריאות</a> - מידע כללי על צליאק</li>
-                                <li><a href="https://me.health.gov.il/parenting/raising-children/common-childhood-diseases-and-symptoms/intolerance-and-allergies/celiac-dis" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
-                                <li><a href="https://www.klg.co.il/" target="_blank" style="color: var(--primary); text-decoration: none;">KLG</a> - אתר עם הרבה מתכונים ומידע</li>
-                                <li><a href="https://celiacrights.org.il/" target="_blank" style="color: var(--primary); text-decoration: none;">ארגון זכויות הצליאק</a> - ארגון לקידום זכויות חולי צליאק</li>
-                                <li><a href="https://mylilblog.com/" target="_blank" style="color: var(--primary); text-decoration: none;">אמא ללא גלוטן</a> - בלוג עם מתכונים ומידע ללא גלוטן</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                            <h4>חנויות ורשתות מזון</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <ul>
-                                <li><a href="https://www.shufersal.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">שופרסל</a> - מוצרים ללא גלוטן במגוון סניפים</li>
-                                <li><a href="https://www.rami-levy.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">רמי לוי</a> - מגוון מוצרים ללא גלוטן</li>
-                                <li><a href="https://www.tivall.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">תיבל</a> - מוצרי מזון צמחוניים וללא גלוטן</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h4>קהילות ותמיכה</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <ul>
-                                <li><a href="https://www.facebook.com/groups/celiacisrael" target="_blank" style="color: var(--primary); text-decoration: none;">קבוצת צליאק ישראל בפייסבוק</a></li>
-                                <li><a href="https://www.camoni.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כמוני</a> - קהילה לאנשים עם מגבלות תזונה</li>
-                                <li>עמותת צליאק ישראל - קו חם: 03-5254253</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-accordion">
-                    <div class="info-header" onclick="toggleInfo(this)">
-                        <div class="info-left">
-                            <div class="info-icon">
-                                <i class="fas fa-hospital"></i>
-                            </div>
-                            <h4>מרפאות ובתי חולים</h4>
-                        </div>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-inner">
-                            <ul>
-                                <li>בי"ח שיבא - מרכז גסטרו ילדים - טל: 03-5302234</li>
-                                <li>בי"ח רמב"ם - מחלקת גסטרו - טל: 04-7772444</li>
-                                <li>מרכז רפואי הדסה - טל: 02-6776543</li>
-                                <li>בי"ח בילינסון - מכון גסטרו - טל: 03-9377222</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Rules Modal -->
-<div id="rulesModal" class="modal">
-    <div class="modal-content">
-        <button class="modal-close-btn" onclick="closeRulesModal()">
-            <i class="fas fa-times"></i>
-        </button>
-        <h2><i class="fas fa-gavel"></i> כללים ומטרת האתר</h2>
-        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-            <div class="info-accordion">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <div class="info-left">
-                        <div class="info-icon">
-                            <i class="fas fa-gavel"></i>
-                        </div>
-                        <h4>כללי האתר</h4>
-                    </div>
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </div>
-                <div class="info-content">
-                    <div class="info-inner">
-                        <h5 style="color: var(--primary); margin-top: 1rem; margin-bottom: 0.8rem;">כללי יסוד:</h5>
-                        <ul class="styled-rules-list">
-                            <li>שמירה על כבוד הזולת ולשון נקייה בכל עת</li>
-                            <li>איסור מוחלט על לשון הרע, רכילות והוצאת דיבה</li>
-                            <li>איסור על פרסום תוכן פוגעני, מעליב או בלתי הולם</li>
-                            <li>כל התכנים חייבים להיות ענייניים ורלוונטיים לנושא הצליאק</li>
-                        </ul>
-                        
-                        <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">כללי פרסום:</h5>
-                        <ul class="styled-rules-list">
-                            <li>איסור על פרסום מוצרים מסחריים ללא אישור המנהלים</li>
-                            <li>שמירה על טון מכבד ואדיב גם במחלוקות</li>
-                            <li>ביקורות לתוכן ולא לאדם</li>
-                            <li>הימנעות מוויכוחים מיותרים</li>
-                        </ul>
-                        
-                        <h5 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.8rem;">אכיפה:</h5>
-                        <ul class="styled-rules-list">
-                            <li>המנהלים שומרים לעצמם את הזכות למחוק או לערוך תכנים לא הולמים</li>
-                            <li>משתמש שיפר את הכללים עלול להימחק מהפורום</li>
-                            <li>ההחלטות הסופיות בידי צוות המנהלים</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="info-accordion">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <div class="info-left">
-                        <div class="info-icon">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                        <h4>מטרת האתר</h4>
-                    </div>
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </div>
-                <div class="info-content">
-                    <div class="info-inner">
-                        <ul class="styled-rules-list">
-                            <li>מרכז מידע עדכני ומהימן על צליאק</li>
-                            <li>שיתוף מתכונים מותאמים למטבח החרדי</li>
-                            <li>מידע על מוצרים כשרים ללא גלוטן</li>
-                            <li>טיפים מעשיים להתמודדות יומיומית ועוד</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="info-accordion">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <div class="info-left">
-                        <div class="info-icon">
-                            <i class="fas fa-handshake"></i>
-                        </div>
-                        <h4>שיתוף ידע</h4>
-                    </div>
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </div>
-                <div class="info-content">
-                    <div class="info-inner">
-                        <ul class="styled-rules-list">
-                            <li>למידה מניסיון של אחרים</li>
-                            <li>פתרונות יצירתיים לאתגרים שבחיי היומיום</li>
-                            <li>המלצות על מקומות אוכל, חנויות ושירותים</li>
-                            <li>עזרה בניווט במערכות בריאות וביטוח</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="info-accordion">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <div class="info-left">
-                        <div class="info-icon">
-                            <i class="fas fa-star-of-david"></i>
-                        </div>
-                        <h4>שמירה על זהות</h4>
-                    </div>
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </div>
-                <div class="info-content">
-                    <div class="info-inner">
-                        <ul class="styled-rules-list">
-                            <li>שילוב ערכי היהדות החרדית</li>
-                            <li>התאמה למציאות הייחודית של החברה החרדית</li>
-                            <li>כיבוד הלכות כשרות ומנהגים</li>
-                            <li>שפה ותוכן הולמים את הקהל</li>
-                        </ul>
-                        <p style="margin-top: 1.5rem; font-weight: 600; color: var(--primary); text-align: center;">
-                            בברכת בריאות ושמחה<br>
-                            צוות פורום הצליאק החרדי
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -2744,42 +2704,6 @@
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactMessage').value = '';
         document.getElementById('contactMessageUser').value = '';
-    }
-
-    // Recipes modal functions
-    function openRecipesModal() {
-        document.getElementById('recipesModal').style.display = 'flex';
-    }
-
-    function closeRecipesModal() {
-        document.getElementById('recipesModal').style.display = 'none';
-    }
-
-    // Medical Info modal functions
-    function openMedicalInfoModal() {
-        document.getElementById('medicalInfoModal').style.display = 'flex';
-    }
-
-    function closeMedicalInfoModal() {
-        document.getElementById('medicalInfoModal').style.display = 'none';
-    }
-
-    // Resources modal functions
-    function openResourcesModal() {
-        document.getElementById('resourcesModal').style.display = 'flex';
-    }
-
-    function closeResourcesModal() {
-        document.getElementById('resourcesModal').style.display = 'none';
-    }
-
-    // Rules modal functions
-    function openRulesModal() {
-        document.getElementById('rulesModal').style.display = 'flex';
-    }
-
-    function closeRulesModal() {
-        document.getElementById('rulesModal').style.display = 'none';
     }
 
     function openTermsModal() {
