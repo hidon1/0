@@ -1216,6 +1216,100 @@
             margin: 0.5rem 0;
         }
         
+        /* Info Modal Styles */
+        .info-modal-content {
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .info-modal-body {
+            padding: 20px 0;
+        }
+        
+        .info-modal-body p,
+        .info-modal-body ul,
+        .info-modal-body li,
+        .info-modal-body strong {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+        
+        .info-modal-body ul {
+            margin: 15px 0;
+            padding-right: 25px;
+        }
+        
+        .info-modal-body li {
+            margin-bottom: 10px;
+        }
+        
+        /* Info button styles - white background */
+        .info-btn {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        [data-theme="dark"] .info-btn {
+            background: #2d3748;
+            border-color: rgba(255,255,255,0.1);
+        }
+        
+        .info-btn:hover {
+            border-color: var(--primary);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .info-btn .info-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .info-btn .info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-btn .info-icon i {
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .info-btn h4 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+        
+        .info-btn .arrow-icon {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+        
+        .info-btn:hover .arrow-icon {
+            transform: translateX(-5px);
+        }
+        
         .btn-main:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -1843,179 +1937,69 @@
             <div class="accordion-content">
                 <div class="accordion-inner">
                     <!-- What is Celiac -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-question-circle"></i>
-                                </div>
-                                <h4>מה זה צליאק?</h4>
+                    <div class="info-btn" onclick="openInfoModal('whatIsCeliac')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-question-circle"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>מה זה צליאק?</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
-                                <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
-                                <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
 
                     <!-- Symptoms -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-stethoscope"></i>
-                                </div>
-                                <h4>תסמינים ואבחון</h4>
+                    <div class="info-btn" onclick="openInfoModal('symptoms')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-stethoscope"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>תסמינים ואבחון</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p><strong>תסמינים עיקריים במערכת העיכול:</strong></p>
-                                <ul>
-                                    <li>שלשולים כרוניים או עצירות</li>
-                                    <li>כאבי בטן ונפיחות</li>
-                                    <li>בחילות והקאות</li>
-                                    <li>גזים וצרבת</li>
-                                </ul>
-                                <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
-                                <ul>
-                                    <li>עייפות ותשישות מתמשכת</li>
-                                    <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
-                                    <li>כאבי ראש ומיגרנות</li>
-                                    <li>אוסטיאופורוזיס מוקדם</li>
-                                    <li>פריחה עורית (דרמטיטיס הרפפטיפורמיס)</li>
-                                    <li>בעיות פוריות ומקרים של הפלות חוזרות</li>
-                                </ul>
-                                <p><strong>אבחון:</strong> בדיקות דם לנוגדנים (Anti-tTG, Anti-EMA) ואישור באמצעות ביופסיה מהמעי הדק. חשוב מאוד להמשיך לצרוך גלוטן עד לאחר האבחון.</p>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
 
                     <!-- Allowed Foods -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <h4>מזונות מותרים</h4>
+                    <div class="info-btn" onclick="openInfoModal('allowedFoods')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-check-circle"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>מזונות מותרים</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p>מזונות טבעיים ללא גלוטן שניתן לצרוך בחופשיות:</p>
-                                <ul>
-                                    <li>אורז לבן, חום, בסמטי וכל מוצרי האורז</li>
-                                    <li>תירס, פולנטה, קמח תירס ופופקורן</li>
-                                    <li>קינואה, דוחן, אמרנט וטף</li>
-                                    <li>תפוחי אדמה ובטטות</li>
-                                    <li>כל סוגי הפירות והירקות הטריים</li>
-                                    <li>בשר, עוף ודגים טריים (לא מעובדים)</li>
-                                    <li>ביצים</li>
-                                    <li>חלב ומוצרי חלב טבעיים</li>
-                                    <li>קטניות: עדשים, חומוס, שעועית, אפונה</li>
-                                    <li>אגוזים וזרעים טבעיים</li>
-                                    <li>שמנים טהורים</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
 
                     <!-- Forbidden Foods -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-ban"></i>
-                                </div>
-                                <h4>מזונות אסורים</h4>
+                    <div class="info-btn" onclick="openInfoModal('forbiddenFoods')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-ban"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>מזונות אסורים</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p>מזונות המכילים גלוטן שיש להימנע מהם לחלוטין:</p>
-                                <ul>
-                                    <li class="warning">חיטה בכל צורותיה (לחם, פיתות, חלות, עוגות)</li>
-                                    <li class="warning">שעורה ומוצריה (כולל שעורה בירה)</li>
-                                    <li class="warning">שיפון</li>
-                                    <li class="warning">כוסמין (ספלט)</li>
-                                    <li class="warning">סולת, בורגול, קוסקוס</li>
-                                    <li class="warning">פסטה רגילה</li>
-                                    <li class="warning">דגני בוקר רגילים</li>
-                                    <li class="warning">ביסקוויטים ועוגיות רגילות</li>
-                                    <li class="warning">בירה רגילה</li>
-                                    <li class="warning">רטבים ותבלינים המכילים קמח חיטה</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
 
                     <!-- Tips -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <h4>טיפים לחיים עם צליאק</h4>
+                    <div class="info-btn" onclick="openInfoModal('tips')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-lightbulb"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>טיפים לחיים עם צליאק</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p><strong>בבית:</strong></p>
-                                <ul>
-                                    <li>הקפידו על כלי מטבח נפרדים (קרש חיתוך, טוסטר, מחבת)</li>
-                                    <li>הימנעו מזיהום צולב - אל תשתמשו באותו שמן טיגון</li>
-                                    <li>שמרו מזון ללא גלוטן במדפים נפרדים</li>
-                                    <li>בדקו תוויות של כל מוצר - גם תרופות וויטמינים</li>
-                                </ul>
-                                <p><strong>מחוץ לבית:</strong></p>
-                                <ul>
-                                    <li>התקשרו למסעדות מראש לוודא אפשרויות ללא גלוטן</li>
-                                    <li>הביאו חטיפים מהבית לנסיעות</li>
-                                    <li>בקשו מהשף להכין את המנה בכלים נפרדים</li>
-                                </ul>
-                                <p><strong>בריאות כללית:</strong></p>
-                                <ul>
-                                    <li>בצעו בדיקות דם תקופתיות לוודא ספיגה תקינה</li>
-                                    <li>שקלו נטילת תוספי ויטמין D, B12, ברזל וסידן</li>
-                                    <li>בצעו בדיקת צפיפות עצם אחת לשנתיים</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
 
                     <!-- Recovery -->
-                    <div class="info-accordion">
-                        <div class="info-header" onclick="toggleInfo(this)">
-                            <div class="info-left">
-                                <div class="info-icon">
-                                    <i class="fas fa-heart-pulse"></i>
-                                </div>
-                                <h4>תהליך ההחלמה</h4>
+                    <div class="info-btn" onclick="openInfoModal('recovery')">
+                        <div class="info-left">
+                            <div class="info-icon">
+                                <i class="fas fa-heart-pulse"></i>
                             </div>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <h4>תהליך ההחלמה</h4>
                         </div>
-                        <div class="info-content">
-                            <div class="info-inner">
-                                <p>הבשורה הטובה: עם שמירה קפדנית על דיאטה ללא גלוטן, רוב החולים חווים שיפור משמעותי!</p>
-                                <ul>
-                                    <li>שיפור בתסמיני העיכול מורגש תוך ימים עד שבועות</li>
-                                    <li>רמות האנרגיה עולות תוך חודשים ספורים</li>
-                                    <li>הנוגדנים בדם יורדים תוך 3-6 חודשים</li>
-                                    <li>ריפוי מלא של הוילי במעי לוקח 1-2 שנים</li>
-                                </ul>
-                                <p>חשוב לזכור: אפילו כמויות קטנות מאוד של גלוטן (מעל 20 מ"ג ליום) יכולות לפגוע במעי ולעכב את תהליך הריפוי. לכן ההקפדה על הדיאטה היא קריטית!</p>
-                            </div>
-                        </div>
+                        <i class="fas fa-arrow-left arrow-icon"></i>
                     </div>
                 </div>
             </div>
@@ -2047,10 +2031,11 @@
                         <div class="info-content">
                             <div class="info-inner">
                                 <ul>
-                                    <li><a href="https://www.celiac.org.il" target="_blank" style="color: var(--primary); text-decoration: none;">עמותת צליאק ישראל</a> - האתר הרשמי של העמותה</li>
-                                    <li><a href="https://www.health.gov.il" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
-                                    <li><a href="https://www.clalit.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">כללית שירותי בריאות</a> - מאמרים על צליאק ותזונה</li>
-                                    <li><a href="https://www.maccabi4u.co.il" target="_blank" style="color: var(--primary); text-decoration: none;">מכבי שירותי בריאות</a> - מידע לחולי צליאק</li>
+                                    <li><a href="https://www.clalit.co.il/he/lifestyle/nutrition/Pages/celiac_dietary_directions.aspx?utm_source=chatgpt.com" target="_blank" style="color: var(--primary); text-decoration: none;">תזונה כללית - כללית</a> - הנחיות תזונתיות לחולי צליאק</li>
+                                    <li><a href="https://me.health.gov.il/parenting/raising-children/common-childhood-diseases-and-symptoms/intolerance-and-allergies/celiac-dis" target="_blank" style="color: var(--primary); text-decoration: none;">משרד הבריאות</a> - מידע רפואי רשמי על צליאק</li>
+                                    <li><a href="https://www.klg.co.il/" target="_blank" style="color: var(--primary); text-decoration: none;">KLG - ללא גלוטן</a> - אתר עם הרבה מתכונים ומידע</li>
+                                    <li><a href="https://celiacrights.org.il/" target="_blank" style="color: var(--primary); text-decoration: none;">ארגון זכויות הצליאק</a> - מידע משפטי וזכויות חולי צליאק</li>
+                                    <li><a href="https://mylilblog.com/" target="_blank" style="color: var(--primary); text-decoration: none;">אמא ללא גלוטן</a> - בלוג עם מתכונים ומידע ללא גלוטן</li>
                                 </ul>
                             </div>
                         </div>
@@ -2480,6 +2465,22 @@
                 <p>בברכת בריאות ושמחה</p>
                 <p><strong>צוות פורום הצליאק החרדי</strong></p>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Modal for Medical Information -->
+<div id="infoModal" class="modal">
+    <div class="modal-content info-modal-content">
+        <button class="modal-close-btn" onclick="closeInfoModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 1.5rem;" id="infoModalTitle">
+            <i class="fas fa-info-circle"></i> <span></span>
+        </h2>
+        
+        <div class="info-modal-body" id="infoModalContent">
+            <!-- Content will be dynamically inserted here -->
         </div>
     </div>
 </div>
@@ -2965,6 +2966,148 @@
     function toggleInfo(header) {
         header.classList.toggle('active');
         header.nextElementSibling.classList.toggle('open');
+    }
+    
+    // Info modal functions
+    const infoContent = {
+        whatIsCeliac: {
+            title: 'מה זה צליאק?',
+            icon: 'fa-question-circle',
+            content: `
+                <p>מחלת הצליאק (Celiac Disease) היא מחלה אוטואימונית כרונית הנגרמת עקב רגישות לגלוטן - חלבון המצוי בחיטה, שעורה ושיפון.</p>
+                <p>כאשר אנשים עם צליאק צורכים גלוטן, מערכת החיסון שלהם יוצרת תגובה שפוגעת בסיסי המעי הדק (וילי). פגיעה זו מונעת ספיגה תקינה של חומרי הזנה חיוניים מהמזון.</p>
+                <p>המחלה שכיחה בכ-1% מהאוכלוסייה העולמית ויש לה מרכיב תורשתי משמעותי - כ-10% מקרובי משפחה מדרגה ראשונה של חולי צליאק יפתחו גם הם את המחלה.</p>
+            `
+        },
+        symptoms: {
+            title: 'תסמינים ואבחון',
+            icon: 'fa-stethoscope',
+            content: `
+                <p><strong>תסמינים עיקריים במערכת העיכול:</strong></p>
+                <ul>
+                    <li>שלשולים כרוניים או עצירות</li>
+                    <li>כאבי בטן ונפיחות</li>
+                    <li>בחילות והקאות</li>
+                    <li>גזים וצרבת</li>
+                </ul>
+                <p><strong>תסמינים מחוץ למערכת העיכול:</strong></p>
+                <ul>
+                    <li>עייפות ותשישות מתמשכת</li>
+                    <li>אנמיה מחוסר ברזל העמידה לטיפול</li>
+                    <li>כאבי ראש ומיגרנות</li>
+                    <li>אוסטיאופורוזיס מוקדם</li>
+                    <li>פריחה עורית (דרמטיטיס הרפפטיפורמיס)</li>
+                    <li>בעיות פוריות ומקרים של הפלות חוזרות</li>
+                </ul>
+                <p><strong>אבחון:</strong> בדיקות דם לנוגדנים (Anti-tTG, Anti-EMA) ואישור באמצעות ביופסיה מהמעי הדק. חשוב מאוד להמשיך לצרוך גלוטן עד לאחר האבחון.</p>
+            `
+        },
+        allowedFoods: {
+            title: 'מזונות מותרים',
+            icon: 'fa-check-circle',
+            content: `
+                <p>מזונות טבעיים ללא גלוטן שניתן לצרוך בחופשיות:</p>
+                <ul>
+                    <li>אורז לבן, חום, בסמטי וכל מוצרי האורז</li>
+                    <li>תירס, פולנטה, קמח תירס ופופקורן</li>
+                    <li>קינואה, דוחן, אמרנט וטף</li>
+                    <li>תפוחי אדמה ובטטות</li>
+                    <li>כל סוגי הפירות והירקות הטריים</li>
+                    <li>בשר, עוף ודגים טריים (לא מעובדים)</li>
+                    <li>ביצים</li>
+                    <li>חלב ומוצרי חלב טבעיים</li>
+                    <li>קטניות: עדשים, חומוס, שעועית, אפונה</li>
+                    <li>אגוזים וזרעים טבעיים</li>
+                    <li>שמנים טהורים</li>
+                </ul>
+            `
+        },
+        forbiddenFoods: {
+            title: 'מזונות אסורים',
+            icon: 'fa-ban',
+            content: `
+                <p>מזונות המכילים גלוטן שיש להימנע מהם לחלוטין:</p>
+                <ul>
+                    <li style="color: var(--warning);">חיטה בכל צורותיה (לחם, פיתות, חלות, עוגות)</li>
+                    <li style="color: var(--warning);">שעורה ומוצריה (כולל שעורה בירה)</li>
+                    <li style="color: var(--warning);">שיפון</li>
+                    <li style="color: var(--warning);">כוסמין (ספלט)</li>
+                    <li style="color: var(--warning);">סולת, בורגול, קוסקוס</li>
+                    <li style="color: var(--warning);">פסטה רגילה</li>
+                    <li style="color: var(--warning);">דגני בוקר רגילים</li>
+                    <li style="color: var(--warning);">ביסקוויטים ועוגיות רגילות</li>
+                    <li style="color: var(--warning);">בירה רגילה</li>
+                    <li style="color: var(--warning);">רטבים ותבלינים המכילים קמח חיטה</li>
+                </ul>
+            `
+        },
+        tips: {
+            title: 'טיפים לחיים עם צליאק',
+            icon: 'fa-lightbulb',
+            content: `
+                <p><strong>בבית:</strong></p>
+                <ul>
+                    <li>הקפידו על כלי מטבח נפרדים (קרש חיתוך, טוסטר, מחבת)</li>
+                    <li>הימנעו מזיהום צולב - אל תשתמשו באותו שמן טיגון</li>
+                    <li>שמרו מזון ללא גלוטן במדפים נפרדים</li>
+                    <li>בדקו תוויות של כל מוצר - גם תרופות וויטמינים</li>
+                </ul>
+                <p><strong>מחוץ לבית:</strong></p>
+                <ul>
+                    <li>התקשרו למסעדות מראש לוודא אפשרויות ללא גלוטן</li>
+                    <li>הביאו חטיפים מהבית לנסיעות</li>
+                    <li>בקשו מהשף להכין את המנה בכלים נפרדים</li>
+                </ul>
+                <p><strong>בריאות כללית:</strong></p>
+                <ul>
+                    <li>בצעו בדיקות דם תקופתיות לוודא ספיגה תקינה</li>
+                    <li>שקלו נטילת תוספי ויטמין D, B12, ברזל וסידן</li>
+                    <li>בצעו בדיקת צפיפות עצם אחת לשנתיים</li>
+                </ul>
+            `
+        },
+        recovery: {
+            title: 'תהליך ההחלמה',
+            icon: 'fa-heart-pulse',
+            content: `
+                <p>הבשורה הטובה: עם שמירה קפדנית על דיאטה ללא גלוטן, רוב החולים חווים שיפור משמעותי!</p>
+                <ul>
+                    <li>שיפור בתסמיני העיכול מורגש תוך ימים עד שבועות</li>
+                    <li>רמות האנרגיה עולות תוך חודשים ספורים</li>
+                    <li>הנוגדנים בדם יורדים תוך 3-6 חודשים</li>
+                    <li>ריפוי מלא של הוילי במעי לוקח 1-2 שנים</li>
+                </ul>
+                <p>חשוב לזכור: אפילו כמויות קטנות מאוד של גלוטן (מעל 20 מ"ג ליום) יכולות לפגוע במעי ולעכב את תהליך הריפוי. לכן ההקפדה על הדיאטה היא קריטית!</p>
+            `
+        }
+    };
+    
+    function openInfoModal(infoType) {
+        const modal = document.getElementById('infoModal');
+        const titleElement = document.querySelector('#infoModalTitle span');
+        const iconElement = document.querySelector('#infoModalTitle i');
+        const contentElement = document.getElementById('infoModalContent');
+        
+        const info = infoContent[infoType];
+        if (info) {
+            titleElement.textContent = info.title;
+            iconElement.className = `fas ${info.icon}`;
+            contentElement.innerHTML = info.content;
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function closeInfoModal() {
+        const modal = document.getElementById('infoModal');
+        modal.style.display = 'none';
+    }
+    
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('infoModal');
+        if (event.target === modal) {
+            closeInfoModal();
+        }
     }
 
     // Recipe details toggle
