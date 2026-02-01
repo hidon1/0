@@ -72,12 +72,14 @@ const CONTACT_RECIPIENT = "your-email@gmail.com";  // כתובת האימייל 
 const GS_EXEC_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
 ```
 
+**הערה חשובה:** המשתנה `SCRIPT_URL` ב-`index.html` נשאר ללא שינוי כדי לשמור על תאימות לאחור עם פונקציות אחרות בפורום (רישום, מחיקה, לייקים). רק טופס יצירת הקשר משתמש ב-JSONP כדי לפתור את בעיות ה-CORS.
+
 ### שלב 8: שימוש ב-JSONP במקום Fetch
 
 הקובץ `index.html` שודרג לשימוש ב-JSONP במקום fetch רגיל. זה נעשה על ידי:
 
 1. הוספת import של `public/js/contact-jsonp.js`.
-2. שימוש בפונקציה `sendContact()` במקום `fetch()` בטופס יצירת הקשר.
+2. שימוש בפונקציה `sendContactJsonp()` במקום `fetch()` בטופס יצירת הקשר.
 
 **יתרונות JSONP:**
 - אין בעיות CORS כי זה לא XMLHttpRequest או fetch.
