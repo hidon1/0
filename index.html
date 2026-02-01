@@ -3119,12 +3119,7 @@
 
     async function loadData() {
         try {
-            const res = await fetch(SCRIPT_URL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'text/plain'
-                }
-            });
+            const res = await fetch(SCRIPT_URL);
             allPosts = await res.json();
             processPendingAuthored(allPosts);
             render('הכל');
