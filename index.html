@@ -2504,9 +2504,6 @@
 
 <div id="toastContainer"></div>
 
-<!-- JSONP Helper for CORS-free contact form submissions -->
-<script src="public/js/contact-jsonp.js"></script>
-
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcfvlyn5-myItDqNJIOPTkoi1QXvukkJHoCtuNuNphOuPjZn6AC--6Rs4AbJGAToW8/exec";
     let allPosts = [];
@@ -2794,8 +2791,17 @@
         if (userBtn) userBtn.disabled = true;
         
         try {
-            // Use JSONP to avoid CORS issues
-            const result = await sendContactJsonp(name, email, message);
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'contact',
+                    name: name,
+                    email: email,
+                    message: message
+                })
+            });
+            
+            const result = await response.json();
             
             if (result.status === 'success') {
                 showToast('ההודעה נשלחה בהצלחה!');
