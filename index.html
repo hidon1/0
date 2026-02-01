@@ -3504,28 +3504,38 @@
 
     async function deletePost(id) {
         if (!confirm('האם אתה בטוח שברצונך למחוק הודעה זו?')) return;
-        await fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify({ action: 'delete', id: id }) 
-        });
-        showToast('ההודעה נמחקה בהצלחה');
-        setTimeout(() => location.reload(), 1500);
+        try {
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify({ action: 'delete', id: id }) 
+            });
+            showToast('ההודעה נמחקה בהצלחה');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            console.error('Error deleting post:', error);
+            showToast('שגיאה במחיקת ההודעה. נסה שנית.');
+        }
     }
 
     async function deleteReply(id) {
         if (!confirm('האם אתה בטוח שברצונך למחוק תגובה זו?')) return;
-        await fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify({ action: 'delete', id: id }) 
-        });
-        showToast('התגובה נמחקה בהצלחה');
-        setTimeout(() => location.reload(), 1500);
+        try {
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify({ action: 'delete', id: id }) 
+            });
+            showToast('התגובה נמחקה בהצלחה');
+            setTimeout(() => location.reload(), 1500);
+        } catch (error) {
+            console.error('Error deleting reply:', error);
+            showToast('שגיאה במחיקת התגובה. נסה שנית.');
+        }
     }
 
     function changeCategory(cat, btn) {
