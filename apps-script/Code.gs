@@ -179,7 +179,7 @@ function getSafeFromAddress() {
 function sendEmailSafe(to, subject, textBody, htmlBody, replyTo) {
   if (!to) throw new Error("כתובת נמען חסרה");
   const safeTextBody = String(textBody || "").trim();
-  if (!safeTextBody) throw new Error("גוף הודעה טקסטואלי חייב להיות לא ריק");
+  if (!safeTextBody) throw new Error("גוף הודעה טקסטואלי לא יכול להיות ריק (כולל רווחים בלבד)");
   const options = { name: "פורום הצליאק החרדי", replyTo: replyTo || CONTACT_RECIPIENT };
   if (htmlBody) options.htmlBody = htmlBody;
   const safeFrom = getSafeFromAddress();

@@ -2508,6 +2508,8 @@
 <script src="./public/js/contact-jsonp.js"></script>
 
 <script>
+    // Apps Script Web App URL - used for POST requests (posts, likes, deletes)
+    // Contact form uses JSONP (via GS_EXEC_URL in contact-jsonp.js) to avoid CORS
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcfvlyn5-myItDqNJIOPTkoi1QXvukkJHoCtuNuNphOuPjZn6AC--6Rs4AbJGAToW8/exec";
     let allPosts = [];
     let currentSearchTerm = '';

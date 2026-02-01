@@ -1,7 +1,8 @@
 // JSONP Helper for Google Apps Script Integration
 // This file provides CORS-free communication with Apps Script Web App using JSONP
 
-// Replace with your actual Web App URL after deployment
+// IMPORTANT: Replace with your actual Web App URL after deployment
+// Get this URL from Apps Script: Deploy → Manage deployments → Copy Web App URL
 const GS_EXEC_URL = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec';
 
 /**
@@ -17,7 +18,11 @@ function jsonpCall(url, params) {
     const qs = new URLSearchParams(params).toString();
     window[cb] = (data) => { resolve(data); cleanup(); };
     function cleanup() {
-      try { delete window[cb]; } catch {}
+      try { 
+        delete window[cb]; 
+      } catch (e) {
+        // Silently ignore - this is safe as it's just cleanup of a temporary callback
+      }
       if (script && script.parentNode) script.parentNode.removeChild(script);
     }
     const script = document.createElement('script');
