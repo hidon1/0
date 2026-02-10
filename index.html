@@ -66,15 +66,18 @@
             color: var(--text); 
             margin: 0; 
             transition: background 0.4s ease, color 0.4s ease; 
-            padding-bottom: 120px;
+            padding-bottom: calc(120px + env(safe-area-inset-bottom));
             line-height: 1.7;
             font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         header { 
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
             color: white; 
             padding: 1.5rem 2rem; 
+            padding-top: calc(1.5rem + env(safe-area-inset-top));
             position: relative;
             box-shadow: 0 8px 40px var(--shadow-lg);
             overflow: hidden;
@@ -345,8 +348,8 @@
 
         .sidebar-toggle-btn {
             position: fixed;
-            top: 100px;
-            right: 20px;
+            top: calc(100px + env(safe-area-inset-top));
+            right: calc(20px + env(safe-area-inset-right));
             width: 50px;
             height: 50px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -1427,8 +1430,8 @@
         /* Success Toast Notification */
         .toast-notification {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
+            bottom: calc(40px + env(safe-area-inset-bottom));
+            right: calc(40px + env(safe-area-inset-right));
             background: linear-gradient(135deg, var(--success), #2d9b5c);
             color: white;
             padding: 18px 28px;
@@ -1481,8 +1484,8 @@
 
         .fab { 
             position: fixed; 
-            bottom: 40px; 
-            left: 40px; 
+            bottom: calc(40px + env(safe-area-inset-bottom)); 
+            left: calc(40px + env(safe-area-inset-left)); 
             width: 80px; 
             height: 80px; 
             border-radius: 50%; 
@@ -1686,6 +1689,78 @@
             
             .info-content.open {
                 max-height: 70vh;
+            }
+
+            .main-layout {
+                padding: 24px 16px 30px;
+            }
+
+            .main-layout.sidebar-hidden {
+                padding-right: 16px;
+            }
+
+            .sidebar {
+                top: calc(80px + env(safe-area-inset-top));
+                right: 10px;
+                left: 10px;
+                width: auto;
+                max-height: calc(100vh - 120px);
+            }
+
+            .sidebar-toggle-btn {
+                top: calc(70px + env(safe-area-inset-top));
+                right: calc(12px + env(safe-area-inset-right));
+            }
+
+            .user-display {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: auto;
+                padding: 8px 12px;
+                gap: 8px;
+            }
+
+            .logout-btn {
+                margin-right: 0;
+            }
+
+            .modal {
+                padding: 20px 16px;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                padding: 24px 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+
+            .fab {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+                bottom: calc(20px + env(safe-area-inset-bottom));
+                left: calc(20px + env(safe-area-inset-left));
+            }
+
+            .toast-notification {
+                left: 16px;
+                right: 16px;
+                width: auto;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .reply-box > div:last-child,
+            .reply-to-reply-box > div {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .reply-box > div:last-child button,
+            .reply-to-reply-box > div button {
+                width: 100%;
             }
         }
     </style>
